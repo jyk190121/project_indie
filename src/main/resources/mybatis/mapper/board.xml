@@ -47,5 +47,8 @@
 			select="reply.replyList" />
 	</resultMap>
 
+	<update id="update" parameterType="Board">
+		update board set title = #{title}, content = #{content} where id = #{id}					     
+	</update>
 
 </mapper>

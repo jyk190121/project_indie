@@ -50,4 +50,8 @@ public class BoardService {
 		return boardDao.boardTotal();
 	}
 
+	public void update(Board board) {
+		boardDao.update(board);
+	}
+
 }

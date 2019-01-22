@@ -35,4 +35,7 @@ public class BoardDao {
 		return session.selectOne("board.boardSelect",id);
 	}
 	
+	public void update(Board board) {
+		session.update("board.update",board);
+	}
 }

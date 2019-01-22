@@ -1,6 +1,7 @@
 package controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,14 +55,14 @@ public class BoardController {
 	public String addPost(@ModelAttribute Board board,
 				BindingResult bindingResult,
 				@AuthenticationPrincipal User user) {
-		System.out.println(user);
+		/*System.out.println(user);*/
 		if(bindingResult.hasErrors()){
 			return "redirect: /board/insert";
 		}
 		
 		board.setWriter(user.getId());
 		board.setIp(httpRequset.getRemoteAddr());
-		System.out.println(board);
+		/*System.out.println(board);*/
 		boardService.add(board);
 		return "redirect:/board/list";
 	}
@@ -82,10 +83,43 @@ public class BoardController {
 			model.addAttribute("msg","게시물이 삭제되었습니다");
 			model.addAttribute("url","/board/list");
 		}else {
-			model.addAttribute("msg","에러 : 5650");
+			model.addAttribute("msg","잘못된 요청입니다 : 5650");
 			model.addAttribute("url","/board/view?id="+board.getId());
 		}
 		return "/result";
+	}
+	
+	@RequestMapping(value="/board/update",method=RequestMethod.GET)
+	public String getUpdate(@RequestParam int id,Model model, @AuthenticationPrincipal User user) {
+		Board board = boardService.getBoardSelect(id);
+		if(user.getId().equals(board.getWriter()) || Role.hasRole(user, "ROLE_ADMIN")) {
+			model.addAttribute("board",board);
+			model.addAttribute("msg","게시물이 수정되었습니다");
+			return "/board/update";
+		}else {
+			model.addAttribute("msg","잘못된 요청입니다");
+			model.addAttribute("url","/board/list");
+		}
+		return "/result";
+	}
+	
+	@RequestMapping(value="/board/update",method=RequestMethod.POST)
+	public String postUpdate(@ModelAttribute @Valid Board board,
+						BindingResult bindingResult, Model model,
+						@AuthenticationPrincipal User user) {
+		Board existBoard = boardService.getBoardSelect(board.getId());
+		if(user.getId().equals(existBoard.getWriter()) || Role.hasRole(user, "ROLE_ADMIN")) {
+			if(bindingResult.hasErrors()) {
+				return "/board/update";
+			}
+			boardService.update(board);
+			return "redirect: /board/view?id=" +board.getId();
+		}else {
+			model.addAttribute("msg","잘못된 요청입니다");
+			model.addAttribute("url","/board/list");
+			return "/result";
+		}
+		
 	}
 	
 }

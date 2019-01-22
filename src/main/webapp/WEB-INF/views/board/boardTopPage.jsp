@@ -24,7 +24,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/main">main</a></li>
 				<sec:authorize access="!isAuthenticated()">
-				<li><a href="/user/signin">signin</a></li>
+				<li><a href="javascript:showLoginModal();">signin</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 				<li><a href="/board/list">board</a></li>
@@ -41,6 +41,8 @@
 			</ul>
 		</div>
 	</div>
+	
+<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>
