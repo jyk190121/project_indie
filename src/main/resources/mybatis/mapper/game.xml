@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="game">
+	<select id="selectListAsCount" parameterType="int" resultType="Game">
+		select * from (select rownum rnum, g.* from (select * from game order by regist_date desc) g) where rnum  &lt;= #{value}
+	</select>
+	<select id="selectList" parameterType="Map" resultType="Game">
+		select * from game
+		<if test="search != null">
+			where name like '%'||#{search}||'%'
+		</if>
+		<if test="type == 'date'">
+			order by regist_date desc
+		</if>
+		<if test="type == 'like'">
+			order by (likes - unlikes) desc
+		</if>
+		<if test="type == 'hit'">
+			order by hit desc
+		</if>
+	</select>
+	<select id="hotGameList" resultType="Game">
+		select * from game where id in (select game_id from hotGame where startdate &lt;= sysdate and sysdate &lt;= enddate)
+	</select>
+	<select id="hotGameScoreList" resultType="Score">
+		select * from (select * from score where trunc(sysdate,'mm') &lt;= play_timestamp and play_timestamp &lt;= last_day(sysdate)) 
+		where game_id in (select game_id from hotGame where startdate = (select trunc(sysdate,'mm') from dual))
+	</select>
+	<select id="rankerList" parameterType="int" resultType="Score">
+		select users_id, (score_a + score_B + score_c) score from 
+			(select rownum rnum, h.* from hotGameHighScore h order by score_a + score_B + score_c desc)
+				where rnum &lt;= #{value}
+	</select>
+</mapper>

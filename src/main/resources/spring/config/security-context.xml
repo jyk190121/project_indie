@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<sec:http pattern="/public/css/**" security="none"/>
+	<sec:http pattern="/upload/image/**" security="none"/>
+	<sec:http pattern="/upload/board/**" security="none"/>
+	<sec:http pattern="/favicon.ico" security="none"/>
+	<sec:http pattern="/fileupload" security="none"/>
+	
+	<sec:http auto-config="true" use-expressions="true">
+		<sec:intercept-url pattern="/"
+						   access="permitAll"/>
+		<sec:intercept-url pattern="/game/**"
+						   access="isAuthenticated()"/>
+		<!-- <sec:intercept-url pattern="/board/list"
+						   access="permitAll"/>								   
+		<sec:intercept-url pattern="/product/list"
+						   access="permitAll"/>
+		<sec:intercept-url pattern="/user/signin"
+						   access="!isAuthenticated()"/>
+		<sec:intercept-url pattern="/manage/**"
+						   access="hasRole('ROLE_ADMIN')"/>
+		<sec:intercept-url pattern="/**"
+						   access="isAuthenticated()"/>	 -->					   
+		<sec:form-login login-page="/?signin"
+						login-processing-url="/user/signin"
+						username-parameter="id"
+						password-parameter="password"
+						authentication-failure-url="/?fail"
+						default-target-url="/"/>
+		<sec:logout logout-url="/user/signout"
+					logout-success-url="/?signout"
+					invalidate-session="true"/>						   							   					   								   
+	</sec:http>
+	<sec:authentication-manager>
+		<sec:authentication-provider 
+					user-service-ref="userService"/>
+	</sec:authentication-manager>
+</beans>
+
+
+
+
+
+
+
