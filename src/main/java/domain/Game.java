@@ -1,10 +1,41 @@
 package domain;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.web.multipart.MultipartFile;
+
 public class Game {
 
 	private int id, hit, likes, unlikes, reply_count;
-	private String name, type, src, info, image, users_id, regist_date;
+	@NotBlank(message="이름을 지어라")
+	private String name;
+	private String type;
+	@NotBlank(message="소스를 작성해라 이놈")
+	private String src;
+	@NotBlank(message="설명해라 설명")
+	private String info;
+	private String image;
+	private String users_id, regist_date, etc_info;
 	
+	private MultipartFile image_file, game_file;
+	
+	public MultipartFile getImage_file() {
+		return image_file;
+	}
+	public void setImage_file(MultipartFile image_file) {
+		this.image_file = image_file;
+	}
+	public MultipartFile getGame_file() {
+		return game_file;
+	}
+	public void setGame_file(MultipartFile game_file) {
+		this.game_file = game_file;
+	}
+	public String getEtc_info() {
+		return etc_info;
+	}
+	public void setEtc_info(String etc_info) {
+		this.etc_info = etc_info;
+	}
 	public int getId() {
 		return id;
 	}

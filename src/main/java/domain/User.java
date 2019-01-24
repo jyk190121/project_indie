@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 public class User implements UserDetails{
 
@@ -24,6 +25,14 @@ public class User implements UserDetails{
 	private int exp;
 	private List<Authority> authorities;
 	
+	private MultipartFile image_file;
+	
+	public MultipartFile getImage_file() {
+		return image_file;
+	}
+	public void setImage_file(MultipartFile image_file) {
+		this.image_file = image_file;
+	}
 	public String getId() {
 		return id;
 	}

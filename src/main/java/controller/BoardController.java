@@ -26,7 +26,7 @@ public class BoardController {
 	BoardService boardService;
 	
 	@Autowired
-	private HttpServletRequest httpRequset;
+	private HttpServletRequest httpRequest;
 	
 	@RequestMapping(value="/board/list",method=RequestMethod.GET)
 	public String list(@RequestParam(defaultValue = "1")String page, Model model) {
@@ -55,13 +55,12 @@ public class BoardController {
 	public String addPost(@ModelAttribute Board board,
 				BindingResult bindingResult,
 				@AuthenticationPrincipal User user) {
-		/*System.out.println(user);*/
 		if(bindingResult.hasErrors()){
 			return "redirect: /board/insert";
 		}
 		
 		board.setWriter(user.getId());
-		board.setIp(httpRequset.getRemoteAddr());
+		board.setIp(httpRequest.getRemoteAddr());
 		/*System.out.println(board);*/
 		boardService.add(board);
 		return "redirect:/board/list";

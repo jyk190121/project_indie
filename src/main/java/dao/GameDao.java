@@ -36,5 +36,9 @@ public class GameDao {
 	public List<User> rankerList(int count) {
 		return session.selectList("game.rankerList", count);
 	}
+
+	public void insertGame(Game game) {
+		session.insert("game.insertGame", game);
+	}
 	
 }

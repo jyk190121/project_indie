@@ -24,4 +24,8 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 
+	public int nicknameDualCheck(String input) {
+		return userDao.nicknameDualCheck(input);
+	}
+
 }
