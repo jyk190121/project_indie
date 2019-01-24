@@ -14,6 +14,7 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <style>
+
 * {
 	box-sizing: border-box;
 }
@@ -59,7 +60,7 @@
 					</c:forEach>
 				</div>
 				<div class="col-sm-6">
-					<a href="/game/insert">+ My Game</a>
+					<a href="/game/insert">+ 게임 등록</a>
 				</div>
 			</div>
 			<div class="row">

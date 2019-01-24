@@ -42,7 +42,7 @@
 		</div>
 	</div>
 	
-<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/user/signin.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>

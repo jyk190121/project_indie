@@ -16,4 +16,7 @@
 		resultType="Authority">
 		select * from authority where users_id = #{value}
 	</select>
+	<select id="nicknameDualCheck" parameterType="String" resultType="int">
+		select count(*) from users where id = #{value}
+	</select>
 </mapper>
