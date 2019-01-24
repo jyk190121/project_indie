@@ -45,6 +45,7 @@
 							<button class="btn btn-primary"
 									type="submit">등록</button>
 						</div>
+						<input type="hidden" name="type" value="${board.type }"/>
 					</form:form>
 				</div>
 			</div>
@@ -57,6 +58,13 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-ko-KR.min.js"></script>
     <script>
+    
+	    <c:if test="${board.type == 'notice' }">
+			$(".panel-primary").addClass('panel-danger');
+			$(".panel-primary").removeClass('panel-primary');
+			$(".btn-primary").addClass('btn-danger');
+			$(".btn-primary").removeClass('btn-primary');
+		</c:if>
     
     	$("#content").summernote({
     		height:400,

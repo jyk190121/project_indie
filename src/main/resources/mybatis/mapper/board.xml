@@ -8,13 +8,18 @@
 	</select>
 
 	<select id="selectList" parameterType="Map" resultMap="userMap">
-		select * from (select rownum rnum, a.* from
-		(select * from board order by write_date desc) a)
+		select *
+		from (select rownum rnum, a.* from
+		(select * from (select * from board
+		where type = 'notice' order by id desc)
+		union all select * from (select * from board where type = 'normal' order by
+		id desc)) a)
 		where rnum between #{start} and #{end}
 	</select>
 
 	<resultMap type="Board" id="userMap">
-		<association property="user" column="writer" select="users.selectOne" javaType="User"/>
+		<association property="user" column="writer"
+			select="users.selectOne" javaType="User" />
 	</resultMap>
 
 
@@ -28,12 +33,14 @@
 		#{ip},
 		0,
 		#{attach_file, jdbcType=VARCHAR},
-		0
+		0,
+		#{type}
 		)
 	</insert>
 
 	<delete id="delete" parameterType="int">
-		delete from board where id = #{value}
+		delete from board where id =
+		#{value}
 	</delete>
 
 	<select id="boardSelect" parameterType="int"
@@ -48,18 +55,21 @@
 	</resultMap>
 
 	<update id="update" parameterType="Board">
-		update board set title = #{title}, content = #{content} where id = #{id}					     
+		update board set title =
+		#{title}, content = #{content} where id = #{id}
 	</update>
 
 	<update id="hitUp" parameterType="int">
-		update board set hit = hit + 1 where id = #{value}
+		update board set hit = hit + 1
+		where id = #{value}
 	</update>
-	
-	<!-- <select id="reply_count" parameterType="int" resultType="int">
-		select count(*) from reply where type ='board' and idx = (select id from board where id=#{value})
-	</select> -->
+
+	<!-- <select id="reply_count" parameterType="int" resultType="int"> select 
+		count(*) from reply where type ='board' and idx = (select id from board where 
+		id=#{value}) </select> -->
 	<update id="reply_count" parameterType="int">
-		update board set reply_count = (select count(*) from reply 
-			where type ='board' and idx = #{value}) where id = #{value}
+		update board set
+		reply_count = (select count(*) from reply
+		where type ='board' and idx = #{value}) where id = #{value}
 	</update>
 </mapper>

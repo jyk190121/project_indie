@@ -21,6 +21,9 @@ create sequence seq_likes_id;
 create sequence seq_score_id;
 create sequence seq_hotgame_id;
 
+--select * from (select * from board_notice order by id)
+-- union all select * from (select * from board order by id);
+
 create table authority(
     id number primary key,
     users_id varchar2(20) constraint FK_users_id references users(id),
@@ -36,8 +39,17 @@ create table board (
     ip varchar2(15) not null,   
     hit number default 0,
     attach_file varchar2(300),
-    reply_count number default 0
+    reply_count number default 0,
+    type char(6) check (type in ('normal','notice')) 
 );
+select * from board;
+
+insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '두번째 공지', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '뻘글', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'normal');
+
+select * from (select * from board where type = 'notice' order by id desc)
+union all select * from (select * from board where type = 'normal' order by id desc);
 
 create table game (
     id number primary key,
