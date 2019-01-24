@@ -29,7 +29,8 @@ public class BoardController {
 	private HttpServletRequest httpRequset;
 	
 	@RequestMapping(value="/board/list",method=RequestMethod.GET)
-	public String list(@RequestParam(defaultValue = "1")String page, Model model) {
+	public String list(@RequestParam(defaultValue = "1")String page, Model model,
+			@ModelAttribute Board board) {
 		int npage = 0;
 		try {
 			npage = Integer.parseInt(page);
@@ -69,6 +70,8 @@ public class BoardController {
 	
 	@RequestMapping(value="/board/view",method=RequestMethod.GET)
 	public String view(@RequestParam int id,Model model) {
+		//조회수 순서변경(화면 뿌려주기전에 조회수부터 올림)
+		boardService.hitUp(id);
 		model.addAttribute("board",boardService.getBoardSelect(id));
 		return "/board/view";
 	}

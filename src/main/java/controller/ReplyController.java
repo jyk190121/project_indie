@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import domain.Reply;
 import domain.User;
+import service.BoardService;
 import service.ReplyService;
 
 @Controller
@@ -16,14 +17,21 @@ public class ReplyController {
 	
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping(value="/reply/insert", 
 					method=RequestMethod.POST)
 	public String reply(@ModelAttribute Reply reply,
 						@AuthenticationPrincipal User user) {
 		reply.setWriter(user.getId());
+		/*System.out.println(reply);*/
 		replyService.add(reply);
-		return "redirect:/board/view?id="+reply.getBoard_id();
+		if(reply.getType().equals("board")) {
+			boardService.reply_count(reply.getIdx());
+		}else if(reply.getType().equals("game")) {
+		}
+		return "redirect:/board/view?id="+reply.getIdx();
 	}
 	
 	@RequestMapping(value="/reply/rereply", 
@@ -31,8 +39,9 @@ public class ReplyController {
 	public String reReply(@ModelAttribute Reply reply,
 						  @AuthenticationPrincipal User user) {
 		reply.setWriter(user.getId());
+		reply.setType("board");
 		replyService.addRereply(reply);
-		return "redirect:/board/view?id="+reply.getBoard_id();
+		return "redirect:/board/view?id="+reply.getIdx();
 	}
 }
 

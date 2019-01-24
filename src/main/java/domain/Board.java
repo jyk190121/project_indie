@@ -103,12 +103,12 @@ public class Board {
 		this.replyList = replyList;
 	}
 
-	@Override
+/*	@Override
 	public String toString() {
 		return "Board [id=" + id + ", hit=" + hit + ", reply_count=" + reply_count + ", replyList=" + replyList
 				+ ", writer=" + writer + ", write_date=" + write_date + ", ip=" + ip + ", attach_file=" + attach_file
 				+ ", title=" + title + ", content=" + content + "]";
-	}
+	}*/
 	
 	
 	

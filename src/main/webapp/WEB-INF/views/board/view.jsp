@@ -79,7 +79,7 @@
 					<input type="hidden" 
 						   name="${_csrf.parameterName}"
 						   value="${_csrf.token }"/>
-					<input type="hidden" name="board_id" 
+					<input type="hidden" name="idx" 
 						   value="${board.id}" />
 					<div class="form-group">
 						<textarea name="content" rows="3" 
@@ -90,6 +90,7 @@
 						<button type="submit" 
 								class="btn btn-primary">등록</button>
 					</div>
+					<input type="hidden" name="type" value="board" />
 				</form>
 			</div>
 			<div class="reply-list">
@@ -124,7 +125,7 @@
 							<input type="hidden" 
 								   name="${_csrf.parameterName}"
 								   value="${_csrf.token }"/>
-							<input type="hidden" name="board_id" 
+							<input type="hidden" name="idx" 
 						  		 value="${board.id}" />
 						  	<input type="hidden" name="ref" 
 						  		 value="${reply.id}" />
@@ -147,11 +148,11 @@
 	<div class="footer">
 		Game Made By <a href="">me</a>
 	</div>
-	<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-ko-KR.min.js"></script>
+	<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
     <script>
     	function checkForm(f){
     		if(f.title.value == ""){

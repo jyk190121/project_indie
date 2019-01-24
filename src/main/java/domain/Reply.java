@@ -2,9 +2,36 @@ package domain;
 
 public class Reply {
 	
-	private int id, board_id, game_id, ref, depth, step;
+	private int id, idx, ref, depth, step;
 	
-	private String writer, content, write_date;
+	private Board board;
+	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
+	public int getIdx() {
+		return idx;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
+	private String writer, content, write_date , type;
+
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public int getId() {
 		return id;
@@ -12,22 +39,6 @@ public class Reply {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getBoard_id() {
-		return board_id;
-	}
-
-	public void setBoard_id(int board_id) {
-		this.board_id = board_id;
-	}
-
-	public int getGame_id() {
-		return game_id;
-	}
-
-	public void setGame_id(int game_id) {
-		this.game_id = game_id;
 	}
 
 	public int getRef() {
@@ -77,5 +88,16 @@ public class Reply {
 	public void setWrite_date(String write_date) {
 		this.write_date = write_date;
 	}
+
+	@Override
+	public String toString() {
+		return "Reply [id=" + id + ", idx=" + idx + ", ref=" + ref + ", depth=" + depth + ", step=" + step + ", writer="
+				+ writer + ", content=" + content + ", write_date=" + write_date + ", type=" + type + ", getIdx()="
+				+ getIdx() + ", getType()=" + getType() + ", getId()=" + getId() + ", getRef()=" + getRef()
+				+ ", getDepth()=" + getDepth() + ", getStep()=" + getStep() + ", getWriter()=" + getWriter()
+				+ ", getContent()=" + getContent() + ", getWrite_date()=" + getWrite_date() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
 
 }

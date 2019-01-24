@@ -35,9 +35,9 @@
 	<button onclick="showLoginModal();">로그인</button>
 	<button onclick="javascript:signout();">로그아웃</button>
 	
-	<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<jsp:include page="/WEB-INF/views/signin.jsp"></jsp:include>
 	<script>
 		function signout(){
 			var form = document.createElement("form");

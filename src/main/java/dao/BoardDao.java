@@ -38,4 +38,12 @@ public class BoardDao {
 	public void update(Board board) {
 		session.update("board.update",board);
 	}
+	
+	public void hitUp(int id) {
+		session.update("board.hitUp", id);
+	}
+
+	public int reply_count(int id) {
+		return session.update("board.reply_count",id);
+	}
 }

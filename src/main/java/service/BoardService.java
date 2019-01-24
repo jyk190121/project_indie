@@ -53,5 +53,13 @@ public class BoardService {
 	public void update(Board board) {
 		boardDao.update(board);
 	}
+	
+	public void hitUp(int id) {
+		boardDao.hitUp(id);
+	}
+
+	public int reply_count(int id) {
+		return (Integer)boardDao.reply_count(id);
+	}
 
 }

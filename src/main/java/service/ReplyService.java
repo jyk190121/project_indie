@@ -40,7 +40,7 @@ public class ReplyService {
 			}
 			
 			if(parentReply.getRef() == 0) {
-				step = replyDao.maxStep(reply.getBoard_id());
+				step = replyDao.maxStep(reply.getIdx());
 					
 				reply.setStep(step);
 				break;
