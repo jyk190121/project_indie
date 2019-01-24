@@ -13,11 +13,11 @@ public class UserDao {
 	private SqlSession session;
 	
 	public User selectOne(String id) {
-		System.out.println(11);
-		User user = session.selectOne("users.selectOne", id);
-		System.out.println(user.getId());
-		System.out.println();
 		return session.selectOne("users.selectOne", id);
+	}
+
+	public int nicknameDualCheck(String input) {
+		return session.selectOne("users.nicknameDualCheck", input);
 	}
 	
 }

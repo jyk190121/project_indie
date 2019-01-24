@@ -73,4 +73,8 @@ public class GameService {
 		return highScoreList;
 	}
 
+	public void insertGame(Game game) {
+		gameDao.insertGame(game);
+	}
+
 }

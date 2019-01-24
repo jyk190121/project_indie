@@ -14,18 +14,18 @@
 	<sec:http auto-config="true" use-expressions="true">
 		<sec:intercept-url pattern="/"
 						   access="permitAll"/>
+		<sec:intercept-url pattern="/user/join"
+						   access="permitAll"/>
+		<sec:intercept-url pattern="/user/dualCheck"
+						   access="permitAll"/>
+		<sec:intercept-url pattern="/board/**"
+						   access="isAuthenticated()"/>
 		<sec:intercept-url pattern="/game/**"
 						   access="isAuthenticated()"/>
-		<!-- <sec:intercept-url pattern="/board/list"
-						   access="permitAll"/>								   
-		<sec:intercept-url pattern="/product/list"
+		<sec:intercept-url pattern="/board/list"
 						   access="permitAll"/>
-		<sec:intercept-url pattern="/user/signin"
-						   access="!isAuthenticated()"/>
-		<sec:intercept-url pattern="/manage/**"
-						   access="hasRole('ROLE_ADMIN')"/>
 		<sec:intercept-url pattern="/**"
-						   access="isAuthenticated()"/>	 -->					   
+						   access="isAuthenticated()"/>
 		<sec:form-login login-page="/?signin"
 						login-processing-url="/user/signin"
 						username-parameter="id"

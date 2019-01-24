@@ -34,12 +34,11 @@ public class FileController {
 	@RequestMapping(value = "/fileupload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, String> fileUpload(@RequestParam MultipartFile upload) {
-		System.out.println(123123);
-		String path = application.getRealPath("/WEB-INF/upload/board");
+		String path = application.getRealPath("/WEB-INF/upload/image");
 
 		String filename = fileService.saveFile(path, upload);
 		Map<String, String> map = new HashMap<>();
-		map.put("url", "/upload/board/" + filename);
+		map.put("url", "/upload/image/" + filename);
 
 		return map;
 	}
