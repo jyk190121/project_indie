@@ -7,7 +7,15 @@ import javax.validation.constraints.NotNull;
 public class Board {
 	private int id,hit,reply_count;
 	private List<Reply> replyList;
-	private String writer,write_date,ip,attach_file;
+	private String writer,write_date,ip,attach_file,type;
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@NotNull(message="제목을 입력해주세요")
 	private String title;
 	@NotNull(message="내용을 입력해 주세요")

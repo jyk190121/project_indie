@@ -28,4 +28,12 @@ public class UserService implements UserDetailsService{
 		return userDao.nicknameDualCheck(input);
 	}
 
+	public User userSelect(String id) {
+		return userDao.userSelect(id);
+	}
+
+	public void update(User user) {
+		userDao.update(user);
+	}
+
 }

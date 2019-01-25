@@ -1,6 +1,7 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
 select * from users;
+select * from board;
 create table users (
     id varchar2(20) primary key,
     password varchar2(20) not null,
@@ -38,7 +39,7 @@ create table board (
     attach_file varchar2(300),
     reply_count number default 0
 );
-
+desc board;
 create table game (
     id number primary key,
     name varchar2(30) not null,
@@ -54,6 +55,7 @@ create table game (
     unlikes number default 0,
     reply_count number default 0
 );
+
 select * from game ;
 delete from game;
 insert into game values(1, 'testGame', 'web', '<script>test</script>','테스트게임입니다', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);

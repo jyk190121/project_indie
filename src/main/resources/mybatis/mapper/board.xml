@@ -28,7 +28,8 @@
 		#{ip},
 		0,
 		#{attach_file, jdbcType=VARCHAR},
-		0
+		0,
+		#{type}
 		)
 	</insert>
 

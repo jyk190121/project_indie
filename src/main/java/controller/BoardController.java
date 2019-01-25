@@ -49,19 +49,20 @@ public class BoardController {
 	@RequestMapping(value="/board/insert",method=RequestMethod.GET)
 	public String addGet(Model model) {
 		model.addAttribute("board", new Board());
+		model.addAttribute("msg","게시물이 등록되었습니다.");
 		return "/board/insert";
 	}
 	
 	@RequestMapping(value="/board/insert",method=RequestMethod.POST)
 	public String addPost(@ModelAttribute Board board,
-				BindingResult bindingResult,
-				@AuthenticationPrincipal User user) {
+				BindingResult bindingResult, @AuthenticationPrincipal User user) {
 		if(bindingResult.hasErrors()){
-			return "redirect: /board/insert";
+			return "/board/insert";
 		}
 		
 		board.setWriter(user.getId());
 		board.setIp(httpRequest.getRemoteAddr());
+		board.setType("normal");
 		/*System.out.println(board);*/
 		boardService.add(board);
 		return "redirect:/board/list";

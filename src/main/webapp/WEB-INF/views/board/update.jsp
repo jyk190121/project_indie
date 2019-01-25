@@ -79,7 +79,6 @@
     		}
     		
     		f.submit();
-    		alert("${msg}");
     	}
     
     	$("#content").summernote({

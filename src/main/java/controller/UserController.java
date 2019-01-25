@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import domain.Board;
 import domain.User;
 import service.UserService;
+import util.Role;
 
 @Controller
 public class UserController {
@@ -24,7 +26,6 @@ public class UserController {
 	
 	@RequestMapping(value= {"/","/main"}, method=RequestMethod.GET)
 	public String main(@AuthenticationPrincipal User user, Model model) {
-		System.out.println(user);
 		model.addAttribute("user", user);
 		return "main";
 	}
@@ -50,5 +51,57 @@ public class UserController {
 		return count;
 	}
 	
+	@RequestMapping(value="/user/mypage",method=RequestMethod.GET)
+	public String getMypage(@ModelAttribute User user,Model model) {
+		model.addAttribute("user",user);
+		return "/user/mypage";
+	}
 	
+	@RequestMapping(value="/user/mypage",method=RequestMethod.POST)
+	public String postMypage(@ModelAttribute User user,
+			@RequestParam String id,@RequestParam String password,Model model) {
+		User existUser = userService.userSelect(id);
+		if(user.getPassword().equals(existUser.getPassword())) {
+			model.addAttribute("user",user);
+			model.addAttribute("msg","correct");
+			return "/user/update";
+		}else {
+			model.addAttribute("msg","잘못된 요청입니다");
+			model.addAttribute("url","/");
+			return "/result";
+		}
+	}
+	
+	@RequestMapping(value="/user/update",method=RequestMethod.GET)
+	public String getUpdate(@ModelAttribute User user,
+			@RequestParam String id,@RequestParam String password,Model model) {
+		User existUser = userService.userSelect(id);
+		if(user.getPassword().equals(existUser.getPassword())) {
+			model.addAttribute("user",user);
+			model.addAttribute("msg","회원정보가 수정되었습니다");
+			return "/user/mypage";
+		}else {
+			model.addAttribute("msg","잘못된 요청입니다");
+			model.addAttribute("url","/");
+		}
+		return "/result";
+	}
+	
+	@RequestMapping(value="/user/update",method=RequestMethod.POST)
+	public String postUpdate(@ModelAttribute @Valid User user,
+						BindingResult bindingResult, Model model) {
+		User existUser = userService.userSelect(user.getId());
+		if(user.getPassword().equals(existUser.getPassword())) {
+			if(bindingResult.hasErrors()) {
+				return "/user/mypage";
+			}
+			userService.update(user);
+			return "redirect: /";
+		}else {
+			model.addAttribute("msg","잘못된 요청입니다");
+			model.addAttribute("url","/");
+			return "/result";
+		}
+		
+	}
 }
