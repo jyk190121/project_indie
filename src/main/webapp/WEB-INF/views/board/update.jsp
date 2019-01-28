@@ -77,7 +77,7 @@
     			$(".note-editable").focus();
     			return;
     		}
-    		
+    		alert("${msg}");
     		f.submit();
     	}
     

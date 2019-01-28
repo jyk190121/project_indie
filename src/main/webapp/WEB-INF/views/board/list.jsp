@@ -11,7 +11,6 @@
  	  content="width=device-width, initial-scale=1">
 <title>notice board</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <style>
 	.table-board{
 		background-color:white;
@@ -49,9 +48,21 @@
 					</thead>
 					<tbody>
 					<c:forEach var="board" items="${boardList}">
-						<tr style="cursor:pointer;"
-							onclick="location.href='/board/view?id=${board.id}'">
-							<td>${board.title }</td>
+						<tr onclick="location.href='/board/view?id=${board.id}'"
+							style="cursor:pointer;">
+							<td>
+							<c:if test="${board.type == 'notice' }">
+								<div class="text-center" style="display:inline-block; width: 10%;">
+									<span class="badge" style="background-color:red;">공지</span>
+								</div>
+								<div style="display:inline-block; width: 80%; transform:translate(-5%,0); font-weight: bold;">
+									${board.title }
+								</div>
+							</c:if>
+							<c:if test="${board.type == 'normal' }">
+								${board.title }
+							</c:if>
+							</td>
 							<td>${board.user.nickname }</td>
 							<td>${board.write_date }</td>
 							<td>${board.reply_count }</td>
@@ -62,7 +73,11 @@
 					<tfoot>
 						<tr>
 							<td colspan="5" class="text-right">
-								<a href="/board/insert"
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<a href="/board/insert?type=notice"
+								   class="btn btn-danger">공지사항 작성</a>
+								</sec:authorize>
+								<a href="/board/insert?type=normal"
 								   class="btn btn-primary">글쓰기</a>
 							</td>
 						</tr>

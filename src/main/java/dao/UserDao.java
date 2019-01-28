@@ -28,5 +28,5 @@ public class UserDao {
 		session.update("users.update",user);
 	}
 
-	
+
 }

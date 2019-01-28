@@ -4,10 +4,19 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Board {
 	private int id,hit,reply_count;
 	private List<Reply> replyList;
 	private String writer,write_date,ip,attach_file,type;
+
+	@NotNull(message="제목을 입력해주세요")
+	private String title;
+	@NotNull(message="내용을 입력해 주세요")
+	private String content;
+	private User user;
+
 	public String getType() {
 		return type;
 	}
@@ -15,13 +24,6 @@ public class Board {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	@NotNull(message="제목을 입력해주세요")
-	private String title;
-	@NotNull(message="내용을 입력해 주세요")
-	private String content;
-	private User user;
-	
 
 	public User getUser() {
 		return user;

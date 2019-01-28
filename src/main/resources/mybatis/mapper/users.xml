@@ -28,9 +28,9 @@
 		update users set 
 			password = #{password},
 			nickname = #{nickname},
-			email = #{email},
 			image = #{image},
 			myinfo = #{myinfo}
 			where id = #{id}
 	</update>
+	
 </mapper>

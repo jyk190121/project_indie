@@ -41,9 +41,5 @@
 		p:username="${user-name}" p:password="${password}"
 		p:maxActive="${max-active}" />
 
-	<bean id="simpleDataSource"
-		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
-		p:driverClass="${driver-class}" p:url="${url}"
-		p:username="${user-name}" p:password="${password}" />
 
 </beans>

@@ -45,6 +45,7 @@
 							<button class="btn btn-primary"
 									type="button" onclick="checkForm(this.form);">등록</button>
 						</div>
+						<input type="hidden" name="type" value="${board.type }"/>
 					</form:form>
 				</div>
 			</div>
@@ -75,6 +76,13 @@
 		alert("${msg}");
 	}
     
+    
+	    <c:if test="${board.type == 'notice' }">
+			$(".panel-primary").addClass('panel-danger');
+			$(".panel-primary").removeClass('panel-primary');
+			$(".btn-primary").addClass('btn-danger');
+			$(".btn-primary").removeClass('btn-primary');
+		</c:if>
     
     	$("#content").summernote({
     		height:400,

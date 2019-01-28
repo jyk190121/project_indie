@@ -66,7 +66,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="password">Password Check</label>
+							<label class="col-sm-3 control-label" for="pCheck">Password Check</label>
 							<div class="col-sm-9">
 								<input type="password" class="form-control" id="pCheck"
 									placeholder="패스워드 확인" onkeyup="checkPassword();"/>
@@ -85,9 +85,21 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="email">email</label>
 							<div class="col-sm-9">
-								<form:input path="email" class="form-control"
+								<div class="input-group">
+									<form:input path="email" class="form-control"
 									placeholder="한 이메일 당 하나의 계정만 생성 가능" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-danger" onclick="sendCode();" >인증번호 발송</button>
+									</span>
+								</div>
 								<form:errors path="email"></form:errors>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="code">이메일 인증코드</label>
+							<div class="col-sm-9">
+								<input id="code" name="code" class="form-control"
+									placeholder="해당 이메일로 발송된 코드를 입력하세요" />
 							</div>
 						</div>
 						<div class="form-group">

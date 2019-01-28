@@ -34,7 +34,7 @@
 					<div class="form-group">
 						<input type="text" class="form-control"
 							   placeholder="Enter ID" name="id"
-							   value="admin" />
+							   value="jin" />
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control"
