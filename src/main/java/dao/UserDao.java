@@ -20,13 +20,24 @@ public class UserDao {
 		return session.selectOne("users.nicknameDualCheck", input);
 	}
 
-	public User userSelect(String id) {
-		return session.selectOne("users.selectUser",id);
-	}
-
 	public void update(User user) {
 		session.update("users.update",user);
 	}
 
+	public User selectOneByEmail(String email) {
+		return session.selectOne("users.selectOneByEmail",email);
+	}
+	
+	public User selectOneById(String id) {
+		return session.selectOne("users.selectOneById",id);
+	}
+
+	public void updateEmail(User user) {
+		session.update("users.updateEmail",user);
+	}
+
+	public void insert(User user) {
+		session.insert("users.insert",user);
+	}
 
 }

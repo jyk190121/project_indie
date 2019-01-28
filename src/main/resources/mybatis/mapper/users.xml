@@ -19,11 +19,6 @@
 	<select id="nicknameDualCheck" parameterType="String" resultType="int">
 		select count(*) from users where id = #{value}
 	</select>
-	
-	<select id="userSelect" parameterType="String" resultType="User">
-		select * from users where id = #{value}
-	</select>
-	
 	<update id="update" parameterType="User">
 		update users set 
 			password = #{password},
@@ -32,5 +27,16 @@
 			myinfo = #{myinfo}
 			where id = #{id}
 	</update>
-	
+	<select id="selectOneByEmail" parameterType="String" resultType="User">
+		select * from users where email = #{value}
+	</select>
+	<update id="updateEmail" parameterType="User">
+		update users set email = #{email} where id = #{id}
+	</update>
+	<insert id="insert" parameterType="User">
+		insert into users values(#{id}, #{password}, #{nickname}, #{email}, #{image}, #{myinfo}, 1, 0)
+	</insert>
+	<select id="selectOneById" parameterType="String" resultType="User">
+		select * from users where id = #{value}
+	</select>
 </mapper>

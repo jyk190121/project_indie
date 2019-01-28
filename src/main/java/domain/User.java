@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class User implements UserDetails{
 
-	@Pattern(regexp = "[a-zA-Z0-9] {4,20}", message = "아이디는 영문과 숫자 4 ~ 20 글자로 구성됨")
+	@Pattern(regexp = "[a-zA-Z0-9]{4,20}", message = "아이디는 영문과 숫자 4 ~ 20 글자로 구성됨")
 	private String id;
 	@Pattern(regexp = "[0-9A-Za-z!@#*_-]{4,20}", message = "비밀번호는 숫자와 영문, 특수문자(!@#*_-) 4 ~ 20 글자로 구성됨")
 	private String password;

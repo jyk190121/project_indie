@@ -21,6 +21,7 @@ create table users (
     lev number default 1,
     exp number default 0
 );
+select * from users;
 insert into users values('test','1111','tester','test@gmail.com','default.png','테스트다테스트', 1, 0);
 
 create sequence seq_authority_id;
@@ -44,7 +45,7 @@ select * from authority;
 
 create table board (
     id number primary key,
-    writer varchar2(20) references users(id),
+    writer varchar2(20) references users(id) on delete set null,
     title varchar2(100) not null,
     content clob,
     write_date date not null,
@@ -54,9 +55,7 @@ create table board (
     reply_count number default 0,
     type char(6) check (type in ('normal','notice')) 
 );
-<<<<<<< HEAD
-desc board;
-=======
+
 select * from board;
 
 insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
@@ -66,7 +65,6 @@ insert into board values (seq_board_id.nextval, 'test', '일반글', '그냥 뻘
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
 
->>>>>>> 1cbc975452d0f7f7bf7aea489c1715fcfa787d5a
 create table game (
     id number primary key,
     name varchar2(30) not null,
