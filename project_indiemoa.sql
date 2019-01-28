@@ -30,6 +30,8 @@ create table authority(
     role varchar2(15) check(role like 'ROLE#_%' escape '#')                          
 );
 
+select * from authority;
+
 create table board (
     id number primary key,
     writer varchar2(20) references users(id),
@@ -46,7 +48,7 @@ select * from board;
 
 insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
 insert into board values (seq_board_id.nextval, 'test', '두번째 공지', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', '뻘글', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'normal');
+insert into board values (seq_board_id.nextval, 'test', '일반글', '그냥 뻘글임미다', sysdate, 0, 0, null, 0, 'normal');
 
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
