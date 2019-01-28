@@ -77,9 +77,8 @@
     			$(".note-editable").focus();
     			return;
     		}
-    		
-    		f.submit();
     		alert("${msg}");
+    		f.submit();
     	}
     
     	$("#content").summernote({

@@ -11,7 +11,6 @@
  	  content="width=device-width, initial-scale=1">
 <title>notice board</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <style>
 	.table-board{
 		background-color:white;

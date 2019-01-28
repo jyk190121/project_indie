@@ -39,11 +39,11 @@
 							<form:textarea class="form-control" id="content"
 									  path="content"
 									  placeholder="내용을 입력해 주세요"/>
-							<form:errors path="content"/>		  
+							<form:errors path="content"/>	  
 						</div>
 						<div class="form-group text-right">
 							<button class="btn btn-primary"
-									type="submit">등록</button>
+									type="button" onclick="checkForm(this.form);">등록</button>
 						</div>
 						<input type="hidden" name="type" value="${board.type }"/>
 					</form:form>
@@ -58,6 +58,24 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-ko-KR.min.js"></script>
     <script>
+    function checkForm(f){
+		if(f.title.value == ""){
+			alert("제목을 입력해 주세요");
+			f.title.focus();
+			return;
+		}
+		
+		if(f.content.value == ""){
+			alert("내용을 입력해 주세요");
+			//f.content.focus();
+			$(".note-editable").focus();
+			return;
+		}
+		
+		f.submit();
+		alert("${msg}");
+	}
+    
     
 	    <c:if test="${board.type == 'notice' }">
 			$(".panel-primary").addClass('panel-danger');

@@ -41,8 +41,9 @@
 					invalidate-session="true"/>						   							   					   								   
 	</sec:http>
 	<sec:authentication-manager>
-		<sec:authentication-provider 
-					user-service-ref="userService"/>
+		<sec:authentication-provider user-service-ref="userService">
+		 	<!-- <sec:password-encoder hash="bcrypt" /> -->
+	 	 </sec:authentication-provider>
 	</sec:authentication-manager>
 </beans>
 

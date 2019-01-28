@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
+import domain.Board;
 import domain.User;
 
 @Service
@@ -26,6 +29,14 @@ public class UserService implements UserDetailsService{
 
 	public int nicknameDualCheck(String input) {
 		return userDao.nicknameDualCheck(input);
+	}
+
+	public User userSelect(String id) {
+		return userDao.userSelect(id);
+	}
+
+	public void update(User user) {
+		userDao.update(user);
 	}
 
 }

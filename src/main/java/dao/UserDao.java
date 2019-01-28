@@ -19,5 +19,14 @@ public class UserDao {
 	public int nicknameDualCheck(String input) {
 		return session.selectOne("users.nicknameDualCheck", input);
 	}
-	
+
+	public User userSelect(String id) {
+		return session.selectOne("users.selectUser",id);
+	}
+
+	public void update(User user) {
+		session.update("users.update",user);
+	}
+
+
 }

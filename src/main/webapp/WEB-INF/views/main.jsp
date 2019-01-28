@@ -29,7 +29,7 @@
 	<a href="/game/main">game</a>
 	<a href="/board/list">board</a>
 	<a href="/rank/main">rank</a>
-	<a href="/mypage">mypage</a>
+	<a href="/user/mypage">mypage</a>
 	<a href="/manage">manage</a>
 	
 	<button onclick="showLoginModal();">로그인</button>

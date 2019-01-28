@@ -9,13 +9,13 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Board {
 	private int id,hit,reply_count;
 	private List<Reply> replyList;
-	private String writer,write_date,ip,attach_file;
+	private String writer,write_date,ip,attach_file,type;
+
 	@NotNull(message="제목을 입력해주세요")
 	private String title;
 	@NotNull(message="내용을 입력해 주세요")
 	private String content;
 	private User user;
-	private String type;
 
 	public String getType() {
 		return type;

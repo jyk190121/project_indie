@@ -19,4 +19,18 @@
 	<select id="nicknameDualCheck" parameterType="String" resultType="int">
 		select count(*) from users where id = #{value}
 	</select>
+	
+	<select id="userSelect" parameterType="String" resultType="User">
+		select * from users where id = #{value}
+	</select>
+	
+	<update id="update" parameterType="User">
+		update users set 
+			password = #{password},
+			nickname = #{nickname},
+			image = #{image},
+			myinfo = #{myinfo}
+			where id = #{id}
+	</update>
+	
 </mapper>

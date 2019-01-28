@@ -45,12 +45,13 @@ public class BoardController {
 		return "/board/notPage";
 
 	}
-
+	
 	@RequestMapping(value = "/board/insert", method = RequestMethod.GET)
 	public String addGet(Model model, @RequestParam String type) {
 		Board board = new Board();
 		board.setType(type);
 		model.addAttribute("board", board);
+		model.addAttribute("msg","게시물이 등록되었습니다.");
 		return "/board/insert";
 	}
 
@@ -63,10 +64,8 @@ public class BoardController {
 		if (!httpRequest.isUserInRole("ROLE_ADMIN") && board.getType().equals("notice")) {
 			return "/board/insert";
 		}
-		
 		board.setWriter(user.getId());
 		board.setIp(httpRequest.getRemoteAddr());
-		/* System.out.println(board); */
 		boardService.add(board);
 		return "redirect:/board/list";
 	}
