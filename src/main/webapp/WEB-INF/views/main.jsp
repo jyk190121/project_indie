@@ -29,6 +29,7 @@
 	<a href="/game/main">game</a>
 	<a href="/board/list">board</a>
 	<a href="/rank/main">rank</a>
+	<a href="/profile?id=${user.id }">profile</a>
 	<a href="/user/mypage">mypage</a>
 	<a href="/manage">manage</a>
 	

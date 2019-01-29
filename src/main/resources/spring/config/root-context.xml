@@ -10,6 +10,20 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+	<bean id="JavaMailSenderImpl"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		p:host="smtp.gmail.com" p:port="587"
+		p:username="indiemoa.com@gmail.com" p:password="indiemoa0906">
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+
 	<tx:annotation-driven
 		transaction-manager="txManager" />
 

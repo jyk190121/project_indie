@@ -29,7 +29,7 @@
 		<sec:intercept-url pattern="/manage/**"
 						   access="hasRole('ROLE_ADMIN')"/>
 		<sec:intercept-url pattern="/**"
-						   access="isAuthenticated()"/>				   
+						   access="permitAll"/>				   
 		<sec:form-login login-page="/?signin"
 						login-processing-url="/user/signin"
 						username-parameter="id"
