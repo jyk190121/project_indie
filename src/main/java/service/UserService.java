@@ -39,4 +39,8 @@ public class UserService implements UserDetailsService{
 		userDao.update(user);
 	}
 
+	public void delete(String id) {
+		userDao.delete(id);
+	}
+
 }

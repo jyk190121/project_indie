@@ -53,6 +53,9 @@ public class UserController {
 	
 	@RequestMapping(value="/user/mypage",method=RequestMethod.GET)
 	public String getMypage(@AuthenticationPrincipal User user,Model model) {
+		model.addAttribute("lev",user.getLev());
+		model.addAttribute("exp",user.getExp());
+		model.addAttribute("image",user.getImage());
 		model.addAttribute("user",user);
 		return "/user/mypage";
 	}
@@ -83,7 +86,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/user/update",method=RequestMethod.GET)
-	public String getUpdate(@AuthenticationPrincipal User user,
+	public String update(@AuthenticationPrincipal User user,
 			@RequestParam String id, @RequestParam String password,Model model) {
 		if(user.getId().equals(id) && user.getPassword().equals(password)) {
 			model.addAttribute("user",user);
@@ -133,5 +136,19 @@ public class UserController {
 		model.addAttribute("url","/main");
 		return "/result";
 		}
+	}
+	
+	
+	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
+	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
+		if(user.getId().equals(id)) {
+			userService.delete(id);
+			model.addAttribute("msg","회원탈퇴가 정상적으로 되었습니다");
+			model.addAttribute("url","/?signout");
+		}else {
+			model.addAttribute("msg","잘못된 접근입니다");
+			model.addAttribute("url","/");
+		}
+		return "/result";
 	}
 }

@@ -36,6 +36,7 @@
 				<h2 class="text-center">자유롭게 의견을 나눠보아요!</h2>
 			</div>
 			<div class="row">
+				
 				<table class="table table-hover table-board">
 					<thead>
 						<tr>
@@ -51,22 +52,24 @@
 						<tr onclick="location.href='/board/view?id=${board.id}'"
 							style="cursor:pointer;">
 							<td>
-							<c:if test="${board.type == 'notice' }">
-								<div class="text-center" style="display:inline-block; width: 10%;">
-									<span class="badge" style="background-color:red;">공지</span>
-								</div>
-								<div style="display:inline-block; width: 80%; transform:translate(-5%,0); font-weight: bold;">
+								<c:if test="${board.type == 'notice' }">
+									<div class="text-center" style="display:inline-block; width: 10%;">
+										<span class="badge" style="background-color:red;">공지</span>
+									</div>
+									<div style="display:inline-block; width: 80%; transform:translate(-5%,0); font-weight: bold;">
+										${board.title }
+									</div>
+								</c:if>
+								
+								<c:if test="${board.type == 'normal' }">
 									${board.title }
-								</div>
-							</c:if>
-							<c:if test="${board.type == 'normal' }">
-								${board.title }
-							</c:if>
-							</td>
-							<td>${board.user.nickname }</td>
-							<td>${board.write_date }</td>
-							<td>${board.reply_count }</td>
-							<td>${board.hit }</td>
+								</c:if>
+								</td>
+								<td>${board.user.nickname }</td>
+							
+								<td>${board.write_date }</td>
+								<td>${board.reply_count }</td>
+								<td>${board.hit }</td>
 						</tr>
 					</c:forEach>
 					</tbody>
@@ -90,6 +93,7 @@
 						</tr>
 					</tfoot>
 				</table>
+				
 			</div>
 		</div>
 	</div>

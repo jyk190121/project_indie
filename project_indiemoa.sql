@@ -1,6 +1,7 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
 select * from users;
+update users set lev = 2,exp=100 where id='jin';
 update users set password ='1111';
 update users set image = 'default.png' where image is null and rownum = 1;
 insert into users values('test2','1111','tester','test2@gamil.com','default.png','test2', 1, 0);
@@ -52,11 +53,8 @@ create table board (
     reply_count number default 0,
     type char(6) check (type in ('normal','notice')) 
 );
-<<<<<<< HEAD
-desc board;
-=======
-select * from board;
 
+select * from board;
 insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
 insert into board values (seq_board_id.nextval, 'test', '두번째 공지', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
 insert into board values (seq_board_id.nextval, 'test', '뻘글', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'normal');
@@ -64,7 +62,6 @@ insert into board values (seq_board_id.nextval, 'test', '뻘글', '계속 열심
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
 
->>>>>>> 1cbc975452d0f7f7bf7aea489c1715fcfa787d5a
 create table game (
     id number primary key,
     name varchar2(30) not null,

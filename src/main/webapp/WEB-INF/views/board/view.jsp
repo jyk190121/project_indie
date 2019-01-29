@@ -29,6 +29,10 @@
 	.reply-body{
 		padding:10px;
 	}
+	
+	textarea{
+		resize: none;
+	}
 </style>
 </head>
 <body>
@@ -104,14 +108,20 @@
 				<div class="reply" style="margin-left:${reply.depth*30}px">
 					<div class="reply-header">
 						<span class="glyphicon glyphicon-user"></span>
-						${reply.writer } &nbsp;&nbsp;
-						<span class="glyphicon glyphicon-time"></span>
-						${reply.write_date } &nbsp;&nbsp;
-						<button class="btn btn-primary btn-xs"
-								type="button"
-								data-parent="#reply-list"
-								data-toggle="collapse"
-								data-target="#form_${reply.id }">댓글</button> 
+						${reply.writer } 
+						<c:if test="${empty reply.writer }">
+							삭제된 사용자입니다
+						</c:if>
+						&nbsp;&nbsp;
+						<c:if test="${!empty reply.writer }">
+							<span class="glyphicon glyphicon-time"></span>
+							${reply.write_date } &nbsp;&nbsp;
+							<button class="btn btn-primary btn-xs"
+									type="button"
+									data-parent="#reply-list"
+									data-toggle="collapse"
+									data-target="#form_${reply.id }">댓글</button> 
+						</c:if>
 					</div>
 					<div class="reply-body">
 						<c:if test="${reply.depth != 0 }">
@@ -132,7 +142,7 @@
 							<div class="form-group">
 								<textarea name="content" rows="3" 
 										  class="form-control"
-										  required></textarea>
+										  required ></textarea>
 							</div>
 							<div class="form-group text-right">
 								<button type="submit" 

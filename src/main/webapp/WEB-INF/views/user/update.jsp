@@ -8,15 +8,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
 <style>
+	.image-board{
+		width: 300px;
+		height: 200px;
+		border: 1px solid gray;
+	}
+	#image{
+		width: 100%;
+		height: 100%;
+	}
 	.content{
 		font-size: 20px;
 		background-color: white;
 		text-align: center;
 	}
+	
+	#myinfo{
+		resize: none;
+		height: 100px;
+	}
 </style>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
 <div class="header">
 	<h1 class="text-center"> 회원정보 수정 </h1>
@@ -56,14 +70,17 @@
 					<div class="form-group" style="margin-bottom: 10px;">
 						<div class="col-sm-3">프로필 이미지</div>
 						<div class="col-sm-9">
-							<form:input path="image" type="file" id="image" value="default.png"/>
+							<form:input path="image" type="file" onchange="showImage(this)" />
+							<div class="image-board">
+								<img id=image src="/upload/image/${user.image }" alt="${user.image }" />
+							</div>
 							<form:errors path="image"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-3">나의 소개</div>
 						<div class="col-sm-9">
-							<form:input path="myinfo" class="form-control" type="text" id="myinfo" value="${user.myinfo }"/>
+							<form:textarea path="myinfo" class="form-control" type="text" id="myinfo" value="${user.myinfo }"/>
 							<form:errors path="myinfo"/>
 						</div>
 					</div>
@@ -119,6 +136,24 @@ function userChange(id){
 	
 }
 
+$(document).ready(
+		resizeImageBoard());	
+
+	function resizeImageBoard(){
+		var width = $(".image-board").outerWidth();
+	}
+
+function showImage(input) {
+	console.log(input.files[0]);
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$(".image-board").empty();
+		$(".image-board").append(
+				"<img id='image' src='"+e.target.result+"'></img>");
+		$(".image-board").css('border','none');
+	}
+	reader.readAsDataURL(input.files[0]);
+}
 </script>
 </body>
 </html>

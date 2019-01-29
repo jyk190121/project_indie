@@ -28,5 +28,9 @@ public class UserDao {
 		session.update("users.update",user);
 	}
 
+	public void delete(String id) {
+		session.delete("users.delete",id);
+	}
+
 
 }
