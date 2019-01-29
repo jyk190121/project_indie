@@ -17,7 +17,6 @@ public class User implements UserDetails{
 	private String password;
 	@Pattern(regexp = "[ㄱ-ㅎ가-힣ㅏ-ㅣ0-9A-Za-z!@#*_-]{4,20}", message = "닉네임은 숫자와 영문, 한글, 특수문자(!@#*_-) 4 ~ 20 글자로 구성됨")
 	private String nickname;
-	@Pattern(regexp = "[a-zA-Z0-9]{1,30}@[a-zA-Z0-9]{1,30}\\.[a-zA-Z0-9]{1,10}", message = "이메일 형식을 올바르게 입력하세요")
 	private String email;
 	private String image;
 	private String myinfo;

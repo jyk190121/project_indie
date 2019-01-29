@@ -132,9 +132,15 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-3 control-label">reCAPTCHA</label>
+							<div class="col-sm-9">
+								<div id="html_element"></div>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3"></label>
 							<div class="col-sm-9">
-								<button type="button" class="btn btn-block"
+								<button type="button" class="btn btn-block btn-primary"
 									onclick="insert(this.form)">가입</button>
 							</div>
 						</div>
@@ -157,21 +163,45 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script
+		src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+		async defer>
+		
+	</script>
 	<script>
 		var passwordCheck = false;
 		var isCertified = false;
 		var idCheck = false;
+		var rToken = "";
+		
+		/* reCAPCHA */
+		var verifyCallback = function(response) {
+			rToken = response;
+		};
+		var onloadCallback = function() {
+			grecaptcha.render('html_element', {
+				'sitekey' : '6LcXgo0UAAAAAIEiA6J-jefjIOq_bNtqN6L1F-Lj',
+				'callback' : verifyCallback,
+				'size' : 'normal'
+			});
+		};
 
 		$(document).ready(resizeImageBoard());
 
 		$(window).resize(function() {
 			var width = $(".image-board").outerWidth();
-			$(".image-board").css({'height': width + "px", "line-height" : width + "px"});
+			$(".image-board").css({
+				'height' : width + "px",
+				"line-height" : width + "px"
+			});
 		});
 
 		function resizeImageBoard() {
 			var width = $(".image-board").outerWidth();
-			$(".image-board").css({'height': width + "px", "line-height" : width + "px"});
+			$(".image-board").css({
+				'height' : width + "px",
+				"line-height" : width + "px"
+			});
 		}
 
 		function sendCode(f) {
@@ -280,23 +310,28 @@
 			}
 		}
 
-		function idDualCheck(f){
+		function idDualCheck(f) {
 			var id = f.id.value;
 			console.log(id);
 			$.ajax({
-				url: "/user/dualcheck/id",
-				type: "post",
-				data: {id : id},
+				url : "/user/dualcheck/id",
+				type : "post",
+				data : {
+					id : id
+				},
 				beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 					xhr.setRequestHeader("${_csrf.headerName}",
 							"${_csrf.token}");
 				},
-				success: function(data){
+				success : function(data) {
 					console.log(data);
-					if(data == "duplicated"){
+					if (data == "duplicated") {
 						$("#id-error").removeClass("disnone");
-					}else{
-						$("#idCheck-btn").text("사용 가능").css({"background-color":"green", "border-color":"green"}).attr("disabled", "disabled");
+					} else {
+						$("#idCheck-btn").text("사용 가능").css({
+							"background-color" : "green",
+							"border-color" : "green"
+						}).attr("disabled", "disabled");
 						$("#id").css("border-color", "green");
 						$("#id-error").addClass("disnone");
 						idCheck = true;
@@ -307,13 +342,14 @@
 				}
 			});
 		}
-		
-		function idModified(){
-			$("#idCheck-btn").text("중복 확인").css("background-color", "#d9534f").removeAttr("disabled");
+
+		function idModified() {
+			$("#idCheck-btn").text("중복 확인").css("background-color", "#d9534f")
+					.removeAttr("disabled");
 			$("#id").css("border-color", "red");
 			$("#idCheck-btn").css("border-color", "red");
 		}
-		
+
 		function showImage(input) {
 			console.log(input.files[0]);
 			var reader = new FileReader();
@@ -327,7 +363,7 @@
 		}
 
 		function insert(f) {
-			if(idCheck == false){
+			if (idCheck == false) {
 				alert('아이디 중복 여부를 확인하세요');
 				return;
 			}
@@ -337,6 +373,10 @@
 			}
 			if (isCertified == false) {
 				alert('이메일 인증을 완료해주세요');
+				return;
+			}
+			if (rToken == "") {
+				alert("reCAPTCHA '로봇이 아닙니다'를 클릭하세요");
 				return;
 			}
 			f.submit();

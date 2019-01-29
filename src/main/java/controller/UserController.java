@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import domain.User;
 import service.FileService;
 import service.UserService;
+import util.VerifyRecaptcha;
 
 @Controller
 public class UserController {
@@ -44,7 +47,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/join", method=RequestMethod.POST)
-	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult, @RequestParam(value="g-recaptcha-response") String response) {
+		System.out.println(response);
+		try {
+			if(!VerifyRecaptcha.verify(response)) {
+				return "/user/join";
+			}
+			System.out.println("verify recapcha");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return "/user/join";
+		}
 		if(bindingResult.hasErrors()) {
 			for(ObjectError e : bindingResult.getAllErrors()) {
 				System.out.println(e.getDefaultMessage());

@@ -7,7 +7,7 @@
 	
 	<sec:http pattern="/public/css/**" security="none"/>
 	<sec:http pattern="/upload/image/**" security="none"/>
-	<sec:http pattern="/upload/board/**" security="none"/>
+	<sec:http pattern="/upload/game/**" security="none"/>
 	<sec:http pattern="/favicon.ico" security="none"/>
 	<sec:http pattern="/fileupload" security="none"/>
 	
@@ -18,6 +18,8 @@
 						   access="permitAll"/>
 		<sec:intercept-url pattern="/user/dualCheck"
 						   access="permitAll"/>
+		<sec:intercept-url pattern="/user/mypage"
+						   access="isAuthenticated()"/>
 		<sec:intercept-url pattern="/board/**"
 						   access="isAuthenticated()"/>
 		<sec:intercept-url pattern="/game/**"
