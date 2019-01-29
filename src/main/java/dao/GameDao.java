@@ -40,5 +40,9 @@ public class GameDao {
 	public void insertGame(Game game) {
 		session.insert("game.insertGame", game);
 	}
+
+	public Game selectOne(String id) {
+		return session.selectOne("game.selectOneById", id);
+	}
 	
 }

@@ -185,7 +185,6 @@ public class UserController {
 		}
 	}
 	
-	
 	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
 	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
 		if(user.getId().equals(id)) {
@@ -198,4 +197,5 @@ public class UserController {
 		}
 		return "/result";
 	}
+	
 }

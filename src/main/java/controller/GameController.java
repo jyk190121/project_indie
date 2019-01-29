@@ -85,4 +85,19 @@ public class GameController {
 		return "/game/list";
 	}
 
+	@RequestMapping(value="/game/view", method=RequestMethod.GET)
+	public String gameView(@RequestParam(required=false) String id, Model model) {
+		if(id == null) {
+			return "redirect:/game/";
+		}
+		Game game = gameService.selectOne(id);
+		if(game == null) {
+			model.addAttribute("msg","없는 페이지입니다");
+			model.addAttribute("url","/game/main");
+			return "result";
+		}
+		model.addAttribute("game", game);
+		return "game/view";
+	}
+	
 }
