@@ -41,7 +41,18 @@
 	<insert id="insert" parameterType="User">
 		insert into users values(#{id}, #{password}, #{nickname}, #{email}, #{image}, #{myinfo}, 1, 0)
 	</insert>
+	
 	<select id="selectOneById" parameterType="String" resultType="User">
 		select * from users where id = #{value}
 	</select>
+	
+	<select id="userTotal" resultType="int">
+		select count(*) from users
+	</select>
+	
+	<select id="selectList" parameterType="Map" resultType="User">
+		select * from (select rownum rnum, a.* from (select * from users) a)
+		where rnum between #{start} and #{end} order by lev desc
+	</select>
+	
 </mapper>

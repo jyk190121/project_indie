@@ -1,10 +1,14 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
+update users set email = 'walk1437@gmail.com' where id = 'jin';
 select * from users;
+select * from game;
 update users set lev = 2,exp=100 where id='jin';
 update users set password ='1111';
 update users set image = 'default.png' where image is null and rownum = 1;
 insert into users values('test2','1111','tester','test2@gamil.com','default.png','test2', 1, 0);
+select * from (select rownum rnum, a.* from (select * from  
+		(select * from users)) a) where rnum between 1 and 10;
 update users set 
 			password = 2222,
 			nickname = '테스터',

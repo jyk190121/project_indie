@@ -30,4 +30,14 @@ public class FileService {
 		}
 		return filename;
 	}
+
+	public void makeDirectory(String path) {
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdirs();
+			//System.out.println("created directory successfully!");
+		} else {
+			//System.out.println("directory already exists");
+		}
+	}
 }

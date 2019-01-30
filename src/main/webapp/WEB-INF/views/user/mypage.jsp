@@ -101,7 +101,7 @@ function userDelete(id){
    			url: "/user/checkPassword",
    			success: function(data){
    				if(data == "correct"){
-   					location.href="/user/delete?id="+id;
+   					location.href="/user/delete?id="+id+"&password="+password;
    				}else{
    					alert("비밀번호가 틀립니다");
    				}

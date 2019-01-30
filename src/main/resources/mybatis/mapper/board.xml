@@ -10,10 +10,9 @@
 	<select id="selectList" parameterType="Map" resultMap="userMap">
 		select *
 		from (select rownum rnum, a.* from
-		(select * from (select * from board
-		where type = 'notice' order by id desc)
-		union all select * from (select * from board where type = 'normal' order by
-		id desc)) a)
+		(select * from (select * from board where type = 'notice' order by id desc)
+		union all select * from 
+		(select * from board where type = 'normal' order by id desc)) a)
 		where rnum between #{start} and #{end}
 	</select>
 

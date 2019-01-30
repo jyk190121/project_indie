@@ -22,7 +22,6 @@ public class User implements UserDetails{
 	private String myinfo;
 	private int lev;
 	private int exp;
-
 	private List<Authority> authorities;
 	
 	private MultipartFile image_file;

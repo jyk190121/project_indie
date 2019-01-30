@@ -83,6 +83,7 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<div id="src-board">
+							<input type="file" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
 							<form:textarea id="webSrc" class="form-control" path='src'
 								placeholder='Enter script code here' style='resize:none;'></form:textarea>
 							<input id="gameFile" type='file' name="game_file" class="disnone">
