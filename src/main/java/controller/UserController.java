@@ -166,6 +166,7 @@ public class UserController {
 		}
 	}
 	
+	
 	@RequestMapping(value="/user/userChange",method=RequestMethod.GET)
 	@ResponseBody
 	public String userChange(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
