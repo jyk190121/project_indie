@@ -1,5 +1,7 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import exception.InadequateFileExtException;
 import service.FileService;
 
 @Controller
@@ -16,31 +19,44 @@ public class TestController {
 
 	@Autowired
 	private FileService fileService;
-	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test() {
 		return "test";
 	}
-	
-	@RequestMapping(value="/test/game/upload", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/test/game/upload", method = RequestMethod.POST)
 	public String uploadGame(MultipartHttpServletRequest mtRequest) {
 		List<MultipartFile> files = mtRequest.getFiles("files");
 		String[] paths = new String[files.size()];
 		paths = mtRequest.getParameter("paths").split(",");
-		//String rootDir = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")+mtRequest.getParameter("id")+"_"+paths[0].substring(0, paths[0].indexOf("/"))+"/";
-		String rootDir = "c:/test/"+mtRequest.getParameter("id")+"_"+paths[0].substring(0, paths[0].indexOf("/"))+"/";
+		// String rootDir =
+		// mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")+mtRequest.getParameter("id")+"_"+paths[0].substring(0,
+		// paths[0].indexOf("/"))+"/";
+		String rootDir = "c:/test/" + mtRequest.getParameter("id") + "_" + paths[0].substring(0, paths[0].indexOf("/"))
+				+ "/";
 
 		fileService.makeDirectory(rootDir);
-		
-		for(int i = 0; i < paths.length; i++) {
-			paths[i] = paths[i].substring(paths[i].indexOf("/")+1);
-			if(paths[i].indexOf("/") != -1) {
+
+		for (int i = 0; i < paths.length; i++) {
+			paths[i] = paths[i].substring(paths[i].indexOf("/") + 1);
+			if (paths[i].indexOf("/") != -1) {
 				paths[i] = paths[i].substring(0, paths[i].lastIndexOf("/"));
-				fileService.makeDirectory(rootDir+"/"+paths[i]);
+				fileService.makeDirectory(rootDir + "/" + paths[i]);
+			} else {
+				paths[i] = "";
 			}
-			fileService.saveFile(rootDir+paths[i], files.get(i));
+			try {
+				fileService.saveFile(rootDir + paths[i], files.get(i));
+			} catch (InadequateFileExtException e) {
+				long time = System.currentTimeMillis();
+				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+				String str = dayTime.format(new Date(time));
+
+				System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			}
 		}
 		return "redirect:/test";
 	}
-	
+
 }

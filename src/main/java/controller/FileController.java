@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import exception.InadequateFileExtException;
 import service.FileService;
 
 @Controller
@@ -36,7 +37,13 @@ public class FileController {
 	public Map<String, String> fileUpload(@RequestParam MultipartFile upload) {
 		String path = application.getRealPath("/WEB-INF/upload/image");
 
-		String filename = fileService.saveFile(path, upload);
+		String filename = "";
+		try {
+			filename = fileService.saveFile(path, upload);
+		} catch (InadequateFileExtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Map<String, String> map = new HashMap<>();
 		map.put("url", "/upload/image/" + filename);
 

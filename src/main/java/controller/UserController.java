@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.Board;
 import domain.User;
+import exception.InadequateFileExtException;
 import service.FileService;
 import service.UserService;
 import util.Pager;
@@ -29,7 +32,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
 	private FileService fileService;
 
@@ -50,7 +53,7 @@ public class UserController {
 
 	@RequestMapping(value = "/user/join", method = RequestMethod.POST)
 	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult,
-			@RequestParam(value = "g-recaptcha-response") String response) {
+			@RequestParam(value = "g-recaptcha-response") String response, Model model) {
 		System.out.println(response);
 		try {
 			if (!VerifyRecaptcha.verify(response)) {
@@ -75,7 +78,19 @@ public class UserController {
 		}
 		System.out.println(user.getImage_file());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
-		String filename = fileService.saveFile(path, user.getImage_file());
+		String filename;
+		try {
+			filename = fileService.saveFile(path, user.getImage_file());
+		} catch (InadequateFileExtException e) {
+			long time = System.currentTimeMillis();
+			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			String str = dayTime.format(new Date(time));
+
+			System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
+			model.addAttribute("url","/game/insert");
+			return "result";
+		}
 		user.setImage(filename);
 		userService.insert(user);
 

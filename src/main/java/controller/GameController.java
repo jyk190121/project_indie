@@ -1,10 +1,11 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import domain.Game;
 import domain.User;
+import exception.InadequateFileExtException;
 import service.FileService;
 import service.GameService;
 
@@ -49,19 +52,42 @@ public class GameController {
 	}
 	
 	@RequestMapping(value = "/game/insert", method = RequestMethod.POST)
-	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult, HttpServletRequest request,
-			@AuthenticationPrincipal User user) {
+	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult, MultipartHttpServletRequest request,
+			@AuthenticationPrincipal User user, Model model) {
 		System.out.println(game.getSrc());
 		if (bindingResult.hasErrors()) {
 			return "/game/insert";
 		}
 		String path = request.getServletContext().getRealPath("/WEB-INF/upload/image");
-		String filename = fileService.saveFile(path, game.getImage_file());
+		String filename;
+		try {
+			filename = fileService.saveFile(path, game.getImage_file());
+		} catch (InadequateFileExtException e) {
+			long time = System.currentTimeMillis();
+			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			String str = dayTime.format(new Date(time));
+
+			System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			model.addAttribute("msg", "이미지 파일만 업로드할 수 있습니다.");
+			model.addAttribute("url","/game/insert");
+			return "result";
+		}
 		game.setImage(filename);
 
 		if (game.getType().equals("exe") || game.getType().equals("etc")) {
 			path = request.getServletContext().getRealPath("/WEB-INF/upload/game");
-			filename = fileService.saveFile(path, game.getGame_file());
+			try {
+				filename = fileService.saveFile(path, game.getGame_file());
+			} catch (InadequateFileExtException e) {
+				long time = System.currentTimeMillis();
+				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+				String str = dayTime.format(new Date(time));
+
+				System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
+				model.addAttribute("url","/game/insert");
+				return "result";
+			}
 			game.setSrc(filename);
 		}
 

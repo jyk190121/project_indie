@@ -158,6 +158,38 @@
 				}
 			});
 		}
+		
+		var agent = navigator.userAgent.toLowerCase();
+
+		function upload(id) {
+			var files = $('#'+id)[0].files;
+			var paths = [];
+			for (var i = 0; i < files.length; i++) {
+				console.log(files[i]);
+				var fileExt = files[i].name.substring(files[i].name
+						.lastIndexOf('.') + 1);
+				if (fileExt.toUpperCase() == "ASP"
+						|| fileExt.toUpperCase() == "PHP"
+						|| fileExt.toUpperCase() == "JSP") {
+					alert("ASP,PHP,JSP 파일은 업로드 하실 수 없습니다!");
+
+					if ((navigator.appName == 'Netscape' && navigator.userAgent
+							.search('Trident') != -1)
+							|| (agent.indexOf("msie") != -1)) {
+						// ie 일때 input[type = file] init.
+						$("#files").replaceWith($("#filename").clone(true));
+					} else { // other browser 일때 input[type = file] init.
+						$("#files").val("");
+					}
+					return;
+				}
+				console.log(files[i].webkitRelativePath);
+				paths.push(files[i].webkitRelativePath);
+				files[i].name = 'aa';
+				console.log(files[i].name);
+			}
+			$(f).append(`<input type='hidden' name='paths' value='\${paths.toString()}'>`)		
+		}
 	</script>
 </body>
 </html>
