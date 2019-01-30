@@ -1,5 +1,8 @@
 package service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
+import domain.Board;
 import domain.User;
+import util.Pager;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -103,5 +108,27 @@ public class UserService implements UserDetailsService {
 	public User selectOneById(String id) {
 		return userDao.selectOneById(id);
 	}
+
+	public int userTotal() {
+		return userDao.userTotal();
+	}
+
+	public String getPage(int page) {
+		int total = userDao.userTotal();
+		return Pager.paging(page, total);
+	}
+
+	public List<User> getUserList(int page) {
+		int start = (page -1) * Pager.BOARDS + 1;
+		int end = start + Pager.BOARDS - 1;
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<User> userList = userDao.selectList(map);
+		return userList;
+	}
+	
 	
 }

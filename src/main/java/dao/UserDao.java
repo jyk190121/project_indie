@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,5 +45,13 @@ public class UserDao {
 
 	public void insert(User user) {
 		session.insert("users.insert",user);
+	}
+
+	public int userTotal() {
+		return session.selectOne("users.userTotal");
+	}
+
+	public List<User> selectList(Map<String, Integer> map) {
+		return session.selectList("users.selectList",map);
 	}
 }

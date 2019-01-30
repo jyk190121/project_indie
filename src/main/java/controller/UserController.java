@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import domain.Board;
 import domain.User;
 import service.FileService;
 import service.UserService;
+import util.Pager;
 
 @Controller
 public class UserController {
@@ -172,7 +174,6 @@ public class UserController {
 		}
 	}
 	
-	
 	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
 	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
 		if(user.getId().equals(id)) {
@@ -184,5 +185,31 @@ public class UserController {
 			model.addAttribute("url","/");
 		}
 		return "/result";
+	}
+	
+	@RequestMapping(value = "/manage", method = RequestMethod.GET)
+	public String manage(@RequestParam(defaultValue = "1") String page,
+			Model model, @AuthenticationPrincipal User user) {
+		int npage = 0;
+		try {
+			npage = Integer.parseInt(page);
+		} catch (Exception e) {
+		}
+		int totalPage = Pager.getTotalPage(userService.userTotal());
+		if (npage >= 1 && npage <= totalPage) {
+			model.addAttribute("page", userService.getPage(npage));
+			model.addAttribute("userList", userService.getUserList(npage));
+			return "/user/manage/manage";
+		}else {
+			return "/board/notPage";
+		}
+	}
+	
+	@RequestMapping(value="/manage/view",method=RequestMethod.GET)
+	public String manageView(@RequestParam String id,Model model,
+			@AuthenticationPrincipal User user) {
+		user.setId(id);
+		model.addAttribute("user",user);
+		return "/user/manage/view";
 	}
 }
