@@ -26,8 +26,8 @@
 				   location="/WEB-INF/public/css/" />
 	<mvc:resources mapping="/upload/image/**" 
 				   location="/WEB-INF/upload/image/" />
-	<mvc:resources mapping="/upload/board/**" 
-				   location="/WEB-INF/upload/board/" />
+	<mvc:resources mapping="/upload/game/**" 
+				   location="/WEB-INF/upload/game/" />
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>

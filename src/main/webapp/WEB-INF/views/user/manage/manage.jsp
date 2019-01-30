@@ -37,7 +37,7 @@ tfoot{
 					</thead>
 					<tbody>
 					<c:forEach var="user" items="${userList}">
-						<tr onclick="location.href='/user/manage/view?id=${user.id}'"
+						<tr onclick="javascript:userList('${user.id}','${user.password}','${user.nickname}','${user.image}','${user.myinfo}','${user.lev}','${user.exp}');"
 							style="cursor:pointer;">
 							<td>${user.id }</td>
 							<td>${user.nickname }</td>
@@ -74,5 +74,10 @@ tfoot{
 	</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script>
+	function userList(id,password,nickname,image,myinfo,lev,exp){
+		location.href='/user/manage/view?id='+id+'&password='+password+'&nickname='+nickname+'&image='+image+'&myinfo='+myinfo+'&lev='+lev+'&exp='+exp;
+	}
+</script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
+update users set email = 'walk1437@gmail.com' where id = 'jin';
 select * from users;
+select * from game;
 update users set lev = 2,exp=100 where id='jin';
 update users set password ='1111';
 update users set image = 'default.png' where image is null and rownum = 1;
@@ -58,11 +60,6 @@ create table board (
     reply_count number default 0,
     type char(6) check (type in ('normal','notice')) 
 );
-<<<<<<< HEAD
-=======
-
-select * from board;
->>>>>>> 0e9abd175524fcf4c9ce0cbd387626262ffdcc25
 
 select * from board;
 insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
@@ -77,7 +74,6 @@ create table game (
     name varchar2(30) not null,
     type char(3) check (type in ('web', 'exe', 'etc')),
     src clob not null,
-    etc_info clob,
     info clob not null,
     image varchar2(100) not null,
     users_id varchar2(200) references users(id),
@@ -85,7 +81,8 @@ create table game (
     regist_date date not null,
     likes number default 0,
     unlikes number default 0,
-    reply_count number default 0
+    reply_count number default 0,
+    etc_info clob
 );
 
 select * from game ;
@@ -94,6 +91,8 @@ insert into game values(1, 'testGame', 'web', '<script>test</script>','테스트
 insert into game values(2, 'testGame', 'exe', '<script>test</script>','테스트게임입니다2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
 insert into game values(3, 'testGame', 'etc', '<script>test</script>','테스트게임입니다3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
 insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','테스트게임입니다', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','깃허브에서 뽀려온 팩맨', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
+update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);
 create table reply (
     id number primary key,

@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -20,6 +22,7 @@ import domain.User;
 import service.FileService;
 import service.UserService;
 import util.Pager;
+import util.VerifyRecaptcha;
 
 @Controller
 public class UserController {
@@ -46,7 +49,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/join", method=RequestMethod.POST)
-	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult, @RequestParam(value="g-recaptcha-response") String response) {
+		System.out.println(response);
+		try {
+			if(!VerifyRecaptcha.verify(response)) {
+				return "/user/join";
+			}
+			System.out.println("verify recapcha");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return "/user/join";
+		}
 		if(bindingResult.hasErrors()) {
 			for(ObjectError e : bindingResult.getAllErrors()) {
 				System.out.println(e.getDefaultMessage());
@@ -152,6 +165,7 @@ public class UserController {
 		}
 	}
 	
+	
 	@RequestMapping(value="/user/userChange",method=RequestMethod.GET)
 	@ResponseBody
 	public String userChange(@AuthenticationPrincipal User user,@RequestParam String id,
@@ -175,8 +189,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
-	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
-		if(user.getId().equals(id)) {
+	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,@RequestParam String password,
+			Model model) {
+		if(user.getId().equals(id) && user.getPassword().equals(password)) {
 			userService.delete(id);
 			model.addAttribute("msg","회원탈퇴가 정상적으로 되었습니다");
 			model.addAttribute("url","/?signout");
@@ -205,11 +220,31 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/manage/view",method=RequestMethod.GET)
-	public String manageView(@RequestParam String id,Model model,
-			@AuthenticationPrincipal User user) {
-		user.setId(id);
+	@RequestMapping(value="/user/manage/view",method=RequestMethod.GET)
+	public String manageView(Model model,@ModelAttribute User user) {
 		model.addAttribute("user",user);
-		return "/user/manage/view";
+		return "user/manage/view";
+	}
+	
+	@RequestMapping(value="/user/manage/update",method=RequestMethod.GET)
+	public String manageUpdate(@AuthenticationPrincipal User user,@RequestParam String id,
+			@RequestParam String password, @RequestParam String nickname,@RequestParam String image,
+			@RequestParam String myinfo,Model model) {
+			user.setPassword(password);
+			user.setNickname(nickname);
+			user.setImage(image);
+			user.setMyinfo(myinfo);
+			userService.update(user);
+			model.addAttribute("msg","수정완료(매니저권한)");
+			model.addAttribute("url","/user/manage/view");
+			return "/result";
+	}
+	
+	@RequestMapping(value="/user/manage/delete",method=RequestMethod.GET)
+	public String manageDelete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
+		userService.delete(id);
+		model.addAttribute("msg","회원탈퇴가 정상적으로 되었습니다");
+		model.addAttribute("url","/manage");
+		return "/result";
 	}
 }

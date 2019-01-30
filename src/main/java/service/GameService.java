@@ -76,5 +76,9 @@ public class GameService {
 	public void insertGame(Game game) {
 		gameDao.insertGame(game);
 	}
+	
+	public Game selectOne(String id) {
+		return gameDao.selectOne(id);
+	}
 
 }
