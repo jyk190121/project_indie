@@ -54,4 +54,8 @@ public class UserDao {
 	public List<User> selectList(Map<String, Integer> map) {
 		return session.selectList("users.selectList",map);
 	}
+
+	public void manageUpdate(User user) {
+		session.update("users.manageUpdate",user);
+	}
 }

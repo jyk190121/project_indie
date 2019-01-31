@@ -108,5 +108,4 @@ public class User implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-
 }

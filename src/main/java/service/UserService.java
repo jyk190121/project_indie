@@ -129,6 +129,10 @@ public class UserService implements UserDetailsService {
 		List<User> userList = userDao.selectList(map);
 		return userList;
 	}
+
+	public void manageUpdate(User user) {
+		userDao.manageUpdate(user);
+	}
 	
 	
 }

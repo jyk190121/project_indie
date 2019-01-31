@@ -44,12 +44,12 @@
 				<form:form
 						action="/user/update?${_csrf.parameterName}=${_csrf.token }"
 						method="post" enctype="multipart/form-data" modelAttribute="user"
-						class="form-horizontal">
+						class="form-horizontal" id="form">
 					<div class="form-group" style="margin-bottom: 10px;">
 						<div class="col-sm-3">닉네임 :</div>
 						<div class="col-sm-9">
 							<form:input class="form-control text-center"  path="nickname"
-								 id="nickname" style="font-size: 20px;"/>
+								 name="nickname" style="font-size: 20px;"/>
 							<form:errors path="nickname"/>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 						<div class="col-sm-3">현재 비밀번호 :</div>
 						<div class="col-sm-9">
 							<form:password path="password" class="form-control text-center"
-								 id="password"/>
+								 name="password"/>
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 10px;">
@@ -72,7 +72,7 @@
 						<div class="col-sm-9">
 							<form:input path="image" type="file" onchange="showImage(this)" />
 							<div class="image-board">
-								<img id=image src="/upload/image/${user.image }" alt="${user.image }" />
+								<img id="image" name=image src="/upload/image/${user.image }" alt="${user.image }" />
 							</div>
 							<form:errors path="image"/>
 						</div>
@@ -101,11 +101,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>
 function userChange(id){
-	var currentPassword = $("#password");
+	/* var currentPassword = $("#password");
 	var userPassword = $("#passwordChange");
 	var userNickname = $("#nickname");
 	var userImage = $("#image");
 	var userMyinfo = $("#myinfo");
+	 */
 	
 	if(userNickname.val() == ""){
 		alert("닉네임을 입력해주세요");
@@ -121,7 +122,7 @@ function userChange(id){
 		return;
 	}
 	
-	$.ajax({
+/* 	$.ajax({
 		type:"get",
 		data:{id: id,password: userPassword.val(), nickname: userNickname.val(),
 			image: userImage.val(),myinfo: userMyinfo.val() },
@@ -132,8 +133,8 @@ function userChange(id){
 		},error: function error(error){
 			console.log(error);
 		}
-	});
-	
+	}); */
+	$("#form").submit();
 }
 
 $(document).ready(

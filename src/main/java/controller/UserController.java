@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import domain.Board;
 import domain.User;
 import exception.InadequateFileExtException;
 import service.FileService;
@@ -54,7 +53,7 @@ public class UserController {
 	@RequestMapping(value = "/user/join", method = RequestMethod.POST)
 	public String joinPost(@ModelAttribute @Valid User user, BindingResult bindingResult,
 			@RequestParam(value = "g-recaptcha-response") String response, Model model) {
-		System.out.println(response);
+		//System.out.println(response);
 		try {
 			if (!VerifyRecaptcha.verify(response)) {
 				return "/user/join";
@@ -129,7 +128,6 @@ public class UserController {
 		if (user.getId().equals(id) && user.getPassword().equals(password)) {
 			return "correct";
 		}
-
 		return "incorrect";
 	}
 
@@ -182,20 +180,30 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value="/user/userChange",method=RequestMethod.GET)
+	@RequestMapping(value="/user/update",method=RequestMethod.POST)
 	@ResponseBody
-	public String userChange(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
-			@RequestParam String nickname, @RequestParam String image, @RequestParam String myinfo, Model model) {
-		if (user.getId().equals(id)) {
-			user.setPassword(password);
-			user.setNickname(nickname);
-			user.setImage(image);
-			user.setMyinfo(myinfo);
-			/*
-			 * if(image.equals(null)) { user.setImage("default.png"); }
-			 */
-			userService.update(user);
-			return "/user/mypage";
+	public String updatePost(@AuthenticationPrincipal User user, 
+				@RequestParam String id, @RequestParam String password, Model model) {
+		if (user.getId().equals(id) && user.getPassword().equals(password)) {
+			String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
+			try {
+				user.setImage(fileService.saveImage(path, user.getImage_file()));
+			} catch (InadequateFileExtException e) {
+				long time = System.currentTimeMillis();
+				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+				String str = dayTime.format(new Date(time));
+	
+				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
+				model.addAttribute("url","/user/manage/view");
+				return "result";
+			}
+			if(user.getImage().equals("no_file")) {
+				user.setImage(null);
+			}
+				userService.update(user);
+				model.addAttribute("msg","수정이 완료되었습니다");
+				model.addAttribute("url","/user/mypage");
+				return "/result";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/main");
@@ -241,18 +249,27 @@ public class UserController {
 		return "user/manage/view";
 	}
 	
-	@RequestMapping(value="/user/manage/update",method=RequestMethod.GET)
-	public String manageUpdate(@AuthenticationPrincipal User user,@RequestParam String id,
-			@RequestParam String password, @RequestParam String nickname,@RequestParam String image,
-			@RequestParam String myinfo,Model model) {
-			user.setPassword(password);
-			user.setNickname(nickname);
-			user.setImage(image);
-			user.setMyinfo(myinfo);
-			userService.update(user);
-			model.addAttribute("msg","수정완료(매니저권한)");
+	@RequestMapping(value="/user/manage/update",method=RequestMethod.POST)
+	public String manageUpdate(@ModelAttribute User user, Model model) {
+		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
+		try {
+			user.setImage(fileService.saveImage(path, user.getImage_file()));
+		} catch (InadequateFileExtException e) {
+			long time = System.currentTimeMillis();
+			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			String str = dayTime.format(new Date(time));
+
+			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 			model.addAttribute("url","/user/manage/view");
-			return "/result";
+			return "result";
+		}
+		if(user.getImage().equals("no_file")) {
+			user.setImage(null);
+		}
+		userService.manageUpdate(user);
+		model.addAttribute("msg","수정완료(매니저권한)");
+		model.addAttribute("url","/manage");
+		return "/result";
 	}
 	
 	@RequestMapping(value="/user/manage/delete",method=RequestMethod.GET)

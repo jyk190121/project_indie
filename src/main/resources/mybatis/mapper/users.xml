@@ -23,7 +23,22 @@
 		update users set 
 			password = #{password},
 			nickname = #{nickname},
-			image = #{image},
+			<if test="image != null">
+				image = #{image},
+			</if>
+			myinfo = #{myinfo}
+			where id = #{id}
+	</update>
+	
+	<update id="manageUpdate" parameterType="User">
+		update users set 
+			password = #{password},
+			nickname = #{nickname},
+			lev = #{lev},
+			exp = #{exp},
+			<if test="image != null">
+				image = #{image},
+			</if>
 			myinfo = #{myinfo}
 			where id = #{id}
 	</update>
@@ -52,7 +67,7 @@
 	
 	<select id="selectList" parameterType="Map" resultType="User">
 		select * from (select rownum rnum, a.* from (select * from users) a)
-		where rnum between #{start} and #{end} order by lev desc
+		where rnum between #{start} and #{end} order by exp desc
 	</select>
 	
 </mapper>

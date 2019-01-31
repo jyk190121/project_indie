@@ -16,7 +16,7 @@
 	border: 1px solid gray;
 }
 
-#image {
+.image {
 	width: 100%;
 	height: 100%;
 }
@@ -49,62 +49,55 @@
 	</h1>
 	<a href="/main">main</a>
 	<div class="content">
-		<div class="panel panel-default">
-			<div class="panel-heading text-center">
-				<span class="glyphicon glyphicon-user"></span>
-				<h4>회원정보 수정</h4>
-			</div>
-			<div class="panel-body" style="font-size: 18px;">
-				<div class="col-sm-offset-1 col-sm-5 form-group" id="userInfo">
-					<p>
-						아이디 : <input id="id" type="text" value="${param.id }" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate(this.form, 'id');">수정</button>
-					</p>
-					<p>
-						비밀번호 :<input id="password" type="text" value="${param.password }" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate('password');">수정</button>
-					</p>
-					<p>
-						닉네임 : <input id="nickname" type="text" value="${param.nickname }" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate(this.input);">수정</button>
-					</p>
-					<p>
-						이미지 : <input id="imageName" type="text" value="${param.image }"
-							style="background-color: gray;" readonly />
-					</p>
-					<p>
-						레벨 : <input id="level" type="text" value="${param.lev }" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate(this.input);">수정</button>
-					</p>
-					<p>
-						경험치 : <input id="exp" type="text" value="${param.exp }" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate(this.input);">수정</button>
-					</p>
+		<form:form action="/user/manage/update?${_csrf.parameterName}=${_csrf.token }"
+				method="post" enctype="multipart/form-data" modelAttribute="user"
+				class="form-horizontal" id="form">
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					<span class="glyphicon glyphicon-user"></span>
+					<h4>회원정보 수정</h4>
 				</div>
-
-				<div class="col-sm-offset-1 col-sm-5">
-					<div class="form-group">
-						<label>프로필 이미지</label>
-						<div class="image-board" style="margin-bottom: 10px;">
-							<img id=image src="/upload/image/${param.image }"
-								alt="${param.image }" />
-						</div>
+				<div class="panel-body" style="font-size: 18px;">
+					<div class="col-sm-offset-1 col-sm-5 form-group" id="userInfo">
 						<p>
-							<label>${param.nickname}님의 소개</label>
+							아이디 : <input name="id" type="text" value="${param.id }" 
+								style="background-color:gray;" readonly/>
 						</p>
-						<textarea style="resize: none; width: 300px;">${param.myinfo }</textarea>
+						<p>
+							비밀번호 : <input name="password" type="password" value="${param.password }"/>
+						</p>
+						<p>
+							닉네임 : <input name="nickname" type="text" value="${param.nickname }" />
+						</p>
+						<p>
+							레벨 : <input name="lev" type="text" value="${param.lev }" />
+						</p>
+						<p>
+							경험치 : <input name="exp" type="text" value="${param.exp }" />
+						</p>
+					</div>
+	
+					<div class="col-sm-offset-1 col-sm-5">
+						<div class="form-group">
+							<label>프로필 이미지</label>
+							<input type="file" name="image_file" onchange="showImage(this)" required="required" accept="image"/>
+							<div class="image-board" style="margin-bottom: 10px;">
+								<img class="image" src="/upload/image/${param.image }" alt="${param.image }" />
+							</div>
+							<p>
+								<label>${param.nickname}님의 소개</label>
+							</p>
+							<textarea name="myinfo" style="resize: none; width: 300px;">${param.myinfo }</textarea>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form:form>
 	</div>
 	<div class="footer text-center">
 		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${param.lev}  경험치 : ${param.exp}</pre>
+		<button class="btn btn-primary" type="submit"
+			onclick="userUpdate();">수정</button>
 		<button class="btn btn-danger" type="button"
 			onclick="userDelete('${param.id}');">회원탈퇴</button>
 	</div>
@@ -117,21 +110,8 @@
 		function resizeImageBoard() {
 			var width = $(".image-board").outerWidth();
 		}
-		function userUpdate(column) {
-			var $column = $("#"+column);
-			console.log($column.val());
-			if (!confirm("수정하시겠습니까??")) {
-				return;
-			}
-			$.ajax({
-				url:"/user/manage/update",
-				type: "get",
-				data: {"column":column, "value":$column.val()},
-				success(data) function {
-					
-				}
-			});
-			location.href = "/user/manage/update?id=" + id;
+		function userUpdate() {
+			$("#form").submit();
 		}
 
 		function userDelete(id) {
@@ -141,6 +121,18 @@
 			}
 			//관리자는 탈퇴불가
 			location.href = "/user/manage/delete?id=" + id;
+		}
+		
+		function showImage(input) {
+			//console.log(input.files[0]);
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$(".image-board").empty();
+				$(".image-board").append(
+						"<img class='image' src='"+e.target.result+"'></img>");
+				$(".image-board").css('border', 'none');
+			}
+			reader.readAsDataURL(input.files[0]);
 		}
 	</script>
 </body>
