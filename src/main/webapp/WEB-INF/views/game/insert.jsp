@@ -36,8 +36,10 @@
 </head>
 <body>
 	<div class="content">
-		<form:form action="/game/insert?${_csrf.parameterName}=${_csrf.token }" method="post" modelAttribute="game"
-			enctype="multipart/form-data" class="form-horizontal">
+		<form:form
+			action="/game/insert?${_csrf.parameterName}=${_csrf.token }"
+			method="post" modelAttribute="game" enctype="multipart/form-data"
+			class="form-horizontal">
 			<!-- <img> -->
 			<div class="container-fluid">
 				<div class="row">
@@ -45,7 +47,7 @@
 						<div class="game-image-board">
 							<p>Insert Game Image</p>
 						</div>
-						<input type="file" name="image_file" onchange="showImage(this);" />
+						<input type="file" name="image_file" onchange="uploadImage(this);" />
 					</div>
 					<div class="col-sm-5">
 						<div class="form-group">
@@ -83,9 +85,12 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<div id="src-board">
-							<input type="file" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
-							<form:textarea id="webSrc" class="form-control" path='src'
-								placeholder='Enter script code here' style='resize:none;'></form:textarea>
+							<label for="gameFiles" class="control-label">게임 파일 전체폴더</label>
+							<input name="gameFiles" onchange="javascript:uploadFiles(this);"
+								id="gameFiles" type="file" multiple directory webkitdirectory />
+							<label for="htmlFile" class="control-label">시작 html File</label>
+							<input name="htmlFile" onchange="javascript:uploadHtmlFile(this);"
+								id="gameFiles" type="file"/>
 							<input id="gameFile" type='file' name="game_file" class="disnone">
 							<form:textarea id="etcInfo" class='form-control disnone'
 								path='etc_info' placeholder='게임 실행 방법을 적어주세요'></form:textarea>
@@ -94,7 +99,8 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<button type="button" onclick="insert(this.form);" class="btn btn-block">등록</button>
+						<button type="button" onclick="insert(this.form);"
+							class="btn btn-block">등록</button>
 					</div>
 				</div>
 			</div>
@@ -103,6 +109,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="/public/js/fileUpload.js"></script>
 	<script>
 		function changeType(input) {
 			$webSrc = $("#webSrc");
@@ -131,64 +138,19 @@
 			console.log('insert function');
 			f.submit();
 		}
-
-		function showImage(input) {
-			console.log(input.files[0]);
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				$(".game-image-board").empty();
-				$(".game-image-board")
-						.append(
-								"<img id='game-image' src='"+e.target.result+"'></img>");
-			}
-			reader.readAsDataURL(input.files[0]);
-		}
-
-		function deleteFile(target) {
-			var src = target[0].src.substring(21);
-			console.log("src", src);
-			$.ajax({
-				url : "/filedelete",
-				type : "post",
-				data : {
-					src : src
-				},
-				success : function(data) {
-					console.log(data);
-				}
-			});
-		}
 		
-		var agent = navigator.userAgent.toLowerCase();
-
-		function upload(id) {
-			var files = $('#'+id)[0].files;
-			var paths = [];
-			for (var i = 0; i < files.length; i++) {
-				console.log(files[i]);
-				var fileExt = files[i].name.substring(files[i].name
-						.lastIndexOf('.') + 1);
-				if (fileExt.toUpperCase() == "ASP"
-						|| fileExt.toUpperCase() == "PHP"
-						|| fileExt.toUpperCase() == "JSP") {
-					alert("ASP,PHP,JSP 파일은 업로드 하실 수 없습니다!");
-
-					if ((navigator.appName == 'Netscape' && navigator.userAgent
-							.search('Trident') != -1)
-							|| (agent.indexOf("msie") != -1)) {
-						// ie 일때 input[type = file] init.
-						$("#files").replaceWith($("#filename").clone(true));
-					} else { // other browser 일때 input[type = file] init.
-						$("#files").val("");
-					}
-					return;
+		function uploadHtmlFile(input){
+			if(input.value.substring(input.value.indexOf('.')+1).toUpperCase() != 'HTML'){
+				alert('게임이 시작되는 html 파일을 업로드해주세요');
+				if ((navigator.appName == 'Netscape' && navigator.userAgent
+						.search('Trident') != -1)
+						|| (agent.indexOf("msie") != -1)) {
+					// ie 일때 input[type = file] init.
+					$(input).replaceWith($(input).clone(true));
+				} else { // other browser 일때 input[type = file] init.
+					$(input).val("");
 				}
-				console.log(files[i].webkitRelativePath);
-				paths.push(files[i].webkitRelativePath);
-				files[i].name = 'aa';
-				console.log(files[i].name);
 			}
-			$(f).append(`<input type='hidden' name='paths' value='\${paths.toString()}'>`)		
 		}
 	</script>
 </body>

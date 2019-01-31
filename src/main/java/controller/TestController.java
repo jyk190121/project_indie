@@ -59,4 +59,25 @@ public class TestController {
 		return "redirect:/test";
 	}
 
+	@RequestMapping(value="/test/upload/image", method=RequestMethod.POST)
+	public String imageUpload(MultipartHttpServletRequest mtRequest) {
+		MultipartFile image = mtRequest.getFile("image");
+		String rootDir = "c:/test/";
+		String pathname = "";
+		try {
+			pathname = rootDir+fileService.saveFile(rootDir, image);
+		} catch (InadequateFileExtException e) {
+			e.printStackTrace();
+		}
+		System.out.println(pathname);
+		if(!fileService.isImageFile(pathname)) {
+			System.out.println("이미지 파일이 아닙니다");
+			fileService.deleteFile(pathname);
+		}else {
+			System.out.println("이미지 파일입니다");
+		}
+		return "test";
+	}
+	
+	
 }

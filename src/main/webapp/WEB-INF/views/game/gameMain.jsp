@@ -68,7 +68,7 @@
 					<div class="row">
 						<p class="text-right"><a href="/game/list">더보기 +</a></p>
 					</div>
-					<c:forEach begin="0" end="${(fn:length(gameList)/5)-((fn:length(gameList)/5)%1) }" var="i">
+					<c:forEach begin="0" end="${(fn:length(gameList)/5)-((fn:length(gameList)/5)%1)-1 }" var="i">
 					<div class="row">
 						<div class="col-sm-2 col-sm-offset-1">
 							<img class="gameImage" alt=""

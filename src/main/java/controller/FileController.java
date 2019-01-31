@@ -41,7 +41,6 @@ public class FileController {
 		try {
 			filename = fileService.saveFile(path, upload);
 		} catch (InadequateFileExtException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Map<String, String> map = new HashMap<>();
