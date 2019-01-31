@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import domain.Game;
@@ -52,16 +53,16 @@ public class GameController {
 	}
 	
 	@RequestMapping(value = "/game/insert", method = RequestMethod.POST)
-	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult, MultipartHttpServletRequest request,
+	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult, MultipartHttpServletRequest mtRequest,
 			@AuthenticationPrincipal User user, Model model) {
 		System.out.println(game.getSrc());
 		if (bindingResult.hasErrors()) {
 			return "/game/insert";
 		}
-		String path = request.getServletContext().getRealPath("/WEB-INF/upload/image");
+		String path = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/image");
 		String filename;
 		try {
-			filename = fileService.saveFile(path, game.getImage_file());
+			filename = fileService.saveImage(path, game.getImage_file());
 		} catch (InadequateFileExtException e) {
 			long time = System.currentTimeMillis();
 			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
@@ -74,7 +75,37 @@ public class GameController {
 		}
 		game.setImage(filename);
 
-		if (game.getType().equals("exe") || game.getType().equals("etc")) {
+		List<MultipartFile> files = mtRequest.getFiles("files");
+		String[] paths = new String[files.size()];
+		paths = mtRequest.getParameter("paths").split(",");
+		// String rootDir =
+		// mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")+mtRequest.getParameter("id")+"_"+paths[0].substring(0,
+		// paths[0].indexOf("/"))+"/";
+		game.setId(gameService.getNextId());
+		String rootDir = "c:/test/" + game.getId() + "_" + paths[0].substring(0, paths[0].indexOf("/")) + "/";
+
+		fileService.makeDirectory(rootDir);
+
+		for (int i = 0; i < paths.length; i++) {
+			paths[i] = paths[i].substring(paths[i].indexOf("/") + 1);
+			if (paths[i].indexOf("/") != -1) {
+				paths[i] = paths[i].substring(0, paths[i].lastIndexOf("/"));
+				fileService.makeDirectory(rootDir + "/" + paths[i]);
+			} else {
+				paths[i] = "";
+			}
+			try {
+				fileService.saveFile(rootDir + paths[i], files.get(i));
+			} catch (InadequateFileExtException e) {
+				long time = System.currentTimeMillis();
+				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+				String str = dayTime.format(new Date(time));
+
+				System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			}
+		}
+		
+		/*if (game.getType().equals("exe") || game.getType().equals("etc")) {
 			path = request.getServletContext().getRealPath("/WEB-INF/upload/game");
 			try {
 				filename = fileService.saveFile(path, game.getGame_file());
@@ -89,7 +120,7 @@ public class GameController {
 				return "result";
 			}
 			game.setSrc(filename);
-		}
+		}*/
 
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);

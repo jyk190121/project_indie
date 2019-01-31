@@ -81,4 +81,8 @@ public class GameService {
 		return gameDao.selectOne(id);
 	}
 
+	public int getNextId() {
+		return gameDao.getNextId();
+	}
+
 }

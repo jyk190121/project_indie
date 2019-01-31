@@ -17,9 +17,13 @@
 <body>
 	<form action="/test/game/upload?${_csrf.parameterName }=${_csrf.token}" enctype="multipart/form-data" method="post">
 		<input type="hidden" name="id" value="62"/>
-		<input name="files" onchange="javascript:upload(this.form);" id="files" type="file" multiple
+		<input name="files" onchange="javascript:uploadFiles(this.form);" id="files" type="file" multiple
 			directory webkitdirectory />
 		<button>등록</button>
+	</form>
+	<form action="/test/upload/image?${_csrf.parameterName }=${_csrf.token}" enctype="multipart/form-data" method="post">
+		<input type="file" name="image"/>
+		<button>이미지 등록</button>
 	</form>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script

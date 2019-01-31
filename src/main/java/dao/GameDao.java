@@ -44,5 +44,9 @@ public class GameDao {
 	public Game selectOne(String id) {
 		return session.selectOne("game.selectOneById", id);
 	}
+
+	public int getNextId() {
+		return session.selectOne("game.getNextId");
+	}
 	
 }

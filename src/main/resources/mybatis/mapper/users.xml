@@ -69,5 +69,4 @@
 		select * from (select rownum rnum, a.* from (select * from users) a)
 		where rnum between #{start} and #{end} order by exp desc
 	</select>
-	
 </mapper>
