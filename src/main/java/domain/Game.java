@@ -9,14 +9,14 @@ public class Game {
 	@NotBlank(message="이름을 지어라")
 	private String name;
 	private String type;
-	@NotBlank(message="소스를 작성해라 이놈")
 	private String src;
 	@NotBlank(message="설명해라 설명")
 	private String info;
 	private String image;
 	private String users_id, regist_date, etc_info;
 	
-	private MultipartFile image_file, game_file;
+	private MultipartFile image_file;
+	private MultipartFile game_file;
 	
 	public MultipartFile getImage_file() {
 		return image_file;

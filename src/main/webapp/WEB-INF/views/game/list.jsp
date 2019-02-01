@@ -43,7 +43,7 @@
 			<a href="javascript:go('like')">추천순</a>
 		</p>
 		<div class="container-fluid">
-			<c:forEach begin="0" end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1) }" var="i">
+			<c:forEach begin="0" end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1)-1 }" var="i">
 			<div class="row">
 				<div class="col-sm-3">
 					<img class="gameImage" alt=""

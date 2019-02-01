@@ -85,13 +85,13 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<div id="src-board">
-							<label for="gameFiles" class="control-label">게임 파일 전체폴더</label>
-							<input name="gameFiles" onchange="javascript:uploadFiles(this);"
+							<label for="gameFiles" class="control-label">게임 파일 전체폴더</label> <input
+								name="gameFiles" onchange="javascript:uploadFiles(this);"
 								id="gameFiles" type="file" multiple directory webkitdirectory />
-							<label for="htmlFile" class="control-label">시작 html File</label>
-							<input name="htmlFile" onchange="javascript:uploadHtmlFile(this);"
-								id="gameFiles" type="file"/>
-							<input id="gameFile" type='file' name="game_file" class="disnone">
+							<label for="triggerFile" class="control-label">시작 <span
+								id="gameFileExt">html</span> File
+							</label> <input name="game_file" onchange="javascript:uploadFile(this);"
+								id="triggerFile" type="file" webkit />
 							<form:textarea id="etcInfo" class='form-control disnone'
 								path='etc_info' placeholder='게임 실행 방법을 적어주세요'></form:textarea>
 						</div>
@@ -111,24 +111,21 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="/public/js/fileUpload.js"></script>
 	<script>
+		$etcInfo = $("#etcInfo");
+		$gameFileExt = $("#gameFileExt");
+
 		function changeType(input) {
-			$webSrc = $("#webSrc");
-			$gameFile = $("#gameFile");
-			$etcInfo = $("#etcInfo");
 			switch (input.value) {
 			case 'web':
-				$webSrc.removeClass("disnone");
-				$gameFile.addClass("disnone");
+				$gameFileExt.text("html");
 				$etcInfo.addClass("disnone");
 				break;
 			case 'exe':
-				$webSrc.addClass("disnone");
-				$gameFile.removeClass("disnone");
+				$gameFileExt.text("exe");
 				$etcInfo.addClass("disnone");
 				break;
 			case 'etc':
-				$webSrc.addClass("disnone");
-				$gameFile.removeClass("disnone");
+				$gameFileExt.text("");
 				$etcInfo.removeClass("disnone");
 				break;
 			}
@@ -138,19 +135,72 @@
 			console.log('insert function');
 			f.submit();
 		}
-		
-		function uploadHtmlFile(input){
-			if(input.value.substring(input.value.indexOf('.')+1).toUpperCase() != 'HTML'){
-				alert('게임이 시작되는 html 파일을 업로드해주세요');
-				if ((navigator.appName == 'Netscape' && navigator.userAgent
-						.search('Trident') != -1)
-						|| (agent.indexOf("msie") != -1)) {
-					// ie 일때 input[type = file] init.
-					$(input).replaceWith($(input).clone(true));
-				} else { // other browser 일때 input[type = file] init.
-					$(input).val("");
+
+		function uploadFile(input) {
+			var ext = $gameFileExt.text();
+
+			$("[name='srcPath']").remove();
+			if ($("#gameFiles").val() == "") {
+				alert('게임 파일 전체폴더를 먼저 업로드해주세요');
+				initInput(input);
+				return;
+			}
+
+			var filename = input.value
+					.substring(input.value.lastIndexOf('\\') + 1);
+			var isExisting = false;
+			for (var i = 0; i < paths.length; i++) {
+				var path = paths[i];
+				if(paths[i].lastIndexOf('/') != -1){
+					path = paths[i].substring(paths[i].lastIndexOf('/')+1);
+				}
+				if (path == filename) {
+					console.log(paths[i]);
+					$(input.form)
+							.append(
+									`<input type='hidden' name='srcPath' value='\${paths[i]}'>`);
+					isExisting = true;
 				}
 			}
+			if (!isExisting) {
+				alert('게임 전체폴더에 포함된 시작 파일을 업로드해주세요');
+				initInput(input);
+				return;
+			}
+
+			if (ext == 'exe' || ext == 'html') {
+				if (input.value.substring(input.value.indexOf('.') + 1)
+						.toLowerCase() != ext) {
+					alert('게임이 시작되는 ' + ext + ' 파일을 업로드해주세요');
+					initInput(input);
+					return;
+				}
+			}
+		}
+		
+		function uploadFiles(input) {
+			$("[name='paths']").remove();
+			initInput(document.getElementById("triggerFile"));
+			var files = $(input)[0].files;
+			if(input.value == ""){
+				return;
+			}
+			var index = files[0].webkitRelativePath.indexOf('/')+1;
+			for (var i = 0; i < files.length; i++) {
+				var fileExt = files[i].name
+						.substring(files[i].name.lastIndexOf('.') + 1).toUpperCase();
+				if (fileExt == "ASP" || fileExt == "PHP"
+						|| fileExt == "JSP") {
+					alert("ASP,PHP,JSP 파일은 업로드 하실 수 없습니다!");
+					initInput(input);
+					return;
+				}
+				paths.push(files[i].webkitRelativePath.substring(index));
+				console.log(files[i].webkitRelativePath.substring(index));
+			}
+			console.log(files.length);
+			$(input.form).append(
+					`<input type='hidden' name='paths' value='\${paths.toString()}'>`)
 		}
 	</script>
 </body>

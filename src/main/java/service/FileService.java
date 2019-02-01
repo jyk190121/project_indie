@@ -56,9 +56,6 @@ public class FileService {
 			String name = filename;
 			if (filename.lastIndexOf(".") != -1) {
 				ext = filename.substring(filename.lastIndexOf("."));
-				if (!isImageFile(filename)) {
-					throw new InadequateFileExtException();
-				}
 				name = filename.substring(0, filename.lastIndexOf("."));
 			}
 			filename = name + "_" + time + ext;
@@ -68,6 +65,10 @@ public class FileService {
 			file.transferTo(f);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
+		}
+		if(!isImageFile(path+filename)) {
+			deleteFile(path, filename);
+			throw new InadequateFileExtException();
 		}
 		return filename;
 	}
@@ -82,8 +83,8 @@ public class FileService {
 		}
 	}
 
-	public void deleteFile(String pathname) {
-		File file = new File(pathname);
+	public void deleteFile(String path, String filename) {
+		File file = new File(path, filename);
 
 		if (file.exists()) {
 			if (file.delete()) {
