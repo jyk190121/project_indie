@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,23 +40,30 @@
 				<h4>회원정보 수정</h4>
 			</div>
 			<div class="panel-body">
-				<div class="col-sm-offset-1 col-sm-5" style="font-size: 20px;">
-					<p>ID : ${user.id }</p>
-					비밀번호 <input id="userpassword" type="password" name="password"/>
-							<button class="btn btn-primary" type="button"
-										onclick="userUpdate('${user.id}');">수정</button>
-							<button class="btn btn-danger" type="button"
-										onclick="userDelete('${user.id}');">회원탈퇴</button>
-				</div>
-				<div class="col-sm-2">
-					<div class="form-group">
-						<label class="control-label">프로필 이미지</label>
-						<div class="image-board">
-							<img id=image src="/upload/image/${user.image }" alt="${user.image }" />
+				<form:form
+							action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
+							method="post" enctype="multipart/form-data" modelAttribute="user"
+							class="form-horizontal">
+					<div class="col-sm-offset-1 col-sm-5" style="font-size: 20px;">
+					<form:input type="hidden" path="id" name="id" />
+						<p>ID : ${user.id }</p>
+						비밀번호 <form:password id="userpassword" name="password" path="password"/>
+								<button class="btn btn-primary" type="button"
+											onclick="userUpdate(this.form);">수정</button>
+								<button class="btn btn-danger" type="button"
+											onclick="userDelete('${user.id}');">회원탈퇴</button>
+					</div>
+					<div class="col-sm-2">
+						<div class="form-group">
+							<label class="control-label">프로필 이미지</label>
+							<div class="image-board">
+								<img id="image" name="image" src="/upload/image/${user.image }" alt="${user.image }" />
+							</div>
 						</div>
 					</div>
-				</div>
+				</form:form>
 			</div>
+			
 				<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${user.exp}</pre>
 		</div>
 	</div>
@@ -64,32 +72,14 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>
-function userUpdate(id){
-	var check = confirm("수정하시겠습니까??");
-		if(!check){
+	function userUpdate(f){
+		if(!confirm("수정하시겠습니까??")){
 		return;
 		}
-		var userPassword = $("#userpassword").val();
-		/* if (${user.password} == userPassword){
-			location.href="/user/update?id="+id
-		}else{
-				alert("비밀번호가 틀립니다");
-		} */
-   		$.ajax({
-   			type: "get",
-   			data: {id: id,password:userPassword},
-   			url: "/user/checkPassword",
-   			success: function(data){
-   				if(data == "correct"){
-   					location.href="/user/update?id="+id+"&password="+userPassword
-   				}else{
-   					alert("비밀번호가 틀립니다");
-   				}
-   				
-   			}
-   		});
+   		f.submit();
 	}
-function userDelete(id){
+	
+	function userDelete(id){
 	var check = confirm("정말 탈퇴하시겠습니까??(이 아이디와 관련된 정보는 모두 삭제됩니다)");
 		if(!check){
 		return;
@@ -101,7 +91,7 @@ function userDelete(id){
    			url: "/user/checkPassword",
    			success: function(data){
    				if(data == "correct"){
-   					location.href="/user/delete?id="+id+"&password="+password;
+   					location.href="/user/delete?id="+id+"&password="+password
    				}else{
    					alert("비밀번호가 틀립니다");
    				}

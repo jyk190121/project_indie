@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Handler;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import domain.Authority;
 import domain.User;
 import exception.InadequateFileExtException;
 import service.FileService;
@@ -113,21 +116,38 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user, Model model) {
-		model.addAttribute("lev", user.getLev());
-		model.addAttribute("exp", user.getExp());
-		model.addAttribute("image", user.getImage());
-		model.addAttribute("user", user);
+	public String getMypage(@AuthenticationPrincipal User user,Model model) {
+		//새로 업데이트된 유저값 받아오기..
+		model.addAttribute("user",userService.selectOneById(user.getId()));
+		System.out.println(user);
 		return "/user/mypage";
+	}
+	
+	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
+	public String postMypage(@AuthenticationPrincipal User user,
+			@RequestParam String id, @RequestParam String password, Model model) {
+		System.out.println(user.getPassword());
+		System.out.println(password);
+		if (user.getId().equals(id) && user.getPassword().equals(password)) {
+			model.addAttribute("user",userService.selectOneById(user.getId()));
+			return "/user/update";
+		}
+		model.addAttribute("msg","비밀번호가 틀립니다");
+		model.addAttribute("url","/user/mypage");
+		return "/result";
 	}
 
 	@RequestMapping(value = "/user/checkPassword", method = RequestMethod.GET)
 	@ResponseBody
-	public String checkPassword(@AuthenticationPrincipal User user, @RequestParam String id,
-			@RequestParam String password) {
+	public String checkPassword(@AuthenticationPrincipal User user,
+			@RequestParam String id, @RequestParam String password, Model model) {
 		if (user.getId().equals(id) && user.getPassword().equals(password)) {
+			System.out.println(password);
+			System.out.println(user.getPassword());
 			return "correct";
 		}
+		model.addAttribute("msg","비밀번호가 틀립니다");
+		model.addAttribute("url","/user/mypage");
 		return "incorrect";
 	}
 
@@ -167,10 +187,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.GET)
-	public String update(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
-			Model model) {
-		if (user.getId().equals(id) && user.getPassword().equals(password)) {
-			model.addAttribute("user", user);
+	public String update(@AuthenticationPrincipal User user,
+				@RequestParam String id,@RequestParam String password,
+				Model model) {
+		if (user.getId().equals(id)) {
+			model.addAttribute("user",userService.selectOneById(user.getId()));
 			return "/user/update";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
@@ -181,38 +202,42 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/user/update",method=RequestMethod.POST)
-	@ResponseBody
-	public String updatePost(@AuthenticationPrincipal User user, 
-				@RequestParam String id, @RequestParam String password, Model model) {
-		if (user.getId().equals(id) && user.getPassword().equals(password)) {
+	public String updatePost(@ModelAttribute User user,
+			@RequestParam String id, Model model) {
+		if (user.getId().equals(id)) {
 			String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 			try {
-				user.setImage(fileService.saveImage(path, user.getImage_file()));
+				user.setImage(fileService.saveFile(path, user.getImage_file()));
 			} catch (InadequateFileExtException e) {
 				long time = System.currentTimeMillis();
 				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 				String str = dayTime.format(new Date(time));
-	
+
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-				model.addAttribute("url","/user/manage/view");
+				model.addAttribute("url","/user/mypage");
 				return "result";
+			} catch (NullPointerException e) {
+				model.addAttribute("msg","이미지 업로드에 실패하였습니다. 다시 수정해주세요");
+				model.addAttribute("url","/user/mypage");
+				return "/result";
 			}
+			System.out.println(user.getImage());
 			if(user.getImage().equals("no_file")) {
 				user.setImage(null);
 			}
 				userService.update(user);
-				model.addAttribute("msg","수정이 완료되었습니다");
-				model.addAttribute("url","/user/mypage");
-				return "/result";
+				model.addAttribute("msg","수정이 완료되었습니다. 다시 로그인해주세요");
+				model.addAttribute("url","/main");
+				
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
-			model.addAttribute("url", "/main");
-			return "/result";
+			model.addAttribute("url", "/");
 		}
+		return "/result";
 	}
 	
 	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
-	public String delete(@AuthenticationPrincipal User user,@RequestParam String id,@RequestParam String password,
+	public String delete(@ModelAttribute User user,@RequestParam String id,@RequestParam String password,
 			Model model) {
 		if(user.getId().equals(id) && user.getPassword().equals(password)) {
 			userService.delete(id);
@@ -266,17 +291,32 @@ public class UserController {
 		if(user.getImage().equals("no_file")) {
 			user.setImage(null);
 		}
-		userService.manageUpdate(user);
+		try {
+			userService.manageUpdate(user);
+		}catch(Exception e) {
+			model.addAttribute("msg","이 페이지에서는 관리자는 수정할 수 없습니다. 마이페이지를 이용해주세요");
+			model.addAttribute("url","/user/mypage");
+			return "/result";
+		}
 		model.addAttribute("msg","수정완료(매니저권한)");
 		model.addAttribute("url","/manage");
 		return "/result";
 	}
 	
 	@RequestMapping(value="/user/manage/delete",method=RequestMethod.GET)
-	public String manageDelete(@AuthenticationPrincipal User user,@RequestParam String id,Model model) {
-		userService.delete(id);
-		model.addAttribute("msg","회원탈퇴가 정상적으로 되었습니다");
-		model.addAttribute("url","/manage");
+	public String manageDelete(@AuthenticationPrincipal User user,
+			@RequestParam String id,Model model) {
+		try {
+			userService.delete(id);
+		}catch(Exception e) {
+			model.addAttribute("msg","이 페이지에서는 관리자는 탈퇴할 수 없습니다. 마이페이지를 이용해주세요");
+			model.addAttribute("url","/user/mypage");
+			return "/result";
+		}
+			model.addAttribute("msg","회원탈퇴가 정상적으로 되었습니다");
+			model.addAttribute("url","/manage");
+			
 		return "/result";
+		
 	}
 }

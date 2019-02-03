@@ -133,6 +133,5 @@ public class UserService implements UserDetailsService {
 	public void manageUpdate(User user) {
 		userDao.manageUpdate(user);
 	}
-	
-	
+
 }

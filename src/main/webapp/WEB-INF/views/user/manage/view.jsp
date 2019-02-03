@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="seq" uri="http://www.springframework.org/security/tags" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +23,7 @@
 }
 
 #userInfo {
-	text-align: left;
+	text-align: center;
 }
 
 #userInfo input {
@@ -45,6 +46,7 @@
 		</div>
 	</div>
 	<h1 class="text-center">
+	<span class="glyphicon glyphicon-user"></span>
 		<i class="" style="font-size: 85%"></i> ${param.nickname }님의 정보
 	</h1>
 	<a href="/main">main</a>
@@ -54,8 +56,6 @@
 				class="form-horizontal" id="form">
 			<div class="panel panel-default">
 				<div class="panel-heading text-center">
-					<span class="glyphicon glyphicon-user"></span>
-					<h4>회원정보 수정</h4>
 				</div>
 				<div class="panel-body" style="font-size: 18px;">
 					<div class="col-sm-offset-1 col-sm-5 form-group" id="userInfo">
@@ -96,10 +96,10 @@
 	</div>
 	<div class="footer text-center">
 		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${param.lev}  경험치 : ${param.exp}</pre>
-		<button class="btn btn-primary" type="submit"
-			onclick="userUpdate();">수정</button>
-		<button class="btn btn-danger" type="button"
-			onclick="userDelete('${param.id}');">회원탈퇴</button>
+			<button class="btn btn-primary" 
+				onclick="userUpdate();">수정</button>
+			<button class="btn btn-danger" type="button"
+				onclick="userDelete('${param.id}');">회원탈퇴</button>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
@@ -115,11 +115,9 @@
 		}
 
 		function userDelete(id) {
-			var check = confirm("정말 탈퇴하시겠습니까??(매니저 권한으로 삭제합니다)");
-			if (!check) {
+			if (!confirm("정말 탈퇴하시겠습니까??(매니저 권한으로 삭제합니다)")) {
 				return;
 			}
-			//관리자는 탈퇴불가
 			location.href = "/user/manage/delete?id=" + id;
 		}
 		
