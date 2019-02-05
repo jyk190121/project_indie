@@ -108,4 +108,17 @@ public class User implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", password=" + password + ", nickname=" + nickname + ", email=" + email + ", image="
+				+ image + ", myinfo=" + myinfo + ", lev=" + lev + ", exp=" + exp + ", authorities=" + authorities
+				+ ", image_file=" + image_file + ", getImage_file()=" + getImage_file() + ", getId()=" + getId()
+				+ ", getPassword()=" + getPassword() + ", getNickname()=" + getNickname() + ", getEmail()=" + getEmail()
+				+ ", getImage()=" + getImage() + ", getMyinfo()=" + getMyinfo() + ", getLev()=" + getLev()
+				+ ", getExp()=" + getExp() + ", getAuthorities()=" + getAuthorities() + ", getUsername()="
+				+ getUsername() + ", isAccountNonExpired()=" + isAccountNonExpired() + ", isAccountNonLocked()="
+				+ isAccountNonLocked() + ", isCredentialsNonExpired()=" + isCredentialsNonExpired() + ", isEnabled()="
+				+ isEnabled() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 }

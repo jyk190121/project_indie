@@ -58,4 +58,5 @@ public class UserDao {
 	public void manageUpdate(User user) {
 		session.update("users.manageUpdate",user);
 	}
+
 }
