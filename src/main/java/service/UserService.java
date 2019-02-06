@@ -134,4 +134,8 @@ public class UserService implements UserDetailsService {
 		userDao.manageUpdate(user);
 	}
 
+	public void manageDelete(String id) {
+		userDao.manageDelete(id);
+	}
+
 }

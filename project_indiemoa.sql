@@ -3,7 +3,8 @@
 update users set password = '1111' where id = 'test2';
 select * from users;
 select * from authority;
-delete from users where id='jin2;
+delete from authority where users_id = 'jin2';
+delete from users where id='jin2';
 insert into AUTHORITY values(SEQ_AUTHORITY_ID.NEXTVAL,'jin2','ROLE_ADMIN');
 select * from game;
 update users set lev = 2,exp=100 where id='jin';

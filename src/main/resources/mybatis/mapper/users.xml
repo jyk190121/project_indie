@@ -47,6 +47,10 @@
 		delete from users where id = #{value}
 	</delete>
 	
+	<delete id="manageDelete" parameterType="String">
+		delete from authority where users_id = #{value}
+	</delete>
+	
 	<select id="selectOneByEmail" parameterType="String" resultType="User">
 		select * from users where email = #{value}
 	</select>

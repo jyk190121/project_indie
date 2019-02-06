@@ -59,4 +59,8 @@ public class UserDao {
 		session.update("users.manageUpdate",user);
 	}
 
+	public void manageDelete(String id) {
+		session.delete("users.manageDelete",id);
+	}
+
 }

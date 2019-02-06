@@ -50,8 +50,15 @@
 						비밀번호 <form:password id="userpassword" name="password" path="password"/>
 								<button class="btn btn-primary" type="button"
 											onclick="userUpdate(this.form);">수정</button>
+						<sec:authentication var="user" property="principal"/>
+						<sec:authorize access="!hasRole('ROLE_ADMIN')">
 								<button class="btn btn-danger" type="button"
 											onclick="userDelete('${user.id}');">회원탈퇴</button>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<button class="btn btn-danger" type="button"
+											onclick="manageDelete('${user.id}');">매니저권한 박탈</button>
+						</sec:authorize>
 					</div>
 					<div class="col-sm-2">
 						<div class="form-group">
@@ -86,12 +93,36 @@
 		}
 		var userPassword = $("#userpassword").val();
 		$.ajax({
-   			type: "get",
+			type : "post",
+			beforeSend : function(xhr) { 
+			xhr.setRequestHeader("${_csrf.headerName}",	"${_csrf.token}");},
    			data: {id: id,password:userPassword},
    			url: "/user/checkPassword",
    			success: function(data){
    				if(data == "correct"){
-   					location.href="/user/delete?id="+id+"&password="+password
+   					location.href="/user/delete?id="+id
+   				}else{
+   					alert("비밀번호가 틀립니다");
+   				}
+   			}
+   		});
+	}
+	
+	function manageDelete(id){
+	var check = confirm("매니저권한을 삭제합니다");
+		if(!check){
+		return;
+		}
+		var userPassword = $("#userpassword").val();
+		$.ajax({
+			type : "post",
+			beforeSend : function(xhr) { 
+			xhr.setRequestHeader("${_csrf.headerName}",	"${_csrf.token}");},
+   			data: {id: id,password:userPassword},
+   			url: "/user/checkPassword",
+   			success: function(data){
+   				if(data == "correct"){
+   					location.href="/manage/delete?id="+id
    				}else{
    					alert("비밀번호가 틀립니다");
    				}
