@@ -49,8 +49,8 @@ tfoot{
 					<tfoot>
 						<tr>
 							<td colspan="5" class="text-right">
-							<form action="/manage" method="get">
-								유저 검색 <input type="text" name="id" />
+							<form action="/manage/user/list" method="get">
+								유저 검색 <input type="text" name="search" />
 								<button type="submit" class="btn btn-primary">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>

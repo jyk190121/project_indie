@@ -6,7 +6,7 @@
 	<select id="boardTotal" resultType="int">
 		select count(*) from board
 	</select>
-
+	
 	<select id="selectList" parameterType="Map" resultMap="userMap">
 		select *
 		from (select rownum rnum, a.* from
@@ -20,8 +20,7 @@
 		<association property="user" column="writer"
 			select="users.selectOne" javaType="User" />
 	</resultMap>
-
-
+	
 	<insert id="insert" parameterType="Board">
 		insert into board values(
 		seq_board_id.nextval,

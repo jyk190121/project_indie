@@ -35,6 +35,9 @@ public class BoardController {
 		try {
 			npage = Integer.parseInt(page);
 		} catch (Exception e) {
+			model.addAttribute("msg","일시적인 오류입니다. 메인페이지로 이동합니다.");
+			model.addAttribute("url","/main");
+			return "/result";
 		}
 		int totalPage = Pager.getTotalPage(boardService.boardTotal());
 		if (npage >= 1 && npage <= totalPage) {
