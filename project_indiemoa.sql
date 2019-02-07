@@ -1,5 +1,9 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
+select * from (select rownum rnum, a.* from 
+		(select * from board where writer = 'test' order by id desc)a) 
+		where rnum between 1 and 22;
+
 update users set password = '1111' where id = 'test2';
 select *
 		from (select rownum rnum, a.* from

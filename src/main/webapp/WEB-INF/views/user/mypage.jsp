@@ -24,7 +24,7 @@
 		font-size: 15px;
 		border: 1px solid gray;
 		text-align: center;
-		height: 300px;
+		height: 338px;
 		overflow: auto;
 	}
 </style>
@@ -74,8 +74,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-5">
-						<div class="myBoard">
+					<div class="col-sm-5 myBoard">
+						<div>
+							<p style="font-size: 20px;">나의 게시판</p>
 							<table class="table table-hover table-board">
 								<thead>
 									<tr>
@@ -93,15 +94,12 @@
 								</c:forEach>
 								</tbody>
 								<tfoot>
-									<tr>
-										<td colspan="5" style="border-top:none;">
-											<ul class="pagination">
-												${page }
-											</ul>
-										</td>
-									</tr>
+									
 								</tfoot>
 							</table>
+						</div>
+						<div class="pagination">
+								${myBoardPage }
 						</div>
 					</div>
 				</form:form>

@@ -19,12 +19,14 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
-	@Autowired
-	private UserDao userDao;
-	
 	public String getPage(int page) {
 		int total = boardDao.boardTotal();
 		return Pager.paging(page,total);
+	}
+	
+	public String getMyBoardPage(String id,int page) {
+		int total = boardDao.myBoardTotal(id);
+		return Pager.myBoardPaging(page, total);
 	}
 	
 	public List<Board> getBoardList(int page) {
@@ -36,6 +38,18 @@ public class BoardService {
 		map.put("end", end);
 		
 		List<Board> boardList = boardDao.selectList(map);
+		return boardList;
+	}
+	
+	public List<Board> getMyBoardList(String id,int page) {
+		int start = (page -1) * 5 + 1;
+		int end = start + 4;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("user_id", id);
+		List<Board> boardList = boardDao.myBoardList(map);
 		return boardList;
 	}
 	
@@ -65,6 +79,10 @@ public class BoardService {
 
 	public int reply_count(int id) {
 		return (Integer)boardDao.reply_count(id);
+	}
+
+	public int myBoardTotal(String id) {
+		return boardDao.myBoardTotal(id);
 	}
 
 }

@@ -48,4 +48,12 @@ public class BoardDao {
 		return session.update("board.reply_count",id);
 	}
 
+	public List<Board> myBoardList(Map<String, Object> map) {
+		return session.selectList("board.myBoardList",map);
+	}
+
+	public int myBoardTotal(String id) {
+		return session.selectOne("board.myBoardTotal",id);
+	}
+
 }
