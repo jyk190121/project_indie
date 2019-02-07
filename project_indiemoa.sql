@@ -14,9 +14,9 @@ select * from (select rownum rnum, a.* from (select * from
 		(select * from users)) a) where rnum between 1 and 10;
 update users set 
 			password = 2222,
-			nickname = '?…Œ?Š¤?„°',
+			nickname = '?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½',
 			image = 'default.png',
-			myinfo = '?…Œ?Š¤?Š¸2'
+			myinfo = '?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½2'
 			where id = 'test2';
 select * from board;
 create table users (
@@ -25,12 +25,12 @@ create table users (
     nickname varchar2(20) not null,
     email varchar2(50) unique,
     image varchar2(100) default 'default.png',
-    myinfo clob default '?‹¹?‹ ?„ ?†Œê°œí•´ë³´ì„¸?š”',
+    myinfo clob default '?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°œí•´ë³´ì„¸?ï¿½ï¿½',
     lev number default 1,
     exp number default 0
 );
 select * from users;
-insert into users values('test','1111','tester','test@gmail.com','default.png','?…Œ?Š¤?Š¸?‹¤?…Œ?Š¤?Š¸', 1, 0);
+insert into users values('test','1111','tester','test@gmail.com','default.png','?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½', 1, 0);
 
 create sequence seq_authority_id;
 create sequence seq_board_id;
@@ -65,9 +65,9 @@ create table board (
 );
 
 select * from board;
-insert into board values (seq_board_id.nextval, 'test', 'ì²? ê³µì?', '?—´?‹¬?ˆ ë§Œë“¤ê³? ?ˆ?–´?š¥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', '?‘ë²ˆì§¸ ê³µì?', 'ê³„ì† ?—´?‹¬?ˆ ë§Œë“¤ê³? ?ˆ?–´?š¥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', '?¼ë°˜ê?', 'ê·¸ëƒ¥ ë»˜ê??„ë¯¸ë‹¤', sysdate, 0, 0, null, 0, 'normal');
+insert into board values (seq_board_id.nextval, 'test', 'ï¿½? ê³µï¿½?', '?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ë§Œë“¤ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?ï¿½ï¿½ë²ˆì§¸ ê³µï¿½?', 'ê³„ì† ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ë§Œë“¤ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?ï¿½ï¿½ë°˜ï¿½?', 'ê·¸ëƒ¥ ë»˜ï¿½??ï¿½ï¿½ë¯¸ë‹¤', sysdate, 0, 0, null, 0, 'normal');
 
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
@@ -90,11 +90,11 @@ create table game (
 
 select * from game ;
 delete from game;
-insert into game values(1, 'testGame', 'web', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(2, 'testGame', 'exe', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(3, 'testGame', 'etc', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','ê¹ƒí—ˆë¸Œì—?„œ ë½?? ¤?˜¨ ?Œ©ë§?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
+insert into game values(1, 'testGame', 'web', '<script>test</script>','?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê²Œì„?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(2, 'testGame', 'exe', '<script>test</script>','?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê²Œì„?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(3, 'testGame', 'etc', '<script>test</script>','?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê²Œì„?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê²Œì„?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','ê¹ƒí—ˆë¸Œì—?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
 update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);
 create table reply (

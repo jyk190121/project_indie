@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Handler;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import domain.Authority;
 import domain.User;
@@ -37,7 +35,7 @@ public class UserController {
 	
 	@Autowired
 	private FileService fileService;
-
+	
 	@Autowired
 	private HttpSession session;
 
@@ -118,8 +116,14 @@ public class UserController {
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
 	public String getMypage(@AuthenticationPrincipal User user,Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		model.addAttribute("user",userService.selectOneById(user.getId()));
-		System.out.println(user);
+		model.addAttribute("user",new User());
+		try {
+			model.addAttribute("user",userService.selectOneById(user.getId()));
+		}catch(Exception e) {
+			model.addAttribute("msg","일시적인 오류입니다. 다시 로그인해주세요");
+			model.addAttribute("url","/?signout");
+			return "/result";
+		}
 		return "/user/mypage";
 	}
 	
@@ -137,7 +141,7 @@ public class UserController {
 		return "/result";
 	}
 
-	@RequestMapping(value = "/user/checkPassword", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/checkPassword", method = RequestMethod.POST)
 	@ResponseBody
 	public String checkPassword(@AuthenticationPrincipal User user,
 			@RequestParam String id, @RequestParam String password, Model model) {
@@ -237,11 +241,23 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/delete",method=RequestMethod.GET)
-	public String delete(@ModelAttribute User user,@RequestParam String id,@RequestParam String password,
-			Model model) {
-		if(user.getId().equals(id) && user.getPassword().equals(password)) {
+	public String delete(@AuthenticationPrincipal User user, @RequestParam String id, Model model) {
+		if(user.getId().equals(id)) {
 			userService.delete(id);
 			model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
+			model.addAttribute("url", "/?signout");
+		}else {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			model.addAttribute("url", "/");
+		}
+		return "/result";
+	}
+	
+	@RequestMapping(value="/manage/delete",method=RequestMethod.GET)
+	public String manageChange(@ModelAttribute User user, @RequestParam String id, Model model) {
+		if(user.getId().equals(id)) {
+			userService.manageDelete(id);
+			model.addAttribute("msg", "이제 일반회원입니다. 회원탈퇴도 가능합니다.다시 로그인해주세요");
 			model.addAttribute("url", "/?signout");
 		} else {
 			model.addAttribute("msg", "잘못된 접근입니다");

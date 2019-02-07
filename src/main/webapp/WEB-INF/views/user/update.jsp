@@ -111,7 +111,7 @@ function userUpdate(){
 		return;
 	}else if(userPassword.val() != userPasswordCheck.val()){
 		alert("변경하실 비밀번호를 일치하도록 입력해주세요");
-		currentPassword.focus();
+		userPasswordCheck.focus();
 		return;
 	}else if(userPassword.val() == ""){
 		alert("변경하실 비밀번호를 입력해주세요");
