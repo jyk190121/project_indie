@@ -6,7 +6,11 @@
 	<select id="boardTotal" resultType="int">
 		select count(*) from board
 	</select>
-
+	
+	<select id="myBoardTotal" parameterType="String" resultType="int">
+		select count(*) from board where writer = #{value}
+	</select>
+	
 	<select id="selectList" parameterType="Map" resultMap="userMap">
 		select *
 		from (select rownum rnum, a.* from
@@ -15,13 +19,18 @@
 		(select * from board where type = 'normal' order by id desc)) a)
 		where rnum between #{start} and #{end}
 	</select>
+	
+	<select id="myBoardList" parameterType="Map" resultMap="userMap">
+		select * from (select rownum rnum, a.* from 
+		(select * from board where writer = #{user_id} order by id desc)a)
+		where rnum between #{start} and #{end}
+	</select>
 
 	<resultMap type="Board" id="userMap">
 		<association property="user" column="writer"
 			select="users.selectOne" javaType="User" />
 	</resultMap>
-
-
+	
 	<insert id="insert" parameterType="Board">
 		insert into board values(
 		seq_board_id.nextval,

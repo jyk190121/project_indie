@@ -138,4 +138,8 @@ public class UserService implements UserDetailsService {
 		userDao.manageDelete(id);
 	}
 
+	public List<User> userSearchList(String search) {
+		return userDao.userSearchList(search);
+	}
+
 }

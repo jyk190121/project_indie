@@ -3,10 +3,9 @@ package controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import domain.Authority;
+import domain.Board;
 import domain.User;
 import exception.InadequateFileExtException;
+import service.BoardService;
 import service.FileService;
 import service.UserService;
 import util.Pager;
@@ -32,6 +32,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@Autowired
 	private FileService fileService;
@@ -114,7 +117,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user,Model model) {
+	public String getMypage(@AuthenticationPrincipal User user,
+			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
+			Model model) {
 		//새로 업데이트된 유저값 받아오기..
 		model.addAttribute("user",new User());
 		try {
@@ -124,7 +129,17 @@ public class UserController {
 			model.addAttribute("url","/?signout");
 			return "/result";
 		}
+		int npage = 0;
+		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
+		npage = Integer.parseInt(page);
+		if (npage >= 1 && npage <= totalPage) {
+			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(),npage));
+			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(),npage));
+		}else {
+			return "/board/notPage";
+		}
 		return "/user/mypage";
+		
 	}
 	
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
@@ -335,4 +350,16 @@ public class UserController {
 		return "/result";
 		
 	}
+	
+	@RequestMapping(value = "/manage/user/list", method = RequestMethod.GET)
+	public String userSearch(@RequestParam(required = false) String search,
+			Model model) {
+		List<User> userSearchList = userService.userSearchList(search);
+		model.addAttribute("userList", userSearchList);
+		if (search != null) {
+			model.addAttribute("search", search);
+		}
+		return "/user/manage/manage";
+	}
+	
 }

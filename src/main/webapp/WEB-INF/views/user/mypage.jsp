@@ -19,6 +19,14 @@
 		width: 100%;
 		height: 100%;
 	}
+	.myBoard{
+		margin-top: 10px;
+		font-size: 15px;
+		border: 1px solid gray;
+		text-align: center;
+		height: 338px;
+		overflow: auto;
+	}
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -59,13 +67,39 @@
 								<button class="btn btn-danger" type="button"
 											onclick="manageDelete('${user.id}');">매니저권한 박탈</button>
 						</sec:authorize>
-					</div>
-					<div class="col-sm-2">
 						<div class="form-group">
 							<label class="control-label">프로필 이미지</label>
 							<div class="image-board">
 								<img id="image" name="image" src="/upload/image/${user.image }" alt="${user.image }" />
 							</div>
+						</div>
+					</div>
+					<div class="col-sm-5 myBoard">
+						<div>
+							<p style="font-size: 20px;">나의 게시판</p>
+							<table class="table table-hover table-board">
+								<thead>
+									<tr>
+										<th class="text-center" width="50%">제목</th>
+										<th class="text-center" width="50%">작성일</th>
+									</tr>
+								</thead>
+								<tbody>
+								<c:forEach var="board" items="${myBoardList}">
+									<tr onclick="location.href='/board/view?id=${board.id}'"
+										style="cursor:pointer;">
+										<td>${board.title }</td>
+										<td>${board.write_date }</td>
+									</tr>
+								</c:forEach>
+								</tbody>
+								<tfoot>
+									
+								</tfoot>
+							</table>
+						</div>
+						<div class="pagination">
+								${myBoardPage }
 						</div>
 					</div>
 				</form:form>

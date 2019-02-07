@@ -12,13 +12,16 @@
 		<collection property="authorities" column="id"
 			ofType="Authority" select="authorityList" />
 	</resultMap>
+	
 	<select id="authorityList" parameterType="String"
 		resultType="Authority">
 		select * from authority where users_id = #{value}
 	</select>
+	
 	<select id="nicknameDualCheck" parameterType="String" resultType="int">
 		select count(*) from users where id = #{value}
 	</select>
+	
 	<update id="update" parameterType="User">
 		update users set 
 			password = #{password},
@@ -73,4 +76,12 @@
 		select * from (select rownum rnum, a.* from (select * from users) a)
 		where rnum between #{start} and #{end} order by exp desc
 	</select>
+	
+	<select id="userSearchList" parameterType="String" resultType="User">
+		select * from users
+			<if test="#{value} != null">
+				where id like '%'||#{value}||'%'
+			</if>
+	</select>
+	
 </mapper>

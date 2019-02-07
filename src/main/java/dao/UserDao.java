@@ -63,4 +63,8 @@ public class UserDao {
 		session.delete("users.manageDelete",id);
 	}
 
+	public List<User> userSearchList(String search) {
+		return session.selectList("users.userSearchList",search);
+	}
+
 }

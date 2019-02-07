@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import domain.Board;
+import domain.User;
 
 @Repository
 public class BoardDao {
@@ -18,11 +19,11 @@ public class BoardDao {
 	public int boardTotal() {
 		return session.selectOne("board.boardTotal");
 	}
-
+	
 	public List<Board> selectList(Map<String, Integer> map) {
 		return session.selectList("board.selectList",map);
 	}
-
+	
 	public void insert(Board board) {
 		session.insert("board.insert",board);
 	}
@@ -46,4 +47,13 @@ public class BoardDao {
 	public int updateReplyCount(int id) {
 		return session.update("board.reply_count",id);
 	}
+
+	public List<Board> myBoardList(Map<String, Object> map) {
+		return session.selectList("board.myBoardList",map);
+	}
+
+	public int myBoardTotal(String id) {
+		return session.selectOne("board.myBoardTotal",id);
+	}
+
 }
