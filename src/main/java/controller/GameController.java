@@ -45,7 +45,7 @@ public class GameController {
 		List<Game> hotGameList = gameService.hotGameList();
 		List<User> rankerList = gameService.rankerList(3);
 		model.addAttribute("gameList", gameList);
-		model.addAttribute("hotGameList", hotGameList);
+		model.addAttribute("hotGameList", hotGameList);	
 		model.addAttribute("rankerList", rankerList);
 		return "game/gameMain";
 	}

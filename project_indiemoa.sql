@@ -3,7 +3,7 @@
 update users set password = '1111' where id = 'test2';
 select * from users;
 select * from authority;
-delete from users where id='jin2;
+delete from users where id='jin2';
 insert into AUTHORITY values(SEQ_AUTHORITY_ID.NEXTVAL,'jin2','ROLE_ADMIN');
 select * from game;
 update users set lev = 2,exp=100 where id='jin';
@@ -14,9 +14,9 @@ select * from (select rownum rnum, a.* from (select * from
 		(select * from users)) a) where rnum between 1 and 10;
 update users set 
 			password = 2222,
-			nickname = 'í…ŒìŠ¤í„°',
+			nickname = '?…Œ?Š¤?„°',
 			image = 'default.png',
-			myinfo = 'í…ŒìŠ¤íŠ¸2'
+			myinfo = '?…Œ?Š¤?Š¸2'
 			where id = 'test2';
 select * from board;
 create table users (
@@ -25,12 +25,12 @@ create table users (
     nickname varchar2(20) not null,
     email varchar2(50) unique,
     image varchar2(100) default 'default.png',
-    myinfo clob default 'ë‹¹ì‹ ì„ ì†Œê°œí•´ë³´ì„¸ìš”',
+    myinfo clob default '?‹¹?‹ ?„ ?†Œê°œí•´ë³´ì„¸?š”',
     lev number default 1,
     exp number default 0
 );
 select * from users;
-insert into users values('test','1111','tester','test@gmail.com','default.png','í…ŒìŠ¤íŠ¸ë‹¤í…ŒìŠ¤íŠ¸', 1, 0);
+insert into users values('test','1111','tester','test@gmail.com','default.png','?…Œ?Š¤?Š¸?‹¤?…Œ?Š¤?Š¸', 1, 0);
 
 create sequence seq_authority_id;
 create sequence seq_board_id;
@@ -65,9 +65,9 @@ create table board (
 );
 
 select * from board;
-insert into board values (seq_board_id.nextval, 'test', 'ì²« ê³µì§€', 'ì—´ì‹¬íˆ ë§Œë“¤ê³  ìˆì–´ìš¥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', 'ë‘ë²ˆì§¸ ê³µì§€', 'ê³„ì† ì—´ì‹¬íˆ ë§Œë“¤ê³  ìˆì–´ìš¥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', 'ì¼ë°˜ê¸€', 'ê·¸ëƒ¥ ë»˜ê¸€ì„ë¯¸ë‹¤', sysdate, 0, 0, null, 0, 'normal');
+insert into board values (seq_board_id.nextval, 'test', 'ì²? ê³µì?', '?—´?‹¬?ˆ ë§Œë“¤ê³? ?ˆ?–´?š¥', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?‘ë²ˆì§¸ ê³µì?', 'ê³„ì† ?—´?‹¬?ˆ ë§Œë“¤ê³? ?ˆ?–´?š¥', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?¼ë°˜ê?', 'ê·¸ëƒ¥ ë»˜ê??„ë¯¸ë‹¤', sysdate, 0, 0, null, 0, 'normal');
 
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
@@ -90,11 +90,11 @@ create table game (
 
 select * from game ;
 delete from game;
-insert into game values(1, 'testGame', 'web', '<script>test</script>','í…ŒìŠ¤íŠ¸ê²Œì„ì…ë‹ˆë‹¤', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(2, 'testGame', 'exe', '<script>test</script>','í…ŒìŠ¤íŠ¸ê²Œì„ì…ë‹ˆë‹¤2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(3, 'testGame', 'etc', '<script>test</script>','í…ŒìŠ¤íŠ¸ê²Œì„ì…ë‹ˆë‹¤3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','í…ŒìŠ¤íŠ¸ê²Œì„ì…ë‹ˆë‹¤', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','ê¹ƒí—ˆë¸Œì—ì„œ ë½€ë ¤ì˜¨ íŒ©ë§¨', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
+insert into game values(1, 'testGame', 'web', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(2, 'testGame', 'exe', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(3, 'testGame', 'etc', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','?…Œ?Š¤?Š¸ê²Œì„?…?‹ˆ?‹¤', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','ê¹ƒí—ˆë¸Œì—?„œ ë½?? ¤?˜¨ ?Œ©ë§?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
 update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);
 create table reply (

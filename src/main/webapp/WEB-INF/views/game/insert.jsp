@@ -115,6 +115,7 @@
 		$gameFileExt = $("#gameFileExt");
 
 		function changeType(input) {
+			initInput($("#triggerFile"));
 			switch (input.value) {
 			case 'web':
 				$gameFileExt.text("html");
