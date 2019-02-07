@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import domain.User;
 import exception.InadequateFileExtException;
 import service.FileService;
 import service.GameService;
+import util.Clock;
 
 @Controller
 public class GameController {
@@ -35,13 +37,15 @@ public class GameController {
 	@Autowired
 	private FileService fileService;
 
+	Clock clock = new Clock();
+
 	@RequestMapping(value = "/game/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		List<Game> gameList = gameService.gameList(20);
 		List<Game> hotGameList = gameService.hotGameList();
 		List<User> rankerList = gameService.rankerList(3);
 		model.addAttribute("gameList", gameList);
-		model.addAttribute("hotGameList", hotGameList);
+		model.addAttribute("hotGameList", hotGameList);	
 		model.addAttribute("rankerList", rankerList);
 		return "game/gameMain";
 	}
@@ -51,43 +55,37 @@ public class GameController {
 		model.addAttribute(new Game());
 		return "game/insert";
 	}
-	
+
 	@RequestMapping(value = "/game/insert", method = RequestMethod.POST)
-	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult, MultipartHttpServletRequest mtRequest,
-			@AuthenticationPrincipal User user, Model model) {
-		System.out.println(game.getSrc());
+	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult,
+			MultipartHttpServletRequest mtRequest, @AuthenticationPrincipal User user, Model model) {
 		if (bindingResult.hasErrors()) {
+			System.out.println("1");
 			return "/game/insert";
 		}
-		String path = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/image");
+		String path = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/image/");
 		String filename;
 		try {
 			filename = fileService.saveImage(path, game.getImage_file());
 		} catch (InadequateFileExtException e) {
-			long time = System.currentTimeMillis();
-			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-			String str = dayTime.format(new Date(time));
-
-			System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
 			model.addAttribute("msg", "이미지 파일만 업로드할 수 있습니다.");
-			model.addAttribute("url","/game/insert");
+			model.addAttribute("url", "/game/insert");
 			return "result";
 		}
 		game.setImage(filename);
 
-		List<MultipartFile> files = mtRequest.getFiles("files");
+		List<MultipartFile> files = mtRequest.getFiles("gameFiles");
 		String[] paths = new String[files.size()];
 		paths = mtRequest.getParameter("paths").split(",");
-		// String rootDir =
-		// mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")+mtRequest.getParameter("id")+"_"+paths[0].substring(0,
-		// paths[0].indexOf("/"))+"/";
+		
 		game.setId(gameService.getNextId());
-		String rootDir = "c:/test/" + game.getId() + "_" + paths[0].substring(0, paths[0].indexOf("/")) + "/";
+		String rootDir = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")
+				+ game.getId() + "_" + game.getName() + "/";
+		//String rootDir = "c:/test/" + game.getId() + "_" + game.getName() + "/";
 
 		fileService.makeDirectory(rootDir);
 
-		for (int i = 0; i < paths.length; i++) {
-			paths[i] = paths[i].substring(paths[i].indexOf("/") + 1);
+		for (int i = 0; i < paths.length; i++) {	
 			if (paths[i].indexOf("/") != -1) {
 				paths[i] = paths[i].substring(0, paths[i].lastIndexOf("/"));
 				fileService.makeDirectory(rootDir + "/" + paths[i]);
@@ -97,34 +95,18 @@ public class GameController {
 			try {
 				fileService.saveFile(rootDir + paths[i], files.get(i));
 			} catch (InadequateFileExtException e) {
-				long time = System.currentTimeMillis();
-				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-				String str = dayTime.format(new Date(time));
-
-				System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+				System.out.println(clock.getCurrentTime() + " : 사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
+				model.addAttribute("url", "/game/insert");
+				return "result";
 			}
 		}
 		
-		/*if (game.getType().equals("exe") || game.getType().equals("etc")) {
-			path = request.getServletContext().getRealPath("/WEB-INF/upload/game");
-			try {
-				filename = fileService.saveFile(path, game.getGame_file());
-			} catch (InadequateFileExtException e) {
-				long time = System.currentTimeMillis();
-				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-				String str = dayTime.format(new Date(time));
-
-				System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
-				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-				model.addAttribute("url","/game/insert");
-				return "result";
-			}
-			game.setSrc(filename);
-		}*/
-
+		String srcPath = mtRequest.getParameter("srcPath");
+		game.setSrc(srcPath);
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);
-		
+
 		return "redirect:/game/list";
 	}
 
@@ -142,19 +124,19 @@ public class GameController {
 		return "/game/list";
 	}
 
-	@RequestMapping(value="/game/view", method=RequestMethod.GET)
-	public String gameView(@RequestParam(required=false) String id, Model model) {
-		if(id == null) {
+	@RequestMapping(value = "/game/view", method = RequestMethod.GET)
+	public String gameView(@RequestParam(required = false) String id, Model model) {
+		if (id == null) {
 			return "redirect:/game/";
 		}
 		Game game = gameService.selectOne(id);
-		if(game == null) {
-			model.addAttribute("msg","없는 페이지입니다");
-			model.addAttribute("url","/game/main");
+		if (game == null) {
+			model.addAttribute("msg", "없는 페이지입니다");
+			model.addAttribute("url", "/game/main");
 			return "result";
 		}
 		model.addAttribute("game", game);
 		return "game/view";
 	}
-	
+
 }

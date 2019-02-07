@@ -34,7 +34,7 @@
 				where rnum &lt;= #{value}
 	</select>
 	<insert id="insertGame" parameterType="Game">
-		insert into game values (seq_game_id.nextval, #{name}, #{type}, #{src}, #{info}, #{image}, #{users_id}, 0, sysdate, 0, 0, 0, #{etc_info})
+		insert into game values (#{id}, #{name}, #{type}, #{src}, #{info}, #{image}, #{users_id}, 0, sysdate, 0, 0, 0, #{etc_info})
 	</insert>
 	<select id="selectOneById" parameterType="String" resultType="Game">
 		select * from game where id = #{value}

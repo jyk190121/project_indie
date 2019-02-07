@@ -72,7 +72,7 @@ public class TestController {
 		System.out.println(pathname);
 		if(!fileService.isImageFile(pathname)) {
 			System.out.println("이미지 파일이 아닙니다");
-			fileService.deleteFile(pathname);
+			//fileService.deleteFile(roo, filename);
 		}else {
 			System.out.println("이미지 파일입니다");
 		}

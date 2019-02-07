@@ -15,7 +15,6 @@ select id from users;
 select * from board;
 select * from users;
 select * from authority;
-delete from authority where users_id = 'jin2';
 delete from users where id='jin2';
 insert into AUTHORITY values(SEQ_AUTHORITY_ID.NEXTVAL,'jin2','ROLE_ADMIN');
 select * from game;
@@ -27,9 +26,9 @@ select * from (select rownum rnum, a.* from (select * from
 		(select * from users)) a) where rnum between 1 and 10;
 update users set 
 			password = 2222,
-			nickname = '테스터',
+			nickname = '?��?��?��',
 			image = 'default.png',
-			myinfo = '테스트2'
+			myinfo = '?��?��?��2'
 			where id = 'test2';
 select * from board;
 create table users (
@@ -38,12 +37,12 @@ create table users (
     nickname varchar2(20) not null,
     email varchar2(50) unique,
     image varchar2(100) default 'default.png',
-    myinfo clob default '당신을 소개해보세요',
+    myinfo clob default '?��?��?�� ?��개해보세?��',
     lev number default 1,
     exp number default 0
 );
 select * from users;
-insert into users values('test','1111','tester','test@gmail.com','default.png','테스트다테스트', 1, 0);
+insert into users values('test','1111','tester','test@gmail.com','default.png','?��?��?��?��?��?��?��', 1, 0);
 
 create sequence seq_authority_id;
 create sequence seq_board_id;
@@ -78,9 +77,9 @@ create table board (
 );
 
 select * from board;
-insert into board values (seq_board_id.nextval, 'test', '첫 공지', '열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', '두번째 공지', '계속 열심히 만들고 있어욥', sysdate, 0, 0, null, 0, 'notice');
-insert into board values (seq_board_id.nextval, 'test', '일반글', '그냥 뻘글임미다', sysdate, 0, 0, null, 0, 'normal');
+insert into board values (seq_board_id.nextval, 'test', '�? 공�?', '?��?��?�� 만들�? ?��?��?��', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?��번째 공�?', '계속 ?��?��?�� 만들�? ?��?��?��', sysdate, 0, 0, null, 0, 'notice');
+insert into board values (seq_board_id.nextval, 'test', '?��반�?', '그냥 뻘�??��미다', sysdate, 0, 0, null, 0, 'normal');
 
 select * from (select * from board where type = 'notice' order by id desc)
 union all select * from (select * from board where type = 'normal' order by id desc);
@@ -103,11 +102,11 @@ create table game (
 
 select * from game ;
 delete from game;
-insert into game values(1, 'testGame', 'web', '<script>test</script>','테스트게임입니다', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(2, 'testGame', 'exe', '<script>test</script>','테스트게임입니다2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(3, 'testGame', 'etc', '<script>test</script>','테스트게임입니다3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','테스트게임입니다', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','깃허브에서 뽀려온 팩맨', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
+insert into game values(1, 'testGame', 'web', '<script>test</script>','?��?��?��게임?��?��?��', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(2, 'testGame', 'exe', '<script>test</script>','?��?��?��게임?��?��?��2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(3, 'testGame', 'etc', '<script>test</script>','?��?��?��게임?��?��?��3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','?��?��?��게임?��?��?��', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','깃허브에?�� �??��?�� ?���?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
 update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);
 create table reply (

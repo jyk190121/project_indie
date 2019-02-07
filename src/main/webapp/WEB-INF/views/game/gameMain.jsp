@@ -71,28 +71,38 @@
 					<c:forEach begin="0" end="${(fn:length(gameList)/5)-((fn:length(gameList)/5)%1)-1 }" var="i">
 					<div class="row">
 						<div class="col-sm-2 col-sm-offset-1">
-							<img class="gameImage" alt=""
-								 src="/upload/image/${gameList[i*5].image }">
-							<div class="text-center">${gameList[i*5].name }</div>
+							<a href="/game/view?id=${gameList[i*5].id }">
+								<img class="gameImage" alt="/준비중인 게임입니다"
+									 src="/upload/image/${gameList[i*5].image }">
+							</a>	
+								<div class="text-center">${gameList[i*5].name }</div>
 						</div>
 						<div class="col-sm-2">
-							<img class="gameImage" alt=""
+							<a href="/game/view?id=${gameList[i*5+1].id }">
+								<img class="gameImage" alt="/준비중인 게임입니다"
 								 src="/upload/image/${gameList[i*5+1].image }">
+							</a>
 							<div class="text-center">${gameList[i*5+1].name }</div>
 						</div>
 						<div class="col-sm-2">
-							<img class="gameImage" alt=""
-								 src="/upload/image/${gameList[i*5+2].image }">
+							<a href="/game/view?id=${gameList[i*5+2].id }">
+								<img class="gameImage" alt="/준비중인 게임입니다"
+									 src="/upload/image/${gameList[i*5+2].image }">
+							</a>	
 							<div class="text-center">${gameList[i*5+2].name }</div>
 						</div>
 						<div class="col-sm-2">
-							<img class="gameImage" alt=""
-								 src="/upload/image/${gameList[i*5+3].image }">
+							<a href="/game/view?id=${gameList[i*5+3].id }">
+								<img class="gameImage" alt="/준비중인 게임입니다"
+									 src="/upload/image/${gameList[i*5+3].image }">
+							</a>
 							<div class="text-center">${gameList[i*5+3].name }</div>
 						</div>
 						<div class="col-sm-2">
-							<img class="gameImage" alt=""
-								 src="/upload/image/${gameList[i*5+4].image }">
+							<a href="/game/view?id=${gameList[i*5+4].id }">
+								<img class="gameImage" alt="/준비중인 게임입니다"
+									 src="/upload/image/${gameList[i*5+4].image }">
+							</a>
 							<div class="text-center">${gameList[i*5+4].name }</div>
 						</div>
 					</div>

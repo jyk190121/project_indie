@@ -39,7 +39,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
+				<div class="col-sm-8 col-sm-offset-2">s
 					<div class="container-fluid">
 						<div class="row" id="game-panel">
 							<iframe scrolling="no" id="game-frame" 
@@ -47,7 +47,11 @@
 								따라 작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
 						</div>
 						<div class="row">
-							<div class="col-xs-1">좋아요</div>
+							<div class="col-xs-1">
+								<a href="javascript:evaluateGame('like');" class="likes-btn">
+									좋아요
+								</a>			
+							</div>
 							<div class="col-xs-10" id="likes-bar-container">
 								<div>
 									<canvas id="likes-bar" width="100%" height="30px"></canvas>
@@ -56,7 +60,11 @@
 								<div class="col-xs-4">이건 뭐 그냥</div>
 								<div class="col-xs-4">${game.unlikes }</div>
 							</div>
-							<div class="col-xs-1">싫어요</div>
+							<div class="col-xs-1">
+								<a href="javascript:evaluateGame('unlike');" class="likes-btn">
+									싫어요
+								</a>	
+							</div>
 						</div>
 					</div>
 				</div>
@@ -86,6 +94,22 @@
 			canvasWidth = $("#likes-bar-container").innerWidth()-30;
 			$("#likes-bar").attr({
 				"width" : canvasWidth
+			});
+		}
+		
+		function evaluateGame(eval){
+			console.log('aa');
+			$.ajax({
+				url : '/game/evaluate/'+eval,
+				type : 'post',
+				success : function(data){
+					if(data == 'success'){
+						console.log(data);
+					}
+				},
+				error : function(e){
+					console.error(e);
+				}
 			});
 		}
 		
