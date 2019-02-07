@@ -74,6 +74,11 @@ public class BoardController {
 	public String view(@RequestParam int id, Model model) {
 		// 조회수 순서변경(화면 뿌려주기전에 조회수부터 올림)
 		boardService.hitUp(id);
+		if(boardService.getBoardSelect(id) == null) {
+			model.addAttribute("msg","없는 페이지입니다");
+			model.addAttribute("url", "/board/list");
+			return "result";
+		}
 		model.addAttribute("board", boardService.getBoardSelect(id));
 		return "/board/view";
 	}

@@ -97,6 +97,7 @@ insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</s
 insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','깃허브에?�� �??��?�� ?���?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
 update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);
+
 create table reply (
     id number primary key,
     type varchar2(5) check (type in ('game', 'board')) not null,
@@ -110,11 +111,16 @@ create table reply (
 );
 select * from reply;
 select * from user_constraints;
-create table likes (
+--create sequence seq_gameLike_id;
+create table gameLike (
     id number primary key,
+    game_id number references game(id) on delete set null,
     type varchar2(6) check (type in ('like', 'unlike')),
     users_id varchar2(20) references users(id)
 );
+insert into gameLike values(1, 61, 'like', 'test');
+--drop table gameLike;
+select * from gameLike;
 
 create table score (
     id number primary key,
@@ -131,6 +137,7 @@ insert into score values(5,2,'test',200,systimestamp);
 insert into score values(6,3,'test',150,systimestamp);
 insert into score values(7,3,'test',300,systimestamp);
 select * from score where play_timestamp < sysdate;
+
 create table hotgame(
     id number primary key,
     game_id number references game(id) on delete set null,

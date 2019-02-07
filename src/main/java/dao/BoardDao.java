@@ -43,7 +43,7 @@ public class BoardDao {
 		session.update("board.hitUp", id);
 	}
 
-	public int reply_count(int id) {
+	public int updateReplyCount(int id) {
 		return session.update("board.reply_count",id);
 	}
 }

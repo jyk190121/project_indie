@@ -18,12 +18,15 @@
 		)
 	</insert>
 	
-	<select id="replyList" parameterType="int" resultType="Reply">
-		select * from reply where idx = #{value} order by step		
+	<select id="boardReplyList" parameterType="int" resultType="Reply">
+		select * from reply where idx = #{value} and type = 'board' order by step 		
+	</select>
+	<select id="gameReplyList" parameterType="int" resultType="Reply">
+		select * from reply where idx = #{value} and type = 'game' order by step 		
 	</select>
 	<select id="selectOne" parameterType="int"
 			resultType="Reply">
-		select * from reply where id = #{value}
+		select * from reply where id = #{value} 
 	</select>
 	
 	<!-- 부모의 동생의 step, 없으면 0 -->
@@ -31,19 +34,21 @@
 			resultType="int">
 		select nvl(min(step),0) from reply
 		where idx = #{idx} and ref = #{ref} 
-		and step > #{step}
+		and step > #{step} and
+		type = #{type}
 	</select>
 	
 	<update id="pushReply" parameterType="Reply">
 		update reply set step = step + 1
 		where idx = #{idx} and
-		step >= #{step}
+		step >= #{step} and
+		type = #{type}
 	</update>
 	
-	<select id="maxStep" parameterType="int"
+	<select id="maxStep" parameterType="Map"
 			resultType="int">
 		select max(step) + 1 from reply
-		where idx = #{value}	
+		where idx = #{idx} and type = #{type}	
 	</select>
 	
 	<insert id="insertRereply" parameterType="Reply">

@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +15,29 @@ public class Game {
 	@NotBlank(message="설명해라 설명")
 	private String info;
 	private String image;
+	
 	private String users_id, regist_date, etc_info;
 	
 	private MultipartFile image_file;
 	private MultipartFile game_file;
+	
+	private List<Reply> replyList;
+	
+	public List<Reply> getReplyList() {
+		return replyList;
+	}
+	public void setReplyList(List<Reply> replyList) {
+		this.replyList = replyList;
+	}
+	
+	public int getEvalCount(String eval) {
+		if(eval.equals("like")) {
+			return getLikes();
+		}else if(eval.equals("unlike")){
+			return getUnlikes();
+		}
+		return -1;
+	}
 	
 	public MultipartFile getImage_file() {
 		return image_file;

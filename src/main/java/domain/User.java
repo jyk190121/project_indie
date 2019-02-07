@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ public class User implements UserDetails{
 	private String password;
 	@Pattern(regexp = "[ㄱ-ㅎ가-힣ㅏ-ㅣ0-9A-Za-z!@#*_-]{4,20}", message = "닉네임은 숫자와 영문, 한글, 특수문자(!@#*_-) 4 ~ 20 글자로 구성됨")
 	private String nickname;
+	@Email
 	private String email;
 	private String image;
 	private String myinfo;

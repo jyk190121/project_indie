@@ -1,8 +1,5 @@
 package controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import domain.Game;
+import domain.GameLike;
 import domain.User;
 import exception.InadequateFileExtException;
 import service.FileService;
@@ -80,7 +79,7 @@ public class GameController {
 		
 		game.setId(gameService.getNextId());
 		String rootDir = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/game/")
-				+ game.getId() + "_" + game.getName() + "/";
+				+ game.getId() + "/";
 		//String rootDir = "c:/test/" + game.getId() + "_" + game.getName() + "/";
 
 		fileService.makeDirectory(rootDir);
@@ -125,7 +124,7 @@ public class GameController {
 	}
 
 	@RequestMapping(value = "/game/view", method = RequestMethod.GET)
-	public String gameView(@RequestParam(required = false) String id, Model model) {
+	public String gameView(@RequestParam(required = false) String id, Model model, @AuthenticationPrincipal User user) {
 		if (id == null) {
 			return "redirect:/game/";
 		}
@@ -136,7 +135,39 @@ public class GameController {
 			return "result";
 		}
 		model.addAttribute("game", game);
+		GameLike eval = new GameLike();
+		eval.setGame_id(id);
+		eval.setUsers_id(user.getId());
+		if(gameService.selectGameLike(eval) != null) {
+			model.addAttribute("selectedEval", gameService.selectGameLike(eval).getType());
+		}
 		return "game/view";
 	}
 
+	@RequestMapping(value="/game/evaluate", method=RequestMethod.POST)
+	@ResponseBody
+	public String evaluate(@ModelAttribute GameLike input, @AuthenticationPrincipal User user) {
+		if(!(input.getType().equals("like") || input.getType().equals("unlike"))){
+			return "invalid type";
+		}
+		input.setUsers_id(user.getId());
+		Game game = gameService.selectOne(String.valueOf(input.getGame_id()));
+		if(gameService.isEvaluationExisting(input)){
+			String existingType = gameService.selectGameLike(input).getType();
+			if(!existingType.equals(input.getType())) {
+				gameService.updateEvalCount(input.getGame_id(), existingType, game.getEvalCount(existingType)-1);
+				gameService.updateGameLike(input);
+			}else {
+				Game g = gameService.selectOne(String.valueOf(input.getGame_id()));
+				return input.getType()+","+g.getLikes()+","+g.getUnlikes();
+			}
+		}else {
+			gameService.insertGameLike(input);
+		}
+		gameService.updateEvalCount(input.getGame_id(), input.getType(), game.getEvalCount(input.getType())+1);
+		Game g = gameService.selectOne(String.valueOf(input.getGame_id()));
+		return input.getType()+","+g.getLikes()+","+g.getUnlikes();
+	}
+	
+	
 }

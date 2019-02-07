@@ -46,11 +46,9 @@
 		resultMap="replyListMap">
 		select * from board where id = #{value}
 	</select>
-
 	<resultMap type="Board" id="replyListMap">
-		<result property="id" column="id" />
-		<collection property="replyList" ofType="Reply" column="id"
-			select="reply.replyList" />
+		<result column="id" property="id"></result>
+		<collection property="replyList" ofType="Reply" column="id" select="reply.boardReplyList"></collection>
 	</resultMap>
 
 	<update id="update" parameterType="Board">

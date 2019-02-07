@@ -29,6 +29,10 @@
 #game-panel {
 	text-align: center;
 }
+
+.disnone {
+	display: none !important;
+}
 </style>
 <body onload="draw();" onresize="draw();">
 	<div class="header">
@@ -36,35 +40,105 @@
 		<h1 class="text-center">${game.name }</h1>
 	</div>
 	<div class="content">
-
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">s
+				<div class="col-sm-8 col-sm-offset-2">
 					<div class="container-fluid">
 						<div class="row" id="game-panel">
-							<iframe scrolling="no" id="game-frame" 
-								src="/upload/game/${game.id }_${game.name}/${game.src}">브라우저에
+							<iframe scrolling="no" id="game-frame"
+								src="/upload/game/${game.id }/${game.src}">브라우저에
 								따라 작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
 						</div>
 						<div class="row">
 							<div class="col-xs-1">
-								<a href="javascript:evaluateGame('like');" class="likes-btn">
-									좋아요
-								</a>			
+								<div class="disnone" id="like-activated">
+									<a href="javascript:evaluateGame('like');" class="likes-btn">좋아요</a>
+								</div>
+								<div id="like-deactivated">좋아요</div>
 							</div>
 							<div class="col-xs-10" id="likes-bar-container">
 								<div>
 									<canvas id="likes-bar" width="100%" height="30px"></canvas>
 								</div>
-								<div class="col-xs-4">${game.likes }</div>
+								<div class="col-xs-4">
+									<span id="likeCount">${game.likes }</span>
+								</div>
 								<div class="col-xs-4">이건 뭐 그냥</div>
-								<div class="col-xs-4">${game.unlikes }</div>
+								<div class="col-xs-4">
+									<span id="unlikeCount">${game.unlikes }</span>
+								</div>
 							</div>
 							<div class="col-xs-1">
-								<a href="javascript:evaluateGame('unlike');" class="likes-btn">
-									싫어요
-								</a>	
+								<div class="disnone" id="unlike-activated">
+									<a href="javascript:evaluateGame('unlike');" class="likes-btn">싫어요</a>
+								</div>
+								<div id="unlike-deactivated">싫어요</div>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<div class="container-fluid">
+						<div class="reply-form">
+							<h4>Leave a Comment</h4>
+							<form action="/reply/insert" method="post">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token }" />
+								<div class="form-group">
+									<textarea name="content" rows="3" class="form-control" required></textarea>
+								</div>
+								<div class="form-group text-right">
+									<button type="button" onclick="replySend(this.form)"
+										class="btn btn-primary">등록</button>
+								</div>
+							</form>
+						</div>
+						<div class="reply-list">
+							<p>
+								<span class="badge"> ${fn:length(game.replyList) } </span>
+								Comments
+							</p>
+							<c:forEach var="reply" items="${game.replyList }">
+								<div class="reply" style="margin-left:${reply.depth*30}px">
+									<div class="reply-header">
+										<span class="glyphicon glyphicon-user"></span> ${reply.writer }
+										<c:if test="${empty reply.writer }">
+							삭제된 사용자입니다
+						</c:if>
+										&nbsp;&nbsp;
+										<c:if test="${!empty reply.writer }">
+											<span class="glyphicon glyphicon-time"></span>
+							${reply.write_date } &nbsp;&nbsp;
+							<button class="btn btn-primary btn-xs" type="button"
+												data-parent="#reply-list" data-toggle="collapse"
+												data-target="#form_${reply.id }">댓글</button>
+										</c:if>
+									</div>
+									<div class="reply-body">
+										<c:if test="${reply.depth != 0 }">
+											<i class="fas fa-reply" style="transform: rotate(180deg)"></i>
+										</c:if>
+										${reply.content }
+									</div>
+									<div class="rereply-form collapse" id="form_${reply.id}">
+										<form action="/reply/rereply" method="post">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token }" /> <input type="hidden" name="ref"
+												value="${reply.id}" />
+											<div class="form-group">
+												<textarea name="content" rows="3" class="form-control"
+													required></textarea>
+											</div>
+											<div class="form-group text-right">
+												<button type="button" onclick="replySend(this.form)"
+													class="btn btn-primary">등록</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -79,8 +153,9 @@
 		var evalCount = ${game.likes + game.unlikes};
 		var likeRatio = ${game.likes}/evalCount;
 		var unlikeRatio = ${game.unlikes}/evalCount;
+		var selectedEval = '${selectedEval}';
 		
-		$(document).ready(resizeLikesBar());
+		$(document).ready(function(){resizeLikesBar();activateEval()});
 
 		$(window).resize(function() {
 			canvasWidth = $("#likes-bar-container").innerWidth()-30;
@@ -97,15 +172,44 @@
 			});
 		}
 		
+		//좋아요 싫어요
+		
+		function activateEval(){
+			if(selectedEval == 'like'){
+				$("#like-activated").addClass("disnone");
+				$("#like-deactivated").removeClass("disnone");
+				$("#unlike-activated").removeClass("disnone");
+				$("#unlike-deactivated").addClass("disnone");
+			}else if(selectedEval == 'unlike'){
+				$("#like-activated").removeClass("disnone");
+				$("#like-deactivated").addClass("disnone");
+				$("#unlike-activated").addClass("disnone");
+				$("#unlike-deactivated").removeClass("disnone");
+			}else{
+				$("#like-activated").removeClass("disnone");
+				$("#like-deactivated").addClass("disnone");
+				$("#unlike-activated").removeClass("disnone");
+				$("#unlike-deactivated").addClass("disnone");
+			}
+		}
+		
 		function evaluateGame(eval){
-			console.log('aa');
 			$.ajax({
-				url : '/game/evaluate/'+eval,
+				url : '/game/evaluate?${_csrf.parameterName}=${_csrf.token}',
 				type : 'post',
+				data : {type : eval, game_id : ${game.id}},
 				success : function(data){
-					if(data == 'success'){
-						console.log(data);
-					}
+					var list = data.split(',');
+					list[1] *= 1;
+					list[2] *= 1;
+					$("#likeCount").text(list[1]);
+					$("#unlikeCount").text(list[2]);
+					evalCount = list[1]+list[2];
+					likeRatio = list[1]/evalCount;
+					unlikeRatio = list[2]/evalCount;
+					draw();
+					selectedEval = list[0];
+					activateEval();
 				},
 				error : function(e){
 					console.error(e);
@@ -113,12 +217,18 @@
 			});
 		}
 		
+		//좋아요 싫어요 바
+		
 		function draw(){
 			var canvas = $("#likes-bar")[0];
 			if(canvas.getContext){
 				var ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				ctx.fillStyle = '#74b9ff';
 				if(evalCount == 0){
+					roundRect(ctx,0,0,canvasWidth-1,30,15,true,false);
+				}else if(likeRatio == 0 || unlikeRatio == 0){
+					if(likeRatio == 0){ctx.fillStyle = '#fab1a0';}
 					roundRect(ctx,0,0,canvasWidth-1,30,15,true,false);
 				}else{
 					roundRect(ctx,0,0,canvasWidth*likeRatio,30,{tl:15,bl:15},true,false);
@@ -164,6 +274,13 @@
 			  }
 
 			}
+		
+		//reply
+		function replySend(f){
+    		$(f).append(`<input type='hidden' name='type' value='game'/>`);
+    		$(f).append(`<input type='hidden' name='idx' value='${game.id}'/>`);
+			f.submit();
+    	}
 		
 	</script>
 </body>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import dao.GameDao;
 import domain.Game;
+import domain.GameLike;
 import domain.Score;
 import domain.User;
 
@@ -83,6 +84,41 @@ public class GameService {
 
 	public int getNextId() {
 		return gameDao.getNextId();
+	}
+	
+	public void updateEvalCount(String game_id, String type, int count) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("game_id", game_id);
+		map.put("type", type);
+		map.put("count", count);
+		gameDao.updateEvalCount(map);
+	}
+	
+	
+	//gameLike
+
+	public GameLike selectGameLike(GameLike input) {
+		return gameDao.selectGameLike(input);
+	}
+	
+	public boolean isEvaluationExisting(GameLike input) {
+		if(gameDao.selectGameLike(input) == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public void updateGameLike(GameLike input) {
+		gameDao.updateGameLike(input);
+	}
+
+	public void insertGameLike(GameLike input) {
+		gameDao.insertGameLike(input);
+	}
+
+	public void updateReplyCount(int idx) {
+		gameDao.updateReplyCount(idx);		
 	}
 
 }

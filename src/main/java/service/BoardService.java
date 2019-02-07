@@ -58,8 +58,8 @@ public class BoardService {
 		boardDao.hitUp(id);
 	}
 
-	public int reply_count(int id) {
-		return (Integer)boardDao.reply_count(id);
+	public int updateReplyCount(int id) {
+		return boardDao.updateReplyCount(id);
 	}
 
 }

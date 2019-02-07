@@ -10,43 +10,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import domain.Reply;
 import domain.User;
 import service.BoardService;
+import service.GameService;
 import service.ReplyService;
 
 @Controller
 public class ReplyController {
-	
+
 	@Autowired
 	private ReplyService replyService;
 	@Autowired
 	private BoardService boardService;
-	
-	@RequestMapping(value="/reply/insert", 
-					method=RequestMethod.POST)
-	public String reply(@ModelAttribute Reply reply,
-						@AuthenticationPrincipal User user) {
+	@Autowired
+	private GameService gameService;
+
+	@RequestMapping(value = "/reply/insert", method = RequestMethod.POST)
+	public String reply(@ModelAttribute Reply reply, @AuthenticationPrincipal User user) {
+		System.out.println("insert");
 		reply.setWriter(user.getId());
-		/*System.out.println(reply);*/
 		replyService.add(reply);
-		if(reply.getType().equals("board")) {
-			boardService.reply_count(reply.getIdx());
-		}else if(reply.getType().equals("game")) {
+		if (reply.getType().equals("board")) {
+			boardService.updateReplyCount(reply.getIdx());
+		} else if (reply.getType().equals("game")) {
+			gameService.updateReplyCount(reply.getIdx());
 		}
-		return "redirect:/board/view?id="+reply.getIdx();
+		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
-	
-	@RequestMapping(value="/reply/rereply", 
-					method=RequestMethod.POST)
-	public String reReply(@ModelAttribute Reply reply,
-						  @AuthenticationPrincipal User user) {
+
+	@RequestMapping(value = "/reply/rereply", method = RequestMethod.POST)
+	public String reReply(@ModelAttribute Reply reply, @AuthenticationPrincipal User user) {
 		reply.setWriter(user.getId());
-		reply.setType("board");
 		replyService.addRereply(reply);
-		return "redirect:/board/view?id="+reply.getIdx();
+		if (reply.getType().equals("board")) {
+			boardService.updateReplyCount(reply.getIdx());
+		} else if (reply.getType().equals("game")) {
+			gameService.updateReplyCount(reply.getIdx());
+		}
+		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
 }
-
-
-
-
-
-

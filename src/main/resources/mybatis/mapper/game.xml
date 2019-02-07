@@ -36,10 +36,36 @@
 	<insert id="insertGame" parameterType="Game">
 		insert into game values (#{id}, #{name}, #{type}, #{src}, #{info}, #{image}, #{users_id}, 0, sysdate, 0, 0, 0, #{etc_info})
 	</insert>
-	<select id="selectOneById" parameterType="String" resultType="Game">
+	<select id="selectOneById" parameterType="String" resultMap="replyListMap">
 		select * from game where id = #{value}
 	</select>
+	<resultMap type="Game" id="replyListMap">
+		<result column="id" property="id"/>
+		<collection property="replyList" column="id" ofType="Reply" select="reply.gameReplyList"></collection>
+	</resultMap>
 	<select id="getNextId" resultType="int">
 		select seq_game_id.nextval from dual
 	</select>
+	<update id="updateEvalCount" parameterType="Map">
+		update game set 
+		<if test="type == 'like'">likes</if>
+		<if test="type == 'unlike'">unlikes</if>
+		= #{count} where id = #{game_id}
+	</update>
+	<update id="reply_count" parameterType="int">
+		update game set
+		reply_count = (select count(*) from reply
+		where type ='game' and idx = #{value}) where id = #{value}
+	</update>
+	
+	<!-- 좋아요 싫어요 -->
+	<select id="selectGameLike" parameterType="GameLike" resultType="GameLike">
+		select * from gameLike where users_id = #{users_id} and game_id = #{game_id}
+	</select>
+	<insert id="insertGameLike" parameterType="GameLike">
+		insert into gameLike values(seq_gameLike_id.nextval, #{game_id}, #{type}, #{users_id})
+	</insert>
+	<update id="updateGameLike" parameterType="GameLike">
+		update gameLike set type = #{type} where game_id = #{game_id} and users_id = #{users_id}
+	</update>
 </mapper>
