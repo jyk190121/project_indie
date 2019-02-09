@@ -121,15 +121,8 @@ public class UserController {
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		
-		try {
-			model.addAttribute("user",userService.selectOneById(user.getId()));
-			System.out.println(user);
-		}catch(Exception e) {
-			model.addAttribute("msg","일시적인 오류입니다. 다시 로그인해주세요");
-			model.addAttribute("url","/?signout");
-			return "/result";
-		}
+		System.out.println(user.getPassword());
+		model.addAttribute("user",userService.selectOneById(user.getId()));
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
 		npage = Integer.parseInt(page);
@@ -145,8 +138,6 @@ public class UserController {
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
 	public String postMypage(@AuthenticationPrincipal User user,
 			@RequestParam String id, @RequestParam String password, Model model) {
-		System.out.println(user.getPassword());
-		System.out.println(password);
 		if (user.getId().equals(id) && user.getPassword().equals(password)) {
 			model.addAttribute("user",userService.selectOneById(user.getId()));
 			return "/user/update";
@@ -210,7 +201,6 @@ public class UserController {
 				@RequestParam String id,@RequestParam String password,
 				Model model) {
 		if (user.getId().equals(id)) {
-			model.addAttribute("user",userService.selectOneById(user.getId()));
 			return "/user/update";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
@@ -245,7 +235,7 @@ public class UserController {
 			}
 				userService.update(user);
 				model.addAttribute("msg","수정완료");
-				model.addAttribute("url","redirect: /user/mypage");
+				model.addAttribute("url","/profile?id="+id);
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/");
@@ -371,8 +361,6 @@ public class UserController {
 	public String profile(@ModelAttribute User user,@RequestParam String id,
 			Model model) {
 		model.addAttribute("user", userService.getUserListSelectOne(id));
-		System.out.println(user.getId());
-		System.out.println(id);
 		return "/user/profile";
 	}
 	

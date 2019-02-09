@@ -97,7 +97,8 @@ textarea {
 				<c:forEach var="reply" items="${board.replyList }">
 					<div class="reply" style="margin-left:${reply.depth*30}px">
 						<div class="reply-header">
-							<span class="glyphicon glyphicon-user"></span> ${reply.writer }
+							<span class="glyphicon glyphicon-user"></span> 
+							<a href="/profile?id=${reply.writer }">${reply.writer }</a>
 							<c:if test="${empty reply.writer }">
 							삭제된 사용자입니다
 						</c:if>

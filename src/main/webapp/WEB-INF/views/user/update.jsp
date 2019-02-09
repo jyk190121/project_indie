@@ -88,9 +88,9 @@
 			</div>
 		</div>
 </div>
-<div class="footer text-center">
+<div class="footer">
 	<div class="col-sm-offset-3 col-sm-4">
-		<button type="button" class="btn btn-warning btn-block" onclick="userUpdate();">수정</button>
+		<button class="btn btn-warning btn-block" onclick="userUpdate();">수정</button>
 	</div>
 	<div class="col-sm-4">
 		<a href="/user/mypage" class="btn btn-danger btn-block">취소</a>
