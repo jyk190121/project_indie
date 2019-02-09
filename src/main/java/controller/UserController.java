@@ -69,7 +69,6 @@ public class UserController {
 		}
 		if (bindingResult.hasErrors()) {
 			for (ObjectError e : bindingResult.getAllErrors()) {
-				System.out.println(e.getDefaultMessage());
 			}
 			return "/user/join";
 		}
@@ -79,7 +78,6 @@ public class UserController {
 		if (!((String) session.getAttribute("email")).equals(user.getEmail())) {
 			return "/user/join";
 		}
-		System.out.println(user.getImage_file());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		String filename;
 		try {
@@ -94,7 +92,11 @@ public class UserController {
 			model.addAttribute("url","/game/insert");
 			return "result";
 		}
-		user.setImage(filename);
+		if(filename.equals("no_file")) {
+			user.setImage("default.png");
+		}else if(!filename.equals("no_file")){
+			user.setImage(filename);
+		}
 		userService.insert(user);
 
 		return "redirect:/?signin";

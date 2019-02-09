@@ -56,4 +56,5 @@ public class BoardDao {
 		return session.selectOne("board.myBoardTotal",id);
 	}
 
+
 }

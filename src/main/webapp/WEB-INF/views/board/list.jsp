@@ -70,7 +70,8 @@
 									${board.title }
 								</c:if>
 							</td>
-							<td>${board.user.nickname }
+							<td>
+							${board.user.nickname }
 								<c:if test="${board.user.nickname eq null}">
 								<p class="emptyUser">탈퇴한 유저의 게시물입니다.</p>
 								</c:if>

@@ -11,8 +11,7 @@ select *
 		union all select * from 
 		(select * from board where type = 'normal' and writer = 'test' order by id desc)) a)
 		where rnum between 1 and 11;
-select id from users;
-select * from board;
+select * from board where writer is null;
 select * from users;
 select * from authority;
 delete from users where id='jin2';

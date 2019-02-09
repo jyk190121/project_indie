@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="seq"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,18 +59,18 @@ textarea {
 				</div>
 				<div class="panel-body">${board.content }</div>
 				<div class="border-footer text-right" style="padding: 20px">
-					<seq:authentication var="user" property="principal" />
-					<seq:authorize access="hasRole('ROLE_ADMIN')">
+					<sec:authentication var="user" property="principal" />
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<a href="/board/update?id=${board.id }" class="btn btn-warning">수정</a>
 						<a href="/board/delete?id=${board.id }" class="btn btn-danger">삭제</a>
-					</seq:authorize>
+					</sec:authorize>
 
-					<seq:authorize access="!hasRole('ROLE_ADMIN')">
+					<sec:authorize access="!hasRole('ROLE_ADMIN')">
 						<c:if test="${user.id eq board.writer }">
 							<a href="/board/update?id=${board.id }" class="btn btn-warning">수정</a>
 							<a href="/board/delete?id=${board.id }" class="btn btn-danger">삭제</a>
 						</c:if>
-					</seq:authorize>
+					</sec:authorize>
 					<a href="/board/list" class="btn btn-primary">목록</a>
 				</div>
 			</div>
