@@ -29,11 +29,8 @@
 				<sec:authorize access="isAuthenticated()">
 				<li><a href="/board/list">board</a></li>
 				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_MANAGER')">
-				<li><a href="/manager">manager</a></li>
-				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<li><a href="/admin">admin</a></li>
+				<li><a href="/manage">manage</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 				<li><a href="javascript:signout();">signout</a></li>

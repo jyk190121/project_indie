@@ -24,6 +24,11 @@
 	tfoot{
 		text-align: center;	
 	}
+	.emptyUser{
+		margin: 0;
+		color: silver;
+		background-color: black;
+	}
 </style>
 </head>
 <body>
@@ -41,7 +46,7 @@
 					<thead>
 						<tr>
 							<th width="30%">제목</th>
-							<th width="20%">작성자</th>
+							<th width="30%">작성자</th>
 							<th width="20%">작성일</th>
 							<th width="10%">댓글수</th>
 							<th width="10%">조회수</th>
@@ -64,12 +69,15 @@
 								<c:if test="${board.type == 'normal' }">
 									${board.title }
 								</c:if>
-								</td>
-								<td>${board.user.nickname }</td>
-							
-								<td>${board.write_date }</td>
-								<td>${board.reply_count }</td>
-								<td>${board.hit }</td>
+							</td>
+							<td>${board.user.nickname }
+								<c:if test="${board.user.nickname eq null}">
+								<p class="emptyUser">탈퇴한 유저의 게시물입니다.</p>
+								</c:if>
+							</td>
+							<td>${board.write_date }</td>
+							<td>${board.reply_count }</td>
+							<td>${board.hit }</td>
 						</tr>
 					</c:forEach>
 					</tbody>

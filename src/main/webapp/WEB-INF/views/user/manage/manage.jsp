@@ -11,17 +11,21 @@
 tfoot{
 		text-align: center;	
 	}
+.line{
+	margin-bottom: 0;
+}
 </style>
 </head>
 <body>
 	<div class="header">
-		<div class="jumbotron">
+		<div class="jumbotron line">
 			<h1 class="text-center">
 				<i class="glyphicon glyphicon glyphicon-pencil
 				   style="font-size:85%"></i>
 				  유저 관리 시스템
 			</h1>
 		</div>
+		<a class="btn btn-primary btn-block" href="/main">main</a>
 	</div>
 	<div class="content">
 		<div class="container">

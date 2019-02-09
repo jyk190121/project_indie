@@ -40,8 +40,8 @@
 			</h1>
 		</div>
 	</div>
-	<a href="/main">main</a>
 	<div class="content">
+	<a class="btn btn-primary btn-block" href="/main">main</a>
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<span class="glyphicon glyphicon-user"></span>

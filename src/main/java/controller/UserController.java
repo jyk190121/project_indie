@@ -301,7 +301,6 @@ public class UserController {
 	
 	@RequestMapping(value="/user/manage/update",method=RequestMethod.POST)
 	public String manageUpdate(@ModelAttribute User user, Model model) {
-		System.out.println(user.getImage());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
 			user.setImage(fileService.saveImage(path, user.getImage_file()));

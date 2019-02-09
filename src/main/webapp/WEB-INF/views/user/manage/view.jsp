@@ -13,7 +13,7 @@
 <style>
 .image-board {
 	width: 300px;
-	height: 100px;
+	height: 200px;
 	border: 1px solid gray;
 }
 
@@ -49,8 +49,8 @@
 	<span class="glyphicon glyphicon-user"></span>
 		<i class="" style="font-size: 85%"></i> ${user.nickname }님의 정보
 	</h1>
-	<a href="/main">main</a>
 	<div class="content">
+	<a class="btn btn-primary btn-block" href="/manage">유저리스트</a>
 		<form:form action="/user/manage/update?${_csrf.parameterName}=${_csrf.token }"
 				method="post" enctype="multipart/form-data" modelAttribute="user"
 				class="form-horizontal" id="form">
