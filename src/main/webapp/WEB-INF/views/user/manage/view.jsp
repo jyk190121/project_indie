@@ -47,7 +47,7 @@
 	</div>
 	<h1 class="text-center">
 	<span class="glyphicon glyphicon-user"></span>
-		<i class="" style="font-size: 85%"></i> ${param.nickname }님의 정보
+		<i class="" style="font-size: 85%"></i> ${user.nickname }님의 정보
 	</h1>
 	<a href="/main">main</a>
 	<div class="content">
@@ -60,20 +60,20 @@
 				<div class="panel-body" style="font-size: 18px;">
 					<div class="col-sm-offset-1 col-sm-5 form-group" id="userInfo">
 						<p>
-							아이디 : <input name="id" type="text" value="${param.id }" 
+							아이디 : <input name="id" type="text" value="${user.id }" 
 								style="background-color:gray;" readonly/>
 						</p>
 						<p>
-							비밀번호 : <input name="password" type="password" value="${param.password }"/>
+							비밀번호 : <input name="password" type="password" value="${user.password }"/>
 						</p>
 						<p>
-							닉네임 : <input name="nickname" type="text" value="${param.nickname }" />
+							닉네임 : <input name="nickname" type="text" value="${user.nickname }" />
 						</p>
 						<p>
-							레벨 : <input name="lev" type="text" value="${param.lev }" />
+							레벨 : <input name="lev" type="text" value="${user.lev }" />
 						</p>
 						<p>
-							경험치 : <input name="exp" type="text" value="${param.exp }" />
+							경험치 : <input name="exp" type="text" value="${user.exp }" />
 						</p>
 					</div>
 	
@@ -82,12 +82,12 @@
 							<label>프로필 이미지</label>
 							<input type="file" name="image_file" onchange="showImage(this)" required="required" accept="image"/>
 							<div class="image-board" style="margin-bottom: 10px;">
-								<img class="image" src="/upload/image/${param.image }" alt="${param.image }" />
+								<img class="image" src="/upload/image/${user.image }" alt="${user.image }" />
 							</div>
 							<p>
-								<label>${param.nickname}님의 소개</label>
+								<label>${user.nickname}님의 소개</label>
 							</p>
-							<textarea name="myinfo" style="resize: none; width: 300px;">${param.myinfo }</textarea>
+							<textarea name="myinfo" style="resize: none; width: 300px;">${user.myinfo }</textarea>
 						</div>
 					</div>
 				</div>
@@ -95,11 +95,11 @@
 		</form:form>
 	</div>
 	<div class="footer text-center">
-		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${param.lev}  경험치 : ${param.exp}</pre>
+		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${user.exp}</pre>
 			<button class="btn btn-primary" 
 				onclick="userUpdate();">수정</button>
 			<button class="btn btn-danger" type="button"
-				onclick="userDelete('${param.id}');">회원탈퇴</button>
+				onclick="userDelete('${user.id}');">회원탈퇴</button>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script

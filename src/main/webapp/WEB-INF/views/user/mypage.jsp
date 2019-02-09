@@ -48,7 +48,7 @@
 				<h4>회원정보 수정</h4>
 			</div>
 			<div class="panel-body">
-				<form:form
+					<form:form
 							action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 							method="post" enctype="multipart/form-data" modelAttribute="user"
 							class="form-horizontal">

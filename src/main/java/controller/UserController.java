@@ -121,9 +121,10 @@ public class UserController {
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		model.addAttribute("user",new User());
+		
 		try {
 			model.addAttribute("user",userService.selectOneById(user.getId()));
+			System.out.println(user);
 		}catch(Exception e) {
 			model.addAttribute("msg","일시적인 오류입니다. 다시 로그인해주세요");
 			model.addAttribute("url","/?signout");
@@ -139,7 +140,6 @@ public class UserController {
 			return "/board/notPage";
 		}
 		return "/user/mypage";
-		
 	}
 	
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
@@ -240,14 +240,12 @@ public class UserController {
 				model.addAttribute("url","/user/mypage");
 				return "/result";
 			}
-			System.out.println(user.getImage());
 			if(user.getImage().equals("no_file")) {
 				user.setImage(null);
 			}
 				userService.update(user);
-				model.addAttribute("msg","수정이 완료되었습니다. 다시 로그인해주세요");
-				model.addAttribute("url","/main");
-				
+				model.addAttribute("msg","수정완료");
+				model.addAttribute("url","redirect: /user/mypage");
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/");
@@ -282,7 +280,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/manage", method = RequestMethod.GET)
-	public String manage(@RequestParam(defaultValue = "1") String page,
+	public String manageGet(@RequestParam(defaultValue = "1") String page,
 			Model model, @AuthenticationPrincipal User user) {
 		int npage = 0;
 		try {
@@ -299,14 +297,21 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value = "/manage/user", method = RequestMethod.GET)
+	public String managePost(Model model, @ModelAttribute User user) {
+		model.addAttribute("user", userService.getUserListSelectOne(user.getId()));
+		return "/user/manage/view";
+	}
+	
 	@RequestMapping(value="/user/manage/view",method=RequestMethod.GET)
 	public String manageView(Model model,@ModelAttribute User user) {
 		model.addAttribute("user",user);
-		return "user/manage/view";
+		return "/user/manage/view";
 	}
 	
 	@RequestMapping(value="/user/manage/update",method=RequestMethod.POST)
 	public String manageUpdate(@ModelAttribute User user, Model model) {
+		System.out.println(user.getImage());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
 			user.setImage(fileService.saveImage(path, user.getImage_file()));
@@ -316,8 +321,8 @@ public class UserController {
 			String str = dayTime.format(new Date(time));
 
 			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-			model.addAttribute("url","/user/manage/view");
-			return "result";
+			model.addAttribute("url","/manage");
+			return "/result";
 		}
 		if(user.getImage().equals("no_file")) {
 			user.setImage(null);
@@ -360,6 +365,15 @@ public class UserController {
 			model.addAttribute("search", search);
 		}
 		return "/user/manage/manage";
+	}
+	
+	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	public String profile(@ModelAttribute User user,@RequestParam String id,
+			Model model) {
+		model.addAttribute("user", userService.getUserListSelectOne(id));
+		System.out.println(user.getId());
+		System.out.println(id);
+		return "/user/profile";
 	}
 	
 }

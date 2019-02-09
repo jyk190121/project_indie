@@ -142,4 +142,8 @@ public class UserService implements UserDetailsService {
 		return userDao.userSearchList(search);
 	}
 
+	public User getUserListSelectOne(String id) {
+		return userDao.selectOne(id);
+	}
+
 }

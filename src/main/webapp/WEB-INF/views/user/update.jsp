@@ -41,7 +41,7 @@
 				<p>ID : ${user.id }</p>
 			</div>
 			<div class="container">
-				<form:form
+					<form:form
 						action="/user/update?${_csrf.parameterName}=${_csrf.token }"
 						method="post" enctype="multipart/form-data" modelAttribute="user"
 						class="form-horizontal" id="form">
@@ -73,7 +73,7 @@
 						<div class="col-sm-9">
 							<input type="file" name="image_file" onchange="showImage(this)" accept="image"/>
 							<div class="image-board" style="margin-bottom: 10px;">
-								<img class="image" src="/upload/image/${user.image }" alt="${user.image }" />
+								<img name="image" class="image" src="/upload/image/${user.image }" alt="${user.image }" />
 							</div>
 						</div>
 					</div>

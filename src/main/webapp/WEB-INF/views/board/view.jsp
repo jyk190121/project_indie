@@ -53,9 +53,9 @@ textarea {
 					<h4>${board.title }</h4>
 					<hr style="margin: 5px 0;" />
 					<div class="text-right">
-						<span class="glyphicon glyphicon-user"></span> ${board.writer } <span
-							class="glyphicon glyphicon-time"></span> ${board.write_date } <span
-							class="badge">${board.hit }</span>
+						<span class="glyphicon glyphicon-user"></span> <a href="/profile?id=${board.writer }">${board.writer }</a>
+						 <span class="glyphicon glyphicon-time"></span> ${board.write_date } 
+						 <span class="badge">${board.hit }</span>
 					</div>
 				</div>
 				<div class="panel-body">${board.content }</div>
