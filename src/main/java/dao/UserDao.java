@@ -51,8 +51,8 @@ public class UserDao {
 		return session.selectOne("users.userTotal");
 	}
 
-	public List<User> selectList(Map<String, Integer> map) {
-		return session.selectList("users.selectList",map);
+	public List<User> userList(Map<String, Integer> map) {
+		return session.selectList("users.userList",map);
 	}
 
 	public void manageUpdate(User user) {
@@ -63,8 +63,16 @@ public class UserDao {
 		session.delete("users.manageDelete",id);
 	}
 
-	public List<User> userSearchList(String search) {
-		return session.selectList("users.userSearchList",search);
+	public List<User> userSearchManage(String search) {
+		return session.selectList("users.userSearchManage",search);
+	}
+
+	public List<User> userSearch(String search) {
+		return session.selectList("users.userSearch",search);
+	}
+
+	public int rankingUpdate(int i) {
+		return session.update("users.rankingUpdate",i);
 	}
 
 }

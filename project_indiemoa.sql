@@ -4,6 +4,10 @@ select * from (select rownum rnum, a.* from
 		(select * from board where writer = 'test' order by id desc)a) 
 		where rnum between 1 and 22;
 
+delete from users where id ='test2';
+
+
+desc users;
 update users set password = '1111' where id = 'test2';
 select *
 		from (select rownum rnum, a.* from
@@ -50,6 +54,7 @@ create sequence seq_reply_id;
 create sequence seq_likes_id;
 create sequence seq_score_id;
 create sequence seq_hotgame_id;
+
 
 --select * from (select * from board_notice order by id)
 -- union all select * from (select * from board order by id);
@@ -121,17 +126,21 @@ create table reply (
     step number
 );
 select * from reply;
-select * from user_constraints;
+select * from user_constraints where TABLE_NAME='GAME';
 --create sequence seq_gameLike_id;
 create table gameLike (
     id number primary key,
     game_id number references game(id) on delete set null,
     type varchar2(6) check (type in ('like', 'unlike')),
-    users_id varchar2(20) references users(id)
+    users_id varchar2(20)
 );
+select * from gameLike;
+alter table gameLike drop constraint SYS_C004166; 
+alter table gameLike add constraint users_id on delete cascade;
 insert into gameLike values(1, 61, 'like', 'test');
 --drop table gameLike;
 select * from gameLike;
+select * from users;
 
 create table score (
     id number primary key,
@@ -176,9 +185,9 @@ insert into hotGameHighScore values('jin', 0, 0, 200);
 select users_id, (score_a + score_B + score_c) score from 
 			(select rownum rnum, h.* from hotGameHighScore h order by score_a + score_B + score_c desc)
 				where rnum <= 2;
---drop table authority
---drop table reply;
---drop table likes;
---drop table board;
---drop table game;
---drop table users;
+
+alter table users add ranking number;
+drop sequence seq_users_ranking;
+create sequence seq_users_ranking;
+update users set ranking = 1 where exp = (select max(exp) from users);
+select * from users;

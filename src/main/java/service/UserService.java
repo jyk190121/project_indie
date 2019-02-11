@@ -126,7 +126,7 @@ public class UserService implements UserDetailsService {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<User> userList = userDao.selectList(map);
+		List<User> userList = userDao.userList(map);
 		return userList;
 	}
 
@@ -138,12 +138,20 @@ public class UserService implements UserDetailsService {
 		userDao.manageDelete(id);
 	}
 
-	public List<User> userSearchList(String search) {
-		return userDao.userSearchList(search);
+	public List<User> userSearchManage(String search) {
+		return userDao.userSearchManage(search);
+	}
+	
+	public List<User> userSearch(String search) {
+		return userDao.userSearch(search);
 	}
 
 	public User getUserListSelectOne(String id) {
 		return userDao.selectOne(id);
+	}
+
+	public int rankingUpdate(int i) {
+		return userDao.rankingUpdate(i);
 	}
 
 }

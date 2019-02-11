@@ -72,16 +72,28 @@
 		select count(*) from users
 	</select>
 	
-	<select id="selectList" parameterType="Map" resultType="User">
-		select * from (select rownum rnum, a.* from (select * from users) a)
-		where rnum between #{start} and #{end} order by exp desc
+	<select id="userList" resultType="User">
+		select * from (select rownum rnum, a.* from
+		 (select * from users order by exp desc) a)
+		
 	</select>
 	
-	<select id="userSearchList" parameterType="String" resultType="User">
+	<select id="userSearchManage" parameterType="String" resultType="User">
 		select * from users
 			<if test="#{value} != null">
 				where id like '%'||#{value}||'%'
 			</if>
 	</select>
+	
+	<select id="userSearch" parameterType="String" resultType="User">
+		select * from users
+			<if test="#{value} != null">
+				where nickname like '%'||#{value}||'%'
+			</if>
+	</select>
+	
+	<update id="rankingUpdate" parameterType="int">
+		update users set ranking = 1 where exp = (select max(exp) from users)
+	</update>
 	
 </mapper>

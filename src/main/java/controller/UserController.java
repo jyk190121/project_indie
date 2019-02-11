@@ -348,9 +348,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/manage/user/list", method = RequestMethod.GET)
-	public String userSearch(@RequestParam(required = false) String search,
+	public String userMangeSearch(@RequestParam(required = false) String search,
 			Model model) {
-		List<User> userSearchList = userService.userSearchList(search);
+		List<User> userSearchList = userService.userSearchManage(search);
 		model.addAttribute("userList", userSearchList);
 		if (search != null) {
 			model.addAttribute("search", search);
@@ -365,4 +365,41 @@ public class UserController {
 		return "/user/profile";
 	}
 	
+	@RequestMapping(value="/user/ranking",method=RequestMethod.GET)
+	public String ranking(@AuthenticationPrincipal User user,
+			@RequestParam(defaultValue = "1") String page,Model model) {
+		int npage = 0;
+		try {
+			npage = Integer.parseInt(page);
+		} catch (Exception e) {
+		}
+		int totalPage = Pager.getTotalPage(userService.userTotal());
+		if (npage >= 1 && npage <= totalPage) {
+			/*if(user.getRanking() == 0) {
+				int i = userService.userTotal()+1;
+				user.setRanking(userService.rankingUpdate(i));
+			}else {
+				for(int i=1; i<=userService.userTotal(); i++) {
+					user.setRanking(userService.rankingUpdate(i));
+				}
+			}*/
+			model.addAttribute("page", userService.getPage(npage));
+			model.addAttribute("userList", userService.getUserList(npage));
+		}else {
+			return "/board/notPage";
+		}
+		return "/user/ranking";
+	}
+	
+	@RequestMapping(value = "/user/rankingList", method = RequestMethod.GET)
+	public String userSearch(@RequestParam(required = false) String search,
+			Model model) {
+		List<User> userSearchList = userService.userSearch(search);
+		model.addAttribute("userList", userSearchList);
+		if (search != null) {
+			model.addAttribute("search", search);
+		}
+		return "/user/ranking";
+	}
+
 }
