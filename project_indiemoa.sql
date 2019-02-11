@@ -190,4 +190,6 @@ alter table users add ranking number;
 drop sequence seq_users_ranking;
 create sequence seq_users_ranking;
 update users set ranking = 1 where exp = (select max(exp) from users);
-select * from users;
+
+select * from board;
+alter table users drop column ranking;

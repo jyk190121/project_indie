@@ -50,6 +50,7 @@ public class UserService implements UserDetailsService {
 	public void delete(String id) {
 		userDao.delete(id);
 	}
+	
 	public String sendCertifyEmail(String email) throws Exception {
 		String from = "indiemoa.com@google.com";
 		String subject = "[ INDIE MOA ] 인증메일";
@@ -150,8 +151,13 @@ public class UserService implements UserDetailsService {
 		return userDao.selectOne(id);
 	}
 
-	public int rankingUpdate(int i) {
-		return userDao.rankingUpdate(i);
+	public List<User> userListRanking() {
+		List<User> userList = userDao.userListRanking();
+		return userList;
+	}
+
+	public void getExp10(String id) {
+		userDao.getExp10(id);
 	}
 
 }

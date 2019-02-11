@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.Board;
+import domain.Game;
 import domain.User;
 import exception.InadequateFileExtException;
 import service.BoardService;
 import service.FileService;
+import service.GameService;
 import service.UserService;
 import util.Pager;
 import util.VerifyRecaptcha;
@@ -35,6 +41,9 @@ public class UserController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private GameService gameService;
 	
 	@Autowired
 	private FileService fileService;
@@ -98,7 +107,6 @@ public class UserController {
 			user.setImage(filename);
 		}
 		userService.insert(user);
-
 		return "redirect:/?signin";
 	}
 
@@ -123,7 +131,7 @@ public class UserController {
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		System.out.println(user.getPassword());
+		System.out.println(user);
 		model.addAttribute("user",userService.selectOneById(user.getId()));
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
@@ -213,8 +221,8 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/user/update",method=RequestMethod.POST)
-	public String updatePost(@ModelAttribute User user,
-			@RequestParam String id, Model model) {
+	public String updatePost(@ModelAttribute User user, Model model,
+				@RequestParam String id) {
 		if (user.getId().equals(id)) {
 			String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 			try {
@@ -236,8 +244,8 @@ public class UserController {
 				user.setImage(null);
 			}
 				userService.update(user);
-				model.addAttribute("msg","수정완료");
-				model.addAttribute("url","/profile?id="+id);
+				model.addAttribute("user",user);
+				return "/user/mypage";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/");
@@ -362,32 +370,14 @@ public class UserController {
 	public String profile(@ModelAttribute User user,@RequestParam String id,
 			Model model) {
 		model.addAttribute("user", userService.getUserListSelectOne(id));
+		List<Game> gameList = gameService.gameList(20);
+		model.addAttribute("gameList", gameList);
 		return "/user/profile";
 	}
 	
 	@RequestMapping(value="/user/ranking",method=RequestMethod.GET)
-	public String ranking(@AuthenticationPrincipal User user,
-			@RequestParam(defaultValue = "1") String page,Model model) {
-		int npage = 0;
-		try {
-			npage = Integer.parseInt(page);
-		} catch (Exception e) {
-		}
-		int totalPage = Pager.getTotalPage(userService.userTotal());
-		if (npage >= 1 && npage <= totalPage) {
-			/*if(user.getRanking() == 0) {
-				int i = userService.userTotal()+1;
-				user.setRanking(userService.rankingUpdate(i));
-			}else {
-				for(int i=1; i<=userService.userTotal(); i++) {
-					user.setRanking(userService.rankingUpdate(i));
-				}
-			}*/
-			model.addAttribute("page", userService.getPage(npage));
-			model.addAttribute("userList", userService.getUserList(npage));
-		}else {
-			return "/board/notPage";
-		}
+	public String ranking(@AuthenticationPrincipal User user,Model model) {
+		model.addAttribute("userList", userService.userListRanking());
 		return "/user/ranking";
 	}
 	

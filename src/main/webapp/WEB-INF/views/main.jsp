@@ -61,20 +61,20 @@
 			</tr>
 			<tr class="content">
 				<td>
-					<a href="/game/main"><image class="image" src="/upload/image/게임.jpg" alt="게임"></image></a>
+					<a href="/game/main"><image class="image" src="/upload/image/game.jpg" alt="게임"></image></a>
 				</td>
 				<td>
-					<a href="/board/list"><image class="image" src="/upload/image/게시판.jpeg" alt="게시판"></image></a>
+					<a href="/board/list"><image class="image" src="/upload/image/board.jpeg" alt="게시판"></image></a>
 				</td>
 				<td>
-					<a href="/user/ranking"><image class="image" src="/upload/image/랭킹.jpg" alt="랭킹"></image></a>
+					<a href="/user/ranking"><image class="image" src="/upload/image/ranking.jpg" alt="랭킹"></image></a>
 				</td>
 				<td>
-					<a href="/user/mypage"><image class="image" src="/upload/image/보노.png" alt="마이페이지"></image></a>
+					<a href="/user/mypage"><image class="image" src="/upload/image/mypage.png" alt="마이페이지"></image></a>
 				</td>
 				<seq:authorize access="hasRole('ROLE_ADMIN')">
 					<td>
-						<a href="/manage"><image class="image" src="/upload/image/관리자.jpg" alt="관리자"></image></a>
+						<a href="/manage"><image class="image" src="/upload/image/manage.jpg" alt="관리자"></image></a>
 					</td>
 				</seq:authorize>
 			</tr>

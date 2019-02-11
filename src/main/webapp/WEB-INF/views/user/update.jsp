@@ -114,10 +114,6 @@ function userUpdate(){
 		alert("변경하실 비밀번호를 일치하도록 입력해주세요");
 		userPasswordCheck.focus();
 		return;
-	}else if(userPassword.val() == ""){
-		alert("변경하실 비밀번호를 입력해주세요");
-		userPassword.focus();
-		return;
 	}
 	
 /* 	$.ajax({

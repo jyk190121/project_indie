@@ -190,7 +190,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>http://jiseong.cf:8080/manager/text</url>
+					<url>http://indiemoa.ga/</url>
 					<path>/</path>
 					<username>admin</username>
 					<password>1111</password>

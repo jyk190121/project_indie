@@ -71,8 +71,12 @@ public class UserDao {
 		return session.selectList("users.userSearch",search);
 	}
 
-	public int rankingUpdate(int i) {
-		return session.update("users.rankingUpdate",i);
+	public List<User> userListRanking() {
+		return session.selectList("users.ranking");
+	}
+
+	public void getExp10(String id) {
+		session.update("users.getExp10",id);
 	}
 
 }
