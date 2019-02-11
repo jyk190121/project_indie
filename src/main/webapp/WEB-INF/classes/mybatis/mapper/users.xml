@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<select id="selectOne" parameterType="String"
+		resultMap="authorityMap">
+		select * from users where id = #{value}
+	</select>
+	<resultMap type="User" id="authorityMap">
+		<result property="id" column="id" />
+		<collection property="authorities" column="id"
+			ofType="Authority" select="authorityList" />
+	</resultMap>
+	
+	<select id="authorityList" parameterType="String"
+		resultType="Authority">
+		select * from authority where users_id = #{value}
+	</select>
+	
+	<select id="nicknameDualCheck" parameterType="String" resultType="int">
+		select count(*) from users where id = #{value}
+	</select>
+	
+	<update id="update" parameterType="User">
+		update users set 
+			password = #{password},
+			nickname = #{nickname},
+			<if test="image != null">
+				image = #{image},
+			</if>
+			myinfo = #{myinfo}
+			where id = #{id}
+	</update>
+	
+	<update id="manageUpdate" parameterType="User">
+		update users set 
+			password = #{password},
+			nickname = #{nickname},
+			lev = #{lev},
+			exp = #{exp},
+			<if test="image != null">
+				image = #{image},
+			</if>
+			myinfo = #{myinfo}
+			where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from users where id = #{value}
+	</delete>
+	
+	<delete id="manageDelete" parameterType="String">
+		delete from authority where users_id = #{value}
+	</delete>
+	
+	<select id="selectOneByEmail" parameterType="String" resultType="User">
+		select * from users where email = #{value}
+	</select>
+	<update id="updateEmail" parameterType="User">
+		update users set email = #{email} where id = #{id}
+	</update>
+	<insert id="insert" parameterType="User">
+		insert into users values(#{id}, #{password}, #{nickname}, #{email}, #{image}, #{myinfo}, 1, 0)
+	</insert>
+	
+	<select id="selectOneById" parameterType="String" resultType="User">
+		select * from users where id = #{value}
+	</select>
+	
+	<select id="userTotal" resultType="int">
+		select count(*) from users
+	</select>
+	
+	<select id="userList" resultType="User">
+		select * from (select rownum rnum, a.* from
+		 (select * from users order by exp desc) a)
+		
+	</select>
+	
+	<select id="userSearchManage" parameterType="String" resultType="User">
+		select * from users
+			<if test="#{value} != null">
+				where id like '%'||#{value}||'%'
+			</if>
+	</select>
+	
+	<select id="userSearch" parameterType="String" resultType="User">
+		select * from users
+			<if test="#{value} != null">
+				where nickname like '%'||#{value}||'%'
+			</if>
+	</select>
+	
+	<update id="rankingUpdate" parameterType="int">
+		update users set ranking = 1 where exp = (select max(exp) from users)
+	</update>
+	
+</mapper>

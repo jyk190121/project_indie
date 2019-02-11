@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+	<insert id="insert" parameterType="Reply">
+		insert into reply values(
+			seq_reply_id.nextval,
+			#{type},
+			#{writer},
+			#{content},
+			sysdate,
+			0,
+			0,
+			(select nvl(max(step),0) + 1 from reply 
+			 where idx = #{idx} and type = #{type}),
+			#{idx}
+		)
+	</insert>
+	
+	<select id="boardReplyList" parameterType="int" resultType="Reply">
+		select * from reply where idx = #{value} and type = 'board' order by step 		
+	</select>
+	<select id="gameReplyList" parameterType="int" resultType="Reply">
+		select * from reply where idx = #{value} and type = 'game' order by step 		
+	</select>
+	<select id="selectOne" parameterType="int"
+			resultType="Reply">
+		select * from reply where id = #{value} 
+	</select>
+	
+	<!-- 부모의 동생의 step, 없으면 0 -->
+	<select id="brotherStep" parameterType="Reply"
+			resultType="int">
+		select nvl(min(step),0) from reply
+		where idx = #{idx} and ref = #{ref} 
+		and step > #{step} and
+		type = #{type}
+	</select>
+	
+	<update id="pushReply" parameterType="Reply">
+		update reply set step = step + 1
+		where idx = #{idx} and
+		step >= #{step} and
+		type = #{type}
+	</update>
+	
+	<select id="maxStep" parameterType="Map"
+			resultType="int">
+		select max(step) + 1 from reply
+		where idx = #{idx} and type = #{type}	
+	</select>
+	
+	<insert id="insertRereply" parameterType="Reply">
+		insert into reply values(
+			seq_reply_id.nextval,
+			#{type},
+			#{writer},
+			#{content},
+			sysdate,
+			#{ref},
+			#{depth},
+			#{step},
+			#{idx}
+		)
+	</insert>
+</mapper>
+
+
+
+
+
+
+

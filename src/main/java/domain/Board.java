@@ -3,6 +3,7 @@ package domain;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -12,6 +13,7 @@ public class Board {
 	private String writer,write_date,ip,attach_file,type;
 
 	@NotNull(message="제목을 입력해주세요")
+	@Size(max=10, message="영문 100자 또는 한글 30자 내외로 작성해주세요")
 	private String title;
 	@NotNull(message="내용을 입력해 주세요")
 	private String content;
