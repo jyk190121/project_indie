@@ -47,11 +47,7 @@ public class UserDao {
 		session.insert("users.insert",user);
 	}
 
-	public int userTotal() {
-		return session.selectOne("users.userTotal");
-	}
-
-	public List<User> userList(Map<String, Integer> map) {
+	public List<User> userList(Map<String, String> map) {
 		return session.selectList("users.userList",map);
 	}
 
@@ -59,28 +55,8 @@ public class UserDao {
 		session.update("users.manageUpdate",user);
 	}
 
-	public void manageDelete(String id) {
-		session.delete("users.manageDelete",id);
-	}
-
-	public List<User> userSearchManage(String search) {
-		return session.selectList("users.userSearchManage",search);
-	}
-
-	public List<User> userSearch(String search) {
-		return session.selectList("users.userSearch",search);
-	}
-
-	public List<User> userListRanking() {
-		return session.selectList("users.ranking");
-	}
-
-	public void getExp10(String id) {
-		session.update("users.getExp10",id);
-	}
-
-	public void getExp100(String id) {
-		session.update("users.getExp100",id);
+	public void getExp(Map<String, Object> map) {
+		session.update("users.getExp", map);
 	}
 
 }

@@ -51,8 +51,7 @@
 				<h4>회원정보 수정</h4>
 			</div>
 			<div class="panel-body">
-				<form:form
-					id="sendForm"
+				<form:form id="sendForm"
 					action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 					method="post" enctype="multipart/form-data" modelAttribute="user"
 					class="form-horizontal">
@@ -121,25 +120,8 @@
 			if (!check) {
 				return;
 			}
-			var userPassword = $("#userpassword").val();
-			$.ajax({
-				type : "post",
-				beforeSend : function(xhr) {
-					xhr.setRequestHeader("${_csrf.headerName}",
-							"${_csrf.token}");
-				},
-				data : {
-					password : userPassword
-				},
-				url : "/user/checkPassword",
-				success : function(data) {
-					if (data == "correct") {
-						$("#sendForm").attr("action","/user/delete?${_csrf.parameterName}=${_csrf.token }")
-					} else {
-						alert("비밀번호가 틀립니다");
-					}
-				}
-			});
+			$("#sendForm").attr("action",
+					"/user/delete?${_csrf.parameterName}=${_csrf.token }")
 		}
 
 		$(document).ready(resizeImageBoard());

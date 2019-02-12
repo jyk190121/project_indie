@@ -46,8 +46,8 @@
 					<div class="container-fluid">
 						<div class="row" id="game-panel">
 							<iframe scrolling="no" id="game-frame"
-								src="/upload/game/${game.id }/${game.src}">브라우저에
-								따라 작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
+								src="/upload/game/${game.id }/${game.src}">브라우저에 따라
+								작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
 						</div>
 						<div class="row">
 							<div class="col-xs-1">

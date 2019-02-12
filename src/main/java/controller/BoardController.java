@@ -75,7 +75,7 @@ public class BoardController {
 		board.setWriter(user.getId());
 		board.setIp(httpRequest.getRemoteAddr());
 		boardService.add(board);
-		userService.getExp10(user.getId());
+		userService.getExp(user.getId(), 10);
 		return "redirect:/board/list";
 	}
 

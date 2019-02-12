@@ -46,7 +46,7 @@ create table users (
 );
 select * from users;
 insert into users values('test','1111','tester','test@gmail.com','default.png','?��?��?��?��?��?��?��', 1, 0);
-
+select * from users where nickname like '%%';
 create sequence seq_authority_id;
 create sequence seq_board_id;
 create sequence seq_game_id;

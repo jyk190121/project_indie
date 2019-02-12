@@ -111,58 +111,19 @@ public class UserService implements UserDetailsService {
 		return userDao.selectOneById(id);
 	}
 
-	public int userTotal() {
-		return userDao.userTotal();
+	public List<User> userList(Map<String, String> map) {
+		return userDao.userList(map);
+	}
+	
+	public void getExp(String id, int exp) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
+		map.put("exp", exp);
+		userDao.getExp(map);
 	}
 
-	public String getPage(int page) {
-		int total = userDao.userTotal();
-		return Pager.paging(page, total);
-	}
-
-	public List<User> getUserList(int page) {
-		int start = (page -1) * Pager.BOARDS + 1;
-		int end = start + Pager.BOARDS - 1;
-		
-		Map<String, Integer> map = new HashMap<>();
-		map.put("start", start);
-		map.put("end", end);
-		
-		List<User> userList = userDao.userList(map);
-		return userList;
-	}
 
 	public void manageUpdate(User user) {
 		userDao.manageUpdate(user);
 	}
-
-	public void manageDelete(String id) {
-		userDao.manageDelete(id);
-	}
-
-	public List<User> userSearchManage(String search) {
-		return userDao.userSearchManage(search);
-	}
-	
-	public List<User> userSearch(String search) {
-		return userDao.userSearch(search);
-	}
-
-	public User getUserListSelectOne(String id) {
-		return userDao.selectOne(id);
-	}
-
-	public List<User> userListRanking() {
-		List<User> userList = userDao.userListRanking();
-		return userList;
-	}
-
-	public void getExp10(String id) {
-		userDao.getExp10(id);
-	}
-
-	public void getExp100(String id) {
-		userDao.getExp100(id);
-	}
-
 }
