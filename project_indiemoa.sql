@@ -164,11 +164,11 @@ create table hotgame(
     startdate date not null,
     enddate date not null
 );
-insert into hotGame values(1, 1, '19/01/01', last_day(sysdate));
-insert into hotGame values(2, 2, '19/01/01', last_day(sysdate));
-insert into hotGame values(3, 3, '19/01/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 1, '19/02/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 2, '19/02/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 3, '19/02/01', last_day(sysdate));
 select * from hotGame;
-
+select * from game;
 select * from (select rownum rnum, g.* from (select * from game order by regist_date desc) g) where rnum  <= 3;
 
 select add_months(systimestamp, 1) from dual;
