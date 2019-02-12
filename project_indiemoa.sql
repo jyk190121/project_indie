@@ -61,12 +61,12 @@ create sequence seq_hotgame_id;
 
 create table authority(
     id number primary key,
-    users_id varchar2(20) constraint FK_users_id references users(id),
+    users_id varchar2(20) references users(id) on delete cascade,
     role varchar2(15) check(role like 'ROLE#_%' escape '#')                          
 );
-
+insert into users values('test3','1111','tester','test3@gmail.com','default.png','안녕', 1, 0);
+insert into authority values (seq_authority_id.nextval, 'test3', 'ROLE_ADMIN');
 select * from authority;
-
 create table board (
     id number primary key,
     writer varchar2(20) references users(id) on delete set null,
@@ -164,11 +164,11 @@ create table hotgame(
     startdate date not null,
     enddate date not null
 );
-insert into hotGame values(1, 1, '19/01/01', last_day(sysdate));
-insert into hotGame values(2, 2, '19/01/01', last_day(sysdate));
-insert into hotGame values(3, 3, '19/01/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 1, '19/02/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 2, '19/02/01', last_day(sysdate));
+insert into hotGame values(seq_hotgame_id.nextval, 3, '19/02/01', last_day(sysdate));
 select * from hotGame;
-
+select * from game;
 select * from (select rownum rnum, g.* from (select * from game order by regist_date desc) g) where rnum  <= 3;
 
 select add_months(systimestamp, 1) from dual;
