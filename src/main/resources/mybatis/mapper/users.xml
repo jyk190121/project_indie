@@ -24,7 +24,9 @@
 	
 	<update id="update" parameterType="User">
 		update users set 
-			password = #{password},
+			<if test="password != ''">
+				password = #{password},
+			</if>
 			nickname = #{nickname},
 			<if test="image != null">
 				image = #{image},
@@ -35,7 +37,9 @@
 	
 	<update id="manageUpdate" parameterType="User">
 		update users set 
-			password = #{password},
+			<if test="password != ''">
+				password = #{password},
+			</if>
 			nickname = #{nickname},
 			lev = #{lev},
 			exp = #{exp},
@@ -72,10 +76,13 @@
 		select count(*) from users
 	</select>
 	
-	<select id="userList" resultType="User">
-		select * from (select rownum rnum, a.* from
-		 (select * from users order by exp desc) a)
-		
+	<select id="userList" parameterType="Map" resultType="User">
+		select * from (select rownum rnum, a.* from (select * from users) a)
+		where rnum between #{start} and #{end} order by exp desc
+	</select>
+	
+	<select id="ranking" resultType="User">
+		select * from (select rownum rnum, a.* from (select * from users order by exp desc) a)
 	</select>
 	
 	<select id="userSearchManage" parameterType="String" resultType="User">
@@ -92,8 +99,10 @@
 			</if>
 	</select>
 	
-	<update id="rankingUpdate" parameterType="int">
-		update users set ranking = 1 where exp = (select max(exp) from users)
+	<update id="getExp10" parameterType="String">
+		update users set exp = exp + 10 where id = #{value}
 	</update>
-	
+	<update id="getExp100" parameterType="String">
+		update users set exp = exp + 100 where id = #{value}
+	</update>
 </mapper>

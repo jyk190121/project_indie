@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import domain.Board;
+import domain.Game;
 import domain.User;
 import util.Pager;
 
@@ -50,6 +51,7 @@ public class UserService implements UserDetailsService {
 	public void delete(String id) {
 		userDao.delete(id);
 	}
+	
 	public String sendCertifyEmail(String email) throws Exception {
 		String from = "indiemoa.com@google.com";
 		String subject = "[ INDIE MOA ] 인증메일";
@@ -150,8 +152,17 @@ public class UserService implements UserDetailsService {
 		return userDao.selectOne(id);
 	}
 
-	public int rankingUpdate(int i) {
-		return userDao.rankingUpdate(i);
+	public List<User> userListRanking() {
+		List<User> userList = userDao.userListRanking();
+		return userList;
+	}
+
+	public void getExp10(String id) {
+		userDao.getExp10(id);
+	}
+
+	public void getExp100(String id) {
+		userDao.getExp100(id);
 	}
 
 }

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +17,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.Board;
+import domain.Game;
 import domain.User;
 import exception.InadequateFileExtException;
 import service.BoardService;
 import service.FileService;
+import service.GameService;
 import service.UserService;
 import util.Pager;
 import util.VerifyRecaptcha;
@@ -36,6 +43,9 @@ public class UserController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private GameService gameService;
+	
 	@Autowired
 	private FileService fileService;
 
@@ -62,7 +72,6 @@ public class UserController {
 			if (!VerifyRecaptcha.verify(response)) {
 				return "/user/join";
 			}
-			System.out.println("verify recapcha");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return "/user/join";
@@ -98,7 +107,6 @@ public class UserController {
 			user.setImage(filename);
 		}
 		userService.insert(user);
-
 		return "redirect:/?signin";
 	}
 
@@ -119,11 +127,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user, @ModelAttribute Board board,
-			@RequestParam(defaultValue = "1") String page, Model model) {
-		// 새로 업데이트된 유저값 받아오기..
-		System.out.println(user.getPassword());
-		model.addAttribute("user", userService.selectOneById(user.getId()));
+	public String getMypage(@AuthenticationPrincipal User user,@ModelAttribute User user2,
+			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
+			Model model) {
+		//새로 업데이트된 유저값 받아오기..
+		model.addAttribute("user2",session.getAttribute(user.getId()));
+		model.addAttribute("user",userService.selectOneById(user.getId()));
+		System.out.println(user);
+		System.out.println(user2);
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
 		npage = Integer.parseInt(page);
@@ -153,8 +164,6 @@ public class UserController {
 	public String checkPassword(@AuthenticationPrincipal User user, @RequestParam String id,
 			@RequestParam String password, Model model) {
 		if (user.getId().equals(id) && user.getPassword().equals(password)) {
-			System.out.println(password);
-			System.out.println(user.getPassword());
 			return "correct";
 		}
 		model.addAttribute("msg", "비밀번호가 틀립니다");
@@ -208,7 +217,6 @@ public class UserController {
 			return "/result";
 		}
 	}
-
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	public String updatePost(@ModelAttribute User user, @RequestParam String id, Model model) {
 		if (user.getId().equals(id)) {
@@ -221,8 +229,8 @@ public class UserController {
 				String str = dayTime.format(new Date(time));
 
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-				model.addAttribute("url", "/user/mypage");
-				return "result";
+				model.addAttribute("url","/user/mypage");
+				return "/result";
 			} catch (NullPointerException e) {
 				model.addAttribute("msg", "이미지 업로드에 실패하였습니다. 다시 수정해주세요");
 				model.addAttribute("url", "/user/mypage");
@@ -231,9 +239,11 @@ public class UserController {
 			if (user.getImage().equals("no_file")) {
 				user.setImage(null);
 			}
-			userService.update(user);
-			model.addAttribute("msg", "수정완료");
-			model.addAttribute("url", "/profile?id=" + id);
+				userService.update(user);
+				model.addAttribute("user",user);
+				model.addAttribute("msg","수정이 완료되었습니다. 다시로그인해주세요");
+				model.addAttribute("url","/user/mypage");
+				return "/result";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/");
@@ -351,34 +361,18 @@ public class UserController {
 		}
 		return "/user/manage/manage";
 	}
-
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String profile(@ModelAttribute User user, @RequestParam String id, Model model) {
-		model.addAttribute("user", userService.getUserListSelectOne(id));
+	
+	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	public String profile(@ModelAttribute User user, Model model) {
+		model.addAttribute("user", userService.getUserListSelectOne(user.getId()));
+		List<Game> gameList = gameService.gameMyList(20,user.getId());
+		model.addAttribute("gameList", gameList);
 		return "/user/profile";
 	}
-
-	@RequestMapping(value = "/user/ranking", method = RequestMethod.GET)
-	public String ranking(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "1") String page,
-			Model model) {
-		int npage = 0;
-		try {
-			npage = Integer.parseInt(page);
-		} catch (Exception e) {
-		}
-		int totalPage = Pager.getTotalPage(userService.userTotal());
-		if (npage >= 1 && npage <= totalPage) {
-			/*
-			 * if(user.getRanking() == 0) { int i = userService.userTotal()+1;
-			 * user.setRanking(userService.rankingUpdate(i)); }else { for(int i=1;
-			 * i<=userService.userTotal(); i++) {
-			 * user.setRanking(userService.rankingUpdate(i)); } }
-			 */
-			model.addAttribute("page", userService.getPage(npage));
-			model.addAttribute("userList", userService.getUserList(npage));
-		} else {
-			return "/board/notPage";
-		}
+	
+	@RequestMapping(value="/user/ranking",method=RequestMethod.GET)
+	public String ranking(@AuthenticationPrincipal User user,Model model) {
+		model.addAttribute("userList", userService.userListRanking());
 		return "/user/ranking";
 	}
 

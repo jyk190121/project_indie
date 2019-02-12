@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import domain.Board;
 import domain.User;
 import service.BoardService;
+import service.UserService;
 import util.Pager;
 import util.Role;
 
@@ -24,7 +25,10 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
-
+	
+	@Autowired
+	UserService userService;
+	
 	@Autowired
 	private HttpServletRequest httpRequest;
 
@@ -54,7 +58,8 @@ public class BoardController {
 		Board board = new Board();
 		board.setType(type);
 		model.addAttribute("board", board);
-		model.addAttribute("msg","게시물이 등록되었습니다.");
+		model.addAttribute("msg","게시물이 등록되었습니다."
+				+ " exp +10");
 		return "/board/insert";
 	}
 
@@ -70,6 +75,7 @@ public class BoardController {
 		board.setWriter(user.getId());
 		board.setIp(httpRequest.getRemoteAddr());
 		boardService.add(board);
+		userService.getExp10(user.getId());
 		return "redirect:/board/list";
 	}
 

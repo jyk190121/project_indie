@@ -148,9 +148,14 @@ textarea {
 		src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-ko-KR.min.js"></script>
 	<script>
 		function replySend(f) {
-			$(f).append(`<input type='hidden' name='type' value='board'/>`);
-			$(f).append(`<input type='hidden' name='idx' value='${board.id}'/>`);
-			f.submit();
+			if($(f.content).val() == ""){
+				alert("내용을 입력해주세요");
+				return;
+			}else{
+				$(f).append(`<input type='hidden' name='type' value='board'/>`);
+				$(f).append(`<input type='hidden' name='idx' value='${board.id}'/>`);
+				f.submit();
+			}
 		}
 
 		function checkForm(f) {

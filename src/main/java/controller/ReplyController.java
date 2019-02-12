@@ -12,6 +12,7 @@ import domain.User;
 import service.BoardService;
 import service.GameService;
 import service.ReplyService;
+import service.UserService;
 
 @Controller
 public class ReplyController {
@@ -22,6 +23,8 @@ public class ReplyController {
 	private BoardService boardService;
 	@Autowired
 	private GameService gameService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/reply/insert", method = RequestMethod.POST)
 	public String reply(@ModelAttribute Reply reply, @AuthenticationPrincipal User user) {
@@ -33,6 +36,7 @@ public class ReplyController {
 		} else if (reply.getType().equals("game")) {
 			gameService.updateReplyCount(reply.getIdx());
 		}
+		userService.getExp10(user.getId());
 		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
 
@@ -45,6 +49,7 @@ public class ReplyController {
 		} else if (reply.getType().equals("game")) {
 			gameService.updateReplyCount(reply.getIdx());
 		}
+		userService.getExp10(user.getId());
 		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
 }

@@ -69,5 +69,9 @@ public class GameDao {
 	public void updateReplyCount(int idx) {
 		session.update("game.reply_count",idx);
 	}
+
+	public List<Game> gameMyList(Map<String, Object> map) {
+		return session.selectList("game.gameMyList", map);
+	}
 	
 }

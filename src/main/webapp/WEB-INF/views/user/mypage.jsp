@@ -107,7 +107,6 @@
 					</div>
 				</form:form>
 			</div>
-
 			<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
 		</div>
 	</div>

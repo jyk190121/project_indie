@@ -29,25 +29,6 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th width="10%">순위</th>
-								<th width="10%">닉네임</th>
-								<th width="10%">레벨</th>
-								<th width="10%">경험치</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:forEach var="user" items="${userList}">
-							<tr onclick="javascript:userList('${user.id}');"
-								style="cursor:pointer;">
-								<td>${user.rnum}</td>
-								<td>${user.nickname }</td>
-								<td>${user.lev}</td>
-								<td>${user.exp }</td>
-							</tr>
-						</c:forEach>
-						</tbody>
-						<tfoot>
-							<tr>
 								<td colspan="5" class="text-right">
 								<form action="/user/rankingList" method="get">
 									유저 검색 <input type="text" name="search" />
@@ -57,13 +38,25 @@
 								</form>
 								</td>
 							</tr>
+						</thead>
+						<tbody>
 							<tr>
-								<td colspan="5" style="border-top:none;">
-									<ul class="pagination">
-										${page }
-									</ul>
-								</td>
+								<th width="10%">순위</th>
+								<th width="10%">닉네임</th>
+								<th width="10%">레벨</th>
+								<th width="10%">경험치</th>
 							</tr>
+						</tbody>
+						<tfoot>
+							<c:forEach var="user" items="${userList}">
+							<tr onclick="javascript:userList('${user.id}');"
+								style="cursor:pointer;">
+								<td>${user.rnum}</td>
+								<td>${user.nickname }</td>
+								<td>${user.lev}</td>
+								<td>${user.exp }</td>
+							</tr>
+						</c:forEach>
 						</tfoot>
 					</table>
 				</div>
