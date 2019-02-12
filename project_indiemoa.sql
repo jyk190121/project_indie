@@ -61,12 +61,12 @@ create sequence seq_hotgame_id;
 
 create table authority(
     id number primary key,
-    users_id varchar2(20) constraint FK_users_id references users(id),
+    users_id varchar2(20) references users(id) on delete cascade,
     role varchar2(15) check(role like 'ROLE#_%' escape '#')                          
 );
-
+insert into users values('test3','1111','tester','test3@gmail.com','default.png','안녕', 1, 0);
+insert into authority values (seq_authority_id.nextval, 'test3', 'ROLE_ADMIN');
 select * from authority;
-
 create table board (
     id number primary key,
     writer varchar2(20) references users(id) on delete set null,

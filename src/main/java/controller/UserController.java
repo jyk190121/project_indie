@@ -161,9 +161,9 @@ public class UserController {
 
 	@RequestMapping(value = "/user/checkPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkPassword(@AuthenticationPrincipal User user, @RequestParam String id,
+	public String checkPassword(@AuthenticationPrincipal User user,
 			@RequestParam String password, Model model) {
-		if (user.getId().equals(id) && user.getPassword().equals(password)) {
+		if (user.getPassword().equals(password)) {
 			return "correct";
 		}
 		model.addAttribute("msg", "비밀번호가 틀립니다");
@@ -251,10 +251,10 @@ public class UserController {
 		return "/result";
 	}
 
-	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
-	public String delete(@AuthenticationPrincipal User user, @RequestParam String id, Model model) {
-		if (user.getId().equals(id)) {
-			userService.delete(id);
+	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+	public String delete(@AuthenticationPrincipal User user, @ModelAttribute User inputUser, Model model) {
+		if (user.getId().equals(inputUser.getId()) && user.getPassword().equals(inputUser.getPassword())) {
+			userService.delete(user.getId());
 			model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
 			model.addAttribute("url", "/?signout");
 		} else {

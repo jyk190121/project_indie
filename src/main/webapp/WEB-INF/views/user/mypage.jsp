@@ -52,6 +52,7 @@
 			</div>
 			<div class="panel-body">
 				<form:form
+					id="sendForm"
 					action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 					method="post" enctype="multipart/form-data" modelAttribute="user"
 					class="form-horizontal">
@@ -69,15 +70,8 @@
 						<form:password id="userpassword" name="password" path="password" />
 						<button class="btn btn-primary" type="button"
 							onclick="userUpdate(this.form);">수정</button>
-						<sec:authentication var="user" property="principal" />
-						<sec:authorize access="!hasRole('ROLE_ADMIN')">
-							<button class="btn btn-danger" type="button"
-								onclick="userDelete('${user.id}');">회원탈퇴</button>
-						</sec:authorize>
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
-							<button class="btn btn-danger" type="button"
-								onclick="manageDelete('${user.id}');">매니저권한 박탈</button>
-						</sec:authorize>
+						<button class="btn btn-danger" type="button"
+							onclick="userDelete(this.form);">회원탈퇴</button>
 					</div>
 					<div class="col-sm-5 myBoard">
 						<div>
@@ -122,7 +116,7 @@
 			f.submit();
 		}
 
-		function userDelete(id) {
+		function userDelete(f) {
 			var check = confirm("정말 탈퇴하시겠습니까??(이 아이디와 관련된 정보는 모두 삭제됩니다)");
 			if (!check) {
 				return;
@@ -135,40 +129,12 @@
 							"${_csrf.token}");
 				},
 				data : {
-					id : id,
 					password : userPassword
 				},
 				url : "/user/checkPassword",
 				success : function(data) {
 					if (data == "correct") {
-						location.href = "/user/delete?id=" + id
-					} else {
-						alert("비밀번호가 틀립니다");
-					}
-				}
-			});
-		}
-
-		function manageDelete(id) {
-			var check = confirm("매니저권한을 삭제합니다");
-			if (!check) {
-				return;
-			}
-			var userPassword = $("#userpassword").val();
-			$.ajax({
-				type : "post",
-				beforeSend : function(xhr) {
-					xhr.setRequestHeader("${_csrf.headerName}",
-							"${_csrf.token}");
-				},
-				data : {
-					id : id,
-					password : userPassword
-				},
-				url : "/user/checkPassword",
-				success : function(data) {
-					if (data == "correct") {
-						location.href = "/manage/delete?id=" + id
+						$("#sendForm").attr("action","/user/delete?${_csrf.parameterName}=${_csrf.token }")
 					} else {
 						alert("비밀번호가 틀립니다");
 					}
