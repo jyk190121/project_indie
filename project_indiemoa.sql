@@ -132,7 +132,7 @@ create table gameLike (
     id number primary key,
     game_id number references game(id) on delete set null,
     type varchar2(6) check (type in ('like', 'unlike')),
-    users_id varchar2(20)
+    users_id varchar2(20) references users(id) on delete cascade
 );
 select * from gameLike;
 alter table gameLike drop constraint SYS_C004166; 

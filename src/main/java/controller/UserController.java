@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -126,11 +127,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user,
+	public String getMypage(@AuthenticationPrincipal User user,@ModelAttribute User user2,
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
+		model.addAttribute("user2",session.getAttribute(user.getId()));
 		model.addAttribute("user",userService.selectOneById(user.getId()));
+		System.out.println(user);
+		System.out.println(user2);
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
 		npage = Integer.parseInt(page);
@@ -230,7 +234,7 @@ public class UserController {
 
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 				model.addAttribute("url","/user/mypage");
-				return "result";
+				return "/result";
 			} catch (NullPointerException e) {
 				model.addAttribute("msg","이미지 업로드에 실패하였습니다. 다시 수정해주세요");
 				model.addAttribute("url","/user/mypage");
@@ -241,7 +245,9 @@ public class UserController {
 			}
 				userService.update(user);
 				model.addAttribute("user",user);
-				return "/user/mypage";
+				model.addAttribute("msg","수정이 완료되었습니다. 다시로그인해주세요");
+				model.addAttribute("url","/user/mypage");
+				return "/result";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/");

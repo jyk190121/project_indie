@@ -61,20 +61,20 @@
 			</tr>
 			<tr class="content">
 				<td>
-					<a href="/game/main"><image class="image" src="/upload/image/game.jpg" alt="게임"></image></a>
+					<a href="/game/main"><img class="image" src="/upload/image/game.jpg" alt="게임"></img></a>
 				</td>
 				<td>
-					<a href="/board/list"><image class="image" src="/upload/image/board.jpeg" alt="게시판"></image></a>
+					<a href="/board/list"><img class="image" src="/upload/image/board.jpeg" alt="게시판"></img></a>
 				</td>
 				<td>
-					<a href="/user/ranking"><image class="image" src="/upload/image/ranking.jpg" alt="랭킹"></image></a>
+					<a href="/user/ranking"><img class="image" src="/upload/image/ranking.jpg" alt="랭킹"></img></a>
 				</td>
 				<td>
-					<a href="/user/mypage"><image class="image" src="/upload/image/mypage.png" alt="마이페이지"></image></a>
+					<a href="/user/mypage"><img class="image" src="/upload/image/mypage.png" alt="마이페이지"></img></a>
 				</td>
 				<seq:authorize access="hasRole('ROLE_ADMIN')">
 					<td>
-						<a href="/manage"><image class="image" src="/upload/image/manage.jpg" alt="관리자"></image></a>
+						<a href="/manage"><img class="image" src="/upload/image/manage.jpg" alt="관리자"></img></a>
 					</td>
 				</seq:authorize>
 			</tr>
@@ -96,7 +96,7 @@
 			document.body.appendChild(form);
 			form.submit();
 		}
-		
+
 		$(document).ready(
 				resizeImageBoard());	
 

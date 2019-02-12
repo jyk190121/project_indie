@@ -56,7 +56,7 @@ public class GameController {
 	public String insertGet(Model model) {
 		model.addAttribute(new Game());
 		model.addAttribute("msg","게임이 등록되었습니다. 경험치 + 100");
-		model.addAttribute("url","/game/insert");
+		model.addAttribute("url","/game/main");
 		return "/result";
 	}
 
