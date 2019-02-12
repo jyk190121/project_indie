@@ -54,18 +54,16 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/insert", method = RequestMethod.GET)
-	public String addGet(Model model, @RequestParam String type) {
+	public String addGet(Model model,@RequestParam String type) {
 		Board board = new Board();
-		board.setType(type);
 		model.addAttribute("board", board);
-		model.addAttribute("msg","게시물이 등록되었습니다."
-				+ " exp +10");
+		board.setType(type);
 		return "/board/insert";
 	}
 
 	@RequestMapping(value = "/board/insert", method = RequestMethod.POST)
-	public String addPost(@ModelAttribute Board board, BindingResult bindingResult,
-			@AuthenticationPrincipal User user) {
+	public String addPost(@ModelAttribute @Valid Board board, BindingResult bindingResult,
+			@AuthenticationPrincipal User user, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "/board/insert";
 		}

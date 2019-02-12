@@ -27,6 +27,7 @@
 	</select>
 
 	<resultMap type="Board" id="userMap">
+		<result column="writer" property="writer"/>
 		<association property="user" column="writer"
 			select="users.selectOne" javaType="User" />
 	</resultMap>
@@ -52,11 +53,14 @@
 	</delete>
 
 	<select id="boardSelect" parameterType="int"
-		resultMap="replyListMap">
+		resultMap="boardMap">
 		select * from board where id = #{value}
 	</select>
-	<resultMap type="Board" id="replyListMap">
+	<resultMap type="Board" id="boardMap">
 		<result column="id" property="id"></result>
+		<result column="writer" property="writer"/>
+		<association property="user" column="writer"
+			select="users.selectOne" javaType="User" />
 		<collection property="replyList" ofType="Reply" column="id" select="reply.boardReplyList"></collection>
 	</resultMap>
 

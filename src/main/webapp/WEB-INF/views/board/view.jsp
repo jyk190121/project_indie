@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +40,16 @@
 textarea {
 	resize: none;
 }
+
+.profileImage {
+	display: inline-block; 
+	border-radius : 100%;
+	width: 50px;
+	height: 50px;
+	background-position: center center;
+	border-radius: 100%;
+	background-size: contain;
+}
 </style>
 </head>
 <body>
@@ -52,9 +63,14 @@ textarea {
 					<h4>${board.title }</h4>
 					<hr style="margin: 5px 0;" />
 					<div class="text-right">
-						<span class="glyphicon glyphicon-user"></span> <a href="/profile?id=${board.writer }">${board.writer }</a>
-						 <span class="glyphicon glyphicon-time"></span> ${board.write_date } 
-						 <span class="badge">${board.hit }</span>
+						<div class="profileImage"
+								style="background-image: url('/upload/image/${board.user.image}');">
+						</div>
+						<div style="display: inline-block; transform:translate(0,-17px)">
+							<a href="/profile?id=${board.writer }">${board.user.nickname }</a>
+							<span class="glyphicon glyphicon-time"></span> ${board.write_date }
+							<span class="badge">${board.hit }</span>
+						</div>
 					</div>
 				</div>
 				<div class="panel-body">${board.content }</div>
@@ -96,19 +112,23 @@ textarea {
 				<c:forEach var="reply" items="${board.replyList }">
 					<div class="reply" style="margin-left:${reply.depth*30}px">
 						<div class="reply-header">
-							<span class="glyphicon glyphicon-user"></span> 
-							<a href="/profile?id=${reply.writer }">${reply.writer }</a>
-							<c:if test="${empty reply.writer }">
-							삭제된 사용자입니다
-						</c:if>
-							&nbsp;&nbsp;
-							<c:if test="${!empty reply.writer }">
-								<span class="glyphicon glyphicon-time"></span>
-							${reply.write_date } &nbsp;&nbsp;
-							<button class="btn btn-primary btn-xs" type="button"
-									data-parent="#reply-list" data-toggle="collapse"
-									data-target="#form_${reply.id }">댓글</button>
-							</c:if>
+							<div class="profileImage"
+								style="background-image: url('/upload/image/${reply.user.image}');">
+							</div>
+							<div style="display: inline-block; transform:translate(0,-17px)">
+								<a href="/profile?id=${reply.user.id}">${reply.user.nickname }</a>
+								<c:if test="${empty reply.user.nickname  }">
+								삭제된 사용자입니다
+								</c:if>
+								&nbsp;&nbsp;
+								<c:if test="${!empty reply.user.nickname  }">
+									<span class="glyphicon glyphicon-time"></span>
+								${reply.write_date } &nbsp;&nbsp;
+								<button class="btn btn-primary btn-xs" type="button"
+										data-parent="#reply-list" data-toggle="collapse"
+										data-target="#form_${reply.id }">댓글</button>
+								</c:if>
+							</div>
 						</div>
 						<div class="reply-body">
 							<c:if test="${reply.depth != 0 }">
@@ -119,8 +139,8 @@ textarea {
 						<div class="rereply-form collapse" id="form_${reply.id}">
 							<form action="/reply/rereply" method="post">
 								<input type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token }" /> 
-								<input type="hidden" name="ref" value="${reply.id}" />
+									value="${_csrf.token }" /> <input type="hidden" name="ref"
+									value="${reply.id}" />
 								<div class="form-group">
 									<textarea name="content" rows="3" class="form-control" required></textarea>
 								</div>
@@ -148,12 +168,14 @@ textarea {
 		src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-ko-KR.min.js"></script>
 	<script>
 		function replySend(f) {
-			if($(f.content).val() == ""){
+			if ($(f.content).val() == "") {
 				alert("내용을 입력해주세요");
 				return;
-			}else{
+			} else {
 				$(f).append(`<input type='hidden' name='type' value='board'/>`);
-				$(f).append(`<input type='hidden' name='idx' value='${board.id}'/>`);
+				$(f)
+						.append(
+								`<input type='hidden' name='idx' value='${board.id}'/>`);
 				f.submit();
 			}
 		}
