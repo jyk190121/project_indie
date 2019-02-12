@@ -105,7 +105,7 @@
 				</form:form>
 			</div>
 			
-				<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${pageScope.user.exp}</pre>
+				<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${user.exp}</pre>
 		</div>
 	</div>
 	<div class="footer">

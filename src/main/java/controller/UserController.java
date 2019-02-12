@@ -127,18 +127,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user,@ModelAttribute User user2,
+	public String getMypage(@AuthenticationPrincipal User user,
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		model.addAttribute("user2",session.getAttribute(user.getId()));
 		model.addAttribute("user",userService.selectOneById(user.getId()));
-		System.out.println(user);
-		System.out.println(user2);
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
 		npage = Integer.parseInt(page);
-		if (npage >= 1 && npage <= totalPage) {
+		if(totalPage == 0) {
+			return "/user/mypage";
+		}else if (npage >= 1 && npage <= totalPage) {
 			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(),npage));
 			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(),npage));
 		}else {
@@ -246,7 +245,7 @@ public class UserController {
 				userService.update(user);
 				model.addAttribute("user",user);
 				model.addAttribute("msg","수정이 완료되었습니다. 다시로그인해주세요");
-				model.addAttribute("url","/user/mypage");
+				model.addAttribute("url","redirect: /user/mypage");
 				return "/result";
 		} else {
 			model.addAttribute("msg", "잘못된 요청입니다");
