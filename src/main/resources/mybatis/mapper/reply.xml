@@ -18,9 +18,16 @@
 		)
 	</insert>
 	
-	<select id="boardReplyList" parameterType="int" resultType="Reply">
+	<select id="boardReplyList" parameterType="int" resultMap="ReplyMap">
 		select * from reply where idx = #{value} and type = 'board' order by step 		
 	</select>
+	
+	<resultMap type="Reply" id="ReplyMap">
+		<result column="id" property="id"></result>
+		<association property="user" column="writer"
+			select="users.selectOne" javaType="User" />
+	</resultMap>
+	
 	<select id="gameReplyList" parameterType="int" resultType="Reply">
 		select * from reply where idx = #{value} and type = 'game' order by step 		
 	</select>

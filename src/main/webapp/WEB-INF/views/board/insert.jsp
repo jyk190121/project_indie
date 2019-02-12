@@ -73,7 +73,6 @@
 		}
 		
 		f.submit();
-		alert("${msg}");
 	}
     
     

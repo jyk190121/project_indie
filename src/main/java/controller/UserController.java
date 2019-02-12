@@ -135,19 +135,12 @@ public class UserController {
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
 		npage = Integer.parseInt(page);
-<<<<<<< HEAD
 		if(totalPage == 0) {
 			return "/user/mypage";
 		}else if (npage >= 1 && npage <= totalPage) {
 			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(),npage));
 			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(),npage));
 		}else {
-=======
-		if (npage >= 1 && npage <= totalPage) {
-			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(), npage));
-			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(), npage));
-		} else {
->>>>>>> 50200d7abd776e98179d5be8e21cb63af75dd966
 			return "/board/notPage";
 		}
 		return "/user/mypage";
