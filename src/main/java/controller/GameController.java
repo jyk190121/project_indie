@@ -25,6 +25,7 @@ import domain.User;
 import exception.InadequateFileExtException;
 import service.FileService;
 import service.GameService;
+import service.UserService;
 import util.Clock;
 
 @Controller
@@ -36,6 +37,8 @@ public class GameController {
 	@Autowired
 	private FileService fileService;
 
+	@Autowired
+	private UserService userService;
 	Clock clock = new Clock();
 
 	@RequestMapping(value = "/game/main", method = RequestMethod.GET)
@@ -52,7 +55,9 @@ public class GameController {
 	@RequestMapping(value = "/game/insert", method = RequestMethod.GET)
 	public String insertGet(Model model) {
 		model.addAttribute(new Game());
-		return "game/insert";
+		model.addAttribute("msg","게임이 등록되었습니다. 경험치 + 100");
+		model.addAttribute("url","/game/insert");
+		return "/result";
 	}
 
 	@RequestMapping(value = "/game/insert", method = RequestMethod.POST)
@@ -93,7 +98,7 @@ public class GameController {
 			}
 			try {
 				fileService.saveFile(rootDir + paths[i], files.get(i));
-			} catch (InadequateFileExtException e) {
+			}catch (InadequateFileExtException e) {
 				System.out.println(clock.getCurrentTime() + " : 사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 				model.addAttribute("url", "/game/insert");
@@ -105,7 +110,7 @@ public class GameController {
 		game.setSrc(srcPath);
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);
-
+		userService.getExp100(user.getId());
 		return "redirect:/game/list";
 	}
 

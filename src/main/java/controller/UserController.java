@@ -71,7 +71,6 @@ public class UserController {
 			if (!VerifyRecaptcha.verify(response)) {
 				return "/user/join";
 			}
-			System.out.println("verify recapcha");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return "/user/join";
@@ -131,7 +130,6 @@ public class UserController {
 			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
 			Model model) {
 		//새로 업데이트된 유저값 받아오기..
-		System.out.println(user);
 		model.addAttribute("user",userService.selectOneById(user.getId()));
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
@@ -162,8 +160,6 @@ public class UserController {
 	public String checkPassword(@AuthenticationPrincipal User user,
 			@RequestParam String id, @RequestParam String password, Model model) {
 		if (user.getId().equals(id) && user.getPassword().equals(password)) {
-			System.out.println(password);
-			System.out.println(user.getPassword());
 			return "correct";
 		}
 		model.addAttribute("msg","비밀번호가 틀립니다");
@@ -367,10 +363,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/profile",method=RequestMethod.GET)
-	public String profile(@ModelAttribute User user,@RequestParam String id,
-			Model model) {
-		model.addAttribute("user", userService.getUserListSelectOne(id));
-		List<Game> gameList = gameService.gameList(20);
+	public String profile(@ModelAttribute User user, Model model) {
+		model.addAttribute("user", userService.getUserListSelectOne(user.getId()));
+		List<Game> gameList = gameService.gameMyList(20,user.getId());
 		model.addAttribute("gameList", gameList);
 		return "/user/profile";
 	}

@@ -46,7 +46,7 @@
 		<c:if test="${user == null }">
 			<p><button onclick="showLoginModal();">로그인</button>
 			<a href="/user/join" class="btn btn-warning">회원가입</a></p>
-			<p>모든 컨텐츠는 로그인 후에 이용이 가능합니다</p>
+			<p>랭킹 이외의 모든 컨텐츠는 로그인 후에 이용이 가능합니다</p>
 		</c:if>
 	</div>
 		<table class="content-table">

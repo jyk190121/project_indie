@@ -81,7 +81,7 @@
 				<div class="row">
 					<div class="container-fluid">
 						<c:forEach begin="0"
-							end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1)-1 }"
+							end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1) }"
 							var="i">
 							<div class="row">
 								<div class="col-sm-3">
@@ -131,6 +131,18 @@ $(document).ready(
 
 	function resizeImageBoard(){
 		var width = $(".image-board").outerWidth();
+	}
+	function signout(){
+		var form = document.createElement("form");
+		form.method="post";
+		form.action="/user/signout";
+		var input = document.createElement("input");
+		input.type="hidden";
+		input.name="${_csrf.parameterName}";
+		input.value="${_csrf.token}";
+		form.appendChild(input);
+		document.body.appendChild(form);
+		form.submit();
 	}
 </script>
 </body>

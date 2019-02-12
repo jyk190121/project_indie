@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import domain.Board;
+import domain.Game;
 import domain.User;
 import util.Pager;
 
@@ -158,6 +159,10 @@ public class UserService implements UserDetailsService {
 
 	public void getExp10(String id) {
 		userDao.getExp10(id);
+	}
+
+	public void getExp100(String id) {
+		userDao.getExp100(id);
 	}
 
 }

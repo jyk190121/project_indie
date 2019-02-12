@@ -79,4 +79,8 @@ public class UserDao {
 		session.update("users.getExp10",id);
 	}
 
+	public void getExp100(String id) {
+		session.update("users.getExp100",id);
+	}
+
 }

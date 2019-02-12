@@ -102,4 +102,7 @@
 	<update id="getExp10" parameterType="String">
 		update users set exp = exp + 10 where id = #{value}
 	</update>
+	<update id="getExp100" parameterType="String">
+		update users set exp = exp + 100 where id = #{value}
+	</update>
 </mapper>
