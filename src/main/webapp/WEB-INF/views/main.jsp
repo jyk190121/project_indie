@@ -38,6 +38,7 @@
 		<h1>Game Site</h1>
 		<c:if test="${user != null }">
 			<div>
+				<!-- <a class="btn btn-danger" href="/user/levUp">LevelUp</a> -->
 				<p><img id="image" src="/upload/image/${user.image }" alt="${user.image }" />
 				${user.nickname }으로 로그인
 				<button onclick="javascript:signout();">로그아웃</button></p>

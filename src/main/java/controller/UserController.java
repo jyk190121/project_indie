@@ -169,6 +169,9 @@ public class UserController {
 		model.addAttribute("user", userService.selectOneById(user.getId()));
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
+		if(totalPage == 0) {
+			return "/user/mypage";
+		}
 		npage = Integer.parseInt(page);
 		if (npage >= 1 && npage <= totalPage) {
 			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(), npage));
@@ -206,8 +209,7 @@ public class UserController {
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
-			System.out.println(user.getImage_file());
-			user.setImage(fileService.saveImage(path, user.getImage_file()));
+			user.setImage(fileService.saveFile(path, user.getImage_file()));
 		} catch (InadequateFileExtException e) {
 			model.addAttribute("msg", "이미지 파일만 업로드 가능합니다.");
 			model.addAttribute("url", "/user/mypage");
@@ -217,6 +219,8 @@ public class UserController {
 			model.addAttribute("url", "/user/mypage");
 			return "/result";
 		}
+		System.out.println(user.getImage());
+		System.out.println(savedUser.getImage());
 		if (user.getImage().equals("no_file")) {
 			user.setImage(null);
 		}

@@ -59,4 +59,12 @@ public class UserDao {
 		session.update("users.getExp", map);
 	}
 
+	public void levUp(Map<String, Object> map) {
+		session.update("users.levUp",map);
+	}
+
+	public int getExp(String id) {
+		return session.selectOne("users.exp",id);
+	}
+
 }

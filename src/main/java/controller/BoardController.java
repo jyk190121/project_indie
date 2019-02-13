@@ -63,7 +63,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/board/insert", method = RequestMethod.POST)
 	public String addPost(@ModelAttribute @Valid Board board, BindingResult bindingResult,
-			@AuthenticationPrincipal User user, Model model) {
+			@AuthenticationPrincipal User user,Model model) {
 		if (bindingResult.hasErrors()) {
 			return "/board/insert";
 		}
@@ -74,7 +74,12 @@ public class BoardController {
 		board.setIp(httpRequest.getRemoteAddr());
 		boardService.add(board);
 		userService.getExp(user.getId(), 10);
-		return "redirect:/board/list";
+		model.addAttribute("msg","게시물이 등록되었습니다 경험치 + 10");
+		model.addAttribute("url","/board/list");
+		/*User user2 = new User();
+		user2 = userService.selectOne(user.getId());
+		userService.levUp(user2.getId(),user2.getExp(),user2.getLev());*/
+		return "/result";
 	}
 
 	@RequestMapping(value = "/board/view", method = RequestMethod.GET)
@@ -99,7 +104,7 @@ public class BoardController {
 			model.addAttribute("msg", "게시물이 삭제되었습니다");
 			model.addAttribute("url", "/board/list");
 		} else {
-			model.addAttribute("msg", "잘못된 요청입니다 : 5650");
+			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/board/view?id=" + board.getId());
 		}
 		return "/result";

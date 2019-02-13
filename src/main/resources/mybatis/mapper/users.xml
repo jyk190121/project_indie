@@ -79,4 +79,16 @@
 	<update id="getExp" parameterType="Map">
 		update users set exp = exp + ${exp} where id = #{id}
 	</update>
+	
+	<select id="exp" parameterType="String" resultType="int">
+		select exp from users where id = #{value} 
+	</select>
+	
+	<update id="levUp" parameterType="Map">
+		update users set 
+		lev = lev + 1 ,
+		exp = ${exp} - ${levUpExp}
+		where id = #{id} and exp &gt;= ${levUpExp}
+	</update>
+	
 </mapper>
