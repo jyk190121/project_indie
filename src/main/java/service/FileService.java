@@ -66,7 +66,7 @@ public class FileService {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		if(!isImageFile(path+filename)) {
+		if(!isImageFile(path+"\\"+filename)) {
 			deleteFile(path, filename);
 			throw new InadequateFileExtException();
 		}
@@ -88,9 +88,9 @@ public class FileService {
 
 		if (file.exists()) {
 			if (file.delete()) {
-				System.out.println("파일삭제 성공");
+				//System.out.println("파일삭제 성공");
 			} else {
-				System.out.println("파일삭제 실패");
+				//System.out.println("파일삭제 실패");
 			}
 		} else {
 			System.out.println("파일이 존재하지 않습니다.");

@@ -19,8 +19,11 @@
 	box-sizing: border-box;
 }
 
+body {
+	font-size: 20px;
+}
+
 #game-frame {
-	margin-top: 100px;
 	width: 100%;
 	height: 600px;
 	overflow: hidden;
@@ -33,6 +36,87 @@
 .disnone {
 	display: none !important;
 }
+
+.row {
+	margin-top: 50px;
+}
+
+.game-info {
+	min-height: 150px;
+	width: 70%;
+	margin: 50px auto 0 auto;
+	font-size: 20px;
+	text-align: left;
+}
+
+.game-info pre {
+	min-height: 150px;
+	height: 150px;
+	padding: 20px;
+	font-size: 20px;
+	white-space: pre-wrap;
+	overflow: hidden;
+}
+
+@keyframes show {
+  from {background-color: white;}
+  to {background-color: lightgray;}
+}
+
+@keyframes hide {
+  from {background-color: lightgray;}
+  to {background-color: white;}
+}
+
+.game-info button {
+	width:41px;
+	background-color: white;
+	border: none;
+	border-radius: 20px;
+}
+.game-info button:focus {
+	outline: none;
+}
+
+.game-info-title {
+	margin: 20px auto 40px auto;
+}
+
+textarea:focus {
+	outline: none;
+}
+
+.bar-horizontal {
+	width: 80%;
+	border: 2px gray solid;
+	margin-top: 50px;
+}
+
+#downloadFile, #downloadFile-btn {
+	display: inline-block;
+	height: 50px;
+	padding: 10px 12px;
+	color: #555;
+	border: 1px solid gray;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-radius: 4px;
+}
+
+#downloadFile {
+	
+}
+
+#downloadFile-btn {
+	margin-left: 10px; color : #337ab7;
+	border: 1px solid #337ab7;
+	text-decoration: none;
+	color: #337ab7;
+}
+
+.far{
+	font-size: 50px;
+}
 </style>
 <body onload="draw();" onresize="draw();">
 	<div class="header">
@@ -44,17 +128,49 @@
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<div class="container-fluid">
-						<div class="row" id="game-panel">
-							<iframe scrolling="no" id="game-frame"
-								src="/upload/game/${game.id }/${game.src}">브라우저에 따라
-								작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
+						<div class="row content-game" id="game-panel">
+							<c:if test="${game.type == 'web' }">
+								<iframe scrolling="no" id="game-frame"
+									src="/upload/game/${game.id }/${game.src}">브라우저에 따라
+									작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
+							</c:if>
+							<c:if test="${game.type == 'exe' || game.type == 'etc'}">
+								<img src="/upload/image/${game.image }" alt="${game.image }"
+									style="min-width: 50%; max-width: 100%;" />
+								<div style="margin-top: 20px;">
+									<div id="downloadFile">${game.src }</div>
+									<a href="/upload/game/${game.id }/${game.src}"
+										id="downloadFile-btn" class="">download</a>
+								</div>
+							</c:if>
+							<hr class="bar-horizontal" />
+							<div class="game-info">
+								<h1 class="game-info-title">
+									게임 설명
+									<button type="button" onclick="show(this, 'game-info-text')">+</button>
+								</h1>
+								<%-- <textarea onclick="" readonly="readonly" placeholder="그런것은 없다!!" 
+											style="width: 100%; min-height: 200px; resize: none; border:1px lightgray solid; padding:10px 20px;">${game.info }
+								</textarea> --%>
+								<pre id="game-info-text" style="">${game.info }</pre>
+							</div>
+							<c:if test="${game.type == 'etc' }">
+								<hr class="bar-horizontal" />
+								<div class="game-info">
+									<h1 class="game-info-title">
+										게임 실행 방법
+										<button type="button" onclick="show(this, 'game-ect_info-text')">+</button>
+									</h1>
+									<pre id="game-ect_info-text" style="">${game.etc_info }</pre>
+								</div>
+							</c:if>
 						</div>
-						<div class="row">
+						<div class="row" style="">
 							<div class="col-xs-1">
 								<div class="disnone" id="like-activated">
-									<a href="javascript:evaluateGame('like');" class="likes-btn">좋아요</a>
+									<a href="javascript:evaluateGame('like');" class="likes-btn"><i class="far fa-thumbs-up"></i></a>
 								</div>
-								<div id="like-deactivated">좋아요</div>
+								<div id="like-deactivated"><i class="far fa-thumbs-up"></i></div>
 							</div>
 							<div class="col-xs-10" id="likes-bar-container">
 								<div>
@@ -63,22 +179,22 @@
 								<div class="col-xs-4">
 									<span id="likeCount">${game.likes }</span>
 								</div>
-								<div class="col-xs-4">이건 뭐 그냥</div>
-								<div class="col-xs-4">
+								<div class="col-xs-4 text-center">게임을 평가해주세요!</div>
+								<div class="col-xs-4 text-right">
 									<span id="unlikeCount">${game.unlikes }</span>
 								</div>
 							</div>
 							<div class="col-xs-1">
 								<div class="disnone" id="unlike-activated">
-									<a href="javascript:evaluateGame('unlike');" class="likes-btn">싫어요</a>
+									<a href="javascript:evaluateGame('unlike');" class="likes-btn"><i class="far fa-thumbs-down"></i></a>
 								</div>
-								<div id="unlike-deactivated">싫어요</div>
+								<div id="unlike-deactivated"><i class="far fa-thumbs-down"></i></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row content-reply">
 				<div class="col-sm-8 col-sm-offset-2">
 					<div class="container-fluid">
 						<div class="reply-form">
@@ -237,6 +353,24 @@
 				}
 				//console.log(${game.likes}/(${game.likes+game.unlikes}));
 			}
+		}
+		
+		//게임설명 토글 직접구현
+		
+		function hide(button, target) {
+			$("#"+target).css('height','150px');
+			$(button).css('animation-name','hide');
+			$(button).css('animation-duration','0.5s');
+			$(button).css('background-color','white');
+			button.onclick = function() { show(button, target); };
+		}
+		
+		function show(button, target) {
+			$("#"+target).css('height','auto');
+			$(button).css('animation-name','show');
+			$(button).css('animation-duration','0.5s');
+			$(button).css('background-color','lightgray');
+			button.onclick = function() { hide(button, target); };
 		}
 		
 		//canvas tool

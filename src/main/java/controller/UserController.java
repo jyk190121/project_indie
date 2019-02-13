@@ -15,7 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +29,7 @@ import service.BoardService;
 import service.FileService;
 import service.GameService;
 import service.UserService;
+import util.Clock;
 import util.Pager;
 import util.VerifyRecaptcha;
 
@@ -53,7 +53,11 @@ public class UserController {
 
 	@RequestMapping(value = { "/", "/main" }, method = RequestMethod.GET)
 	public String main(@AuthenticationPrincipal User user, Model model) {
-		model.addAttribute("user", user);
+		if(user == null) {
+			model.addAttribute("user",user);
+		}else {
+			model.addAttribute("user", userService.selectOne(user.getId()));
+		}
 		return "main";
 	}
 
@@ -78,8 +82,6 @@ public class UserController {
 			return "/user/join";
 		}
 		if (bindingResult.hasErrors()) {
-			for (ObjectError e : bindingResult.getAllErrors()) {
-			}
 			return "/user/join";
 		}
 		if (userService.selectOne(user.getId()) != null) {
@@ -93,11 +95,7 @@ public class UserController {
 		try {
 			filename = fileService.saveFile(path, user.getImage_file());
 		} catch (InadequateFileExtException e) {
-			long time = System.currentTimeMillis();
-			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-			String str = dayTime.format(new Date(time));
-
-			System.out.println(str + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			System.out.println(Clock.getCurrentTime() + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
 			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 			model.addAttribute("url", "/game/insert");
 			return "result";
@@ -208,12 +206,9 @@ public class UserController {
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
+			System.out.println(user.getImage_file());
 			user.setImage(fileService.saveImage(path, user.getImage_file()));
 		} catch (InadequateFileExtException e) {
-			long time = System.currentTimeMillis();
-			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-			String str = dayTime.format(new Date(time));
-
 			model.addAttribute("msg", "이미지 파일만 업로드 가능합니다.");
 			model.addAttribute("url", "/user/mypage");
 			return "/result";
@@ -266,5 +261,5 @@ public class UserController {
 		model.addAttribute("userList", userService.userList(map));
 		return "/ranking/ranking";
 	}
-
+	
 }

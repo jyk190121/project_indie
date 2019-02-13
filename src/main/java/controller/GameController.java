@@ -39,7 +39,6 @@ public class GameController {
 
 	@Autowired
 	private UserService userService;
-	Clock clock = new Clock();
 
 	@RequestMapping(value = "/game/main", method = RequestMethod.GET)
 	public String main(Model model) {
@@ -99,7 +98,7 @@ public class GameController {
 			try {
 				fileService.saveFile(rootDir + paths[i], files.get(i));
 			}catch (InadequateFileExtException e) {
-				System.out.println(clock.getCurrentTime() + " : 사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+				System.out.println(Clock.getCurrentTime() + " : 사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 				model.addAttribute("url", "/game/insert");
 				return "result";
