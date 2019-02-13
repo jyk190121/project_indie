@@ -4,7 +4,14 @@ public class Score {
 
 	private int id, game_id, score;
 	private String users_id, play_timestamp;
+	private User user;
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public int getId() {
 		return id;
 	}

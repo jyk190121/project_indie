@@ -56,10 +56,16 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
-					<c:forEach items="${rankerList }" var="ranker">
-						${ranker.users_id }
-						${ranker.score }
+					<c:if test="${fn:length(rankerList) == 0 }">
+						랭커가 없네요..?
+					</c:if>
+					<c:if test="${fn:length(rankerList) != 0 }">
+					<c:forEach begin="0" end="${fn:length(rankerList)-1 }" var="i">
+						${i+1 }등
+						${rankerList[i].user.nickname }
+						${rankerList[i].score }
 					</c:forEach>
+					</c:if>
 				</div>
 				<div class="col-sm-6">
 					<a href="/game/insert">+ 게임 등록</a>
@@ -70,6 +76,10 @@
 					<div class="row">
 						<p class="text-right"><a href="/game/list">더보기 +</a></p>
 					</div>
+					<c:if test="${fn:length(gameList) < 6 }">
+					<h2 class="text-center">검색 결과가 없습니다</h2>
+					</c:if>
+					<c:if test="${fn:length(gameList) >= 6 }">
 					<c:forEach begin="0" end="${(fn:length(gameList)/5)-((fn:length(gameList)/5)%1)-1 }" var="i">
 					<div class="row">
 						<div class="col-sm-2 col-sm-offset-1">
@@ -109,6 +119,7 @@
 						</div>
 					</div>
 					</c:forEach>
+					</c:if>
 				</div>
 			</div>
 		</div>

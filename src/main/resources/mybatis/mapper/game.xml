@@ -33,11 +33,14 @@
 		select * from (select * from score where trunc(sysdate,'mm') &lt;= play_timestamp and play_timestamp &lt;= last_day(sysdate)) 
 		where game_id in (select game_id from hotGame where startdate = (select trunc(sysdate,'mm') from dual))
 	</select>
-	<select id="rankerList" parameterType="int" resultType="Score">
+	<select id="rankerList" parameterType="int" resultMap="rankerListMap">
 		select users_id, (score_a + score_B + score_c) score from 
 			(select rownum rnum, h.* from hotGameHighScore h order by score_a + score_B + score_c desc)
 				where rnum &lt;= #{value}
 	</select>
+	<resultMap id="rankerListMap" type="Score">
+		<association property="user" column="users_id" select="users.selectOneById" javaType="User"/>
+	</resultMap>
 	<insert id="insertGame" parameterType="Game">
 		insert into game values (#{id}, #{name}, #{type}, #{src}, #{info}, #{image}, #{users_id}, 0, sysdate, 0, 0, 0, #{etc_info})
 	</insert>

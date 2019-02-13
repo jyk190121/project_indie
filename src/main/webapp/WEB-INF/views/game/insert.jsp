@@ -88,10 +88,11 @@
 							<label for="gameFiles" class="control-label">게임 파일 전체폴더</label> <input
 								name="gameFiles" onchange="javascript:uploadFiles(this);"
 								id="gameFiles" type="file" multiple directory webkitdirectory />
-							<label for="triggerFile" class="control-label">시작 <span
-								id="gameFileExt">html</span> File
-							</label> <input name="game_file" onchange="javascript:uploadFile(this);"
-								id="triggerFile" type="file" webkit />
+							<div id="triggerFile-board">
+								<label for="triggerFile" class="control-label">시작 html File</label> 
+								<input name="game_file" onchange="javascript:uploadFile(this);"
+									id="triggerFile" type="file" webkit />
+							</div>
 							<form:textarea id="etcInfo" class='form-control disnone'
 								path='etc_info' placeholder='게임 실행 방법을 적어주세요'></form:textarea>
 						</div>
@@ -112,33 +113,59 @@
 	<script src="/public/js/fileUpload.js"></script>
 	<script>
 		$etcInfo = $("#etcInfo");
-		$gameFileExt = $("#gameFileExt");
-
+		$htmlBoard = $("#triggerFile-board")
 		function changeType(input) {
-			initInput($("#triggerFile"));
 			switch (input.value) {
 			case 'web':
-				$gameFileExt.text("html");
+				$htmlBoard.removeClass("disnone");
 				$etcInfo.addClass("disnone");
 				break;
 			case 'exe':
-				$gameFileExt.text("exe");
+				$htmlBoard.addClass("disnone");
 				$etcInfo.addClass("disnone");
 				break;
 			case 'etc':
-				$gameFileExt.text("");
+				$htmlBoard.addClass("disnone");
 				$etcInfo.removeClass("disnone");
 				break;
 			}
 		}
 
 		function insert(f) {
-			console.log('insert function');
+			if(f.name.value == ''){
+				alert('게임명을 작성하세요');
+				f.name.focus();
+				return;
+			}
+			if(f.info.value == ''){
+				alert('게임 설명란을 작성하세요');
+				f.info.focus();
+				return;
+			}
+			if(f.image_file.value == ''){
+				alert('게임 대표 이미지를 선택하세요');
+				f.image_file.focus();
+				return;
+			}
+			if(f.gameFiles.value == ''){
+				alert('게임 폴더를 선택하세요');
+				f.gameFiles.focus();
+				return;
+			}
+			if(f.type.value == 'web'){
+				if(f.game_file.value == ''){
+					alert('html 파일을 선택하세요');
+					f.game_file.focus();
+					return;
+				}
+			}else{
+				$(f.game_file).remove();
+			}
 			f.submit();
 		}
 
 		function uploadFile(input) {
-			var ext = $gameFileExt.text();
+			var ext = 'html';
 
 			$("[name='srcPath']").remove();
 			if ($("#gameFiles").val() == "") {
@@ -172,7 +199,7 @@
 			if (ext == 'exe' || ext == 'html') {
 				if (input.value.substring(input.value.indexOf('.') + 1)
 						.toLowerCase() != ext) {
-					alert('게임이 시작되는 ' + ext + ' 파일을 업로드해주세요');
+					alert('게임이 시작되는 \'' + ext + '\' 파일을 업로드해주세요');
 					initInput(input);
 					return;
 				}

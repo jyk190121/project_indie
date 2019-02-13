@@ -39,7 +39,7 @@ update users set
 select * from board;
 create table users (
     id varchar2(20) primary key,
-    password varchar2(20) not null,
+    password varchar2(20)    not null,
     nickname varchar2(20) not null,
     email varchar2(50) unique,
     image varchar2(100) default 'default.png',
