@@ -51,7 +51,7 @@
 	</h1>
 	<div class="content">
 	<a class="btn btn-primary btn-block" href="/manage">유저리스트</a>
-		<form:form action="/user/manage/update?${_csrf.parameterName}=${_csrf.token }"
+		<form:form action="/manage/user/update?${_csrf.parameterName}=${_csrf.token }"
 				method="post" enctype="multipart/form-data" modelAttribute="user"
 				class="form-horizontal" id="form">
 			<div class="panel panel-default">
@@ -60,7 +60,7 @@
 				<div class="panel-body" style="font-size: 18px;">
 					<div class="col-sm-offset-1 col-sm-5 form-group" id="userInfo">
 						<p>
-							아이디 : <input name="id" type="text" value="${user.id }" 
+							아이디 : <input type="text" name="id" value="${user.id }" 
 								style="background-color:gray;" readonly/>
 						</p>
 						<p>
@@ -118,7 +118,7 @@
 			if (!confirm("정말 탈퇴하시겠습니까??(매니저 권한으로 삭제합니다)")) {
 				return;
 			}
-			location.href = "/user/manage/delete?id=" + id;
+			location.href = "/manage/user/delete?id=" + id;
 		}
 		
 		function showImage(input) {

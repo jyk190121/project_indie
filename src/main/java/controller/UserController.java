@@ -3,13 +3,13 @@ package controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +44,7 @@ public class UserController {
 
 	@Autowired
 	private GameService gameService;
-	
+
 	@Autowired
 	private FileService fileService;
 
@@ -57,6 +56,8 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "main";
 	}
+
+	// 회원가입
 
 	@RequestMapping(value = "/user/join", method = RequestMethod.GET)
 	public String joinGet(Model model) {
@@ -126,50 +127,6 @@ public class UserController {
 		return "duplicated";
 	}
 
-	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-	public String getMypage(@AuthenticationPrincipal User user,
-			@ModelAttribute Board board,@RequestParam(defaultValue = "1") String page,
-			Model model) {
-		//새로 업데이트된 유저값 받아오기..
-		model.addAttribute("user",userService.selectOneById(user.getId()));
-		int npage = 0;
-		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
-		npage = Integer.parseInt(page);
-		if(totalPage == 0) {
-			return "/user/mypage";
-		}else if (npage >= 1 && npage <= totalPage) {
-			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(),npage));
-			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(),npage));
-		}else {
-			return "/board/notPage";
-		}
-		return "/user/mypage";
-	}
-
-	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
-	public String postMypage(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
-			Model model) {
-		if (user.getId().equals(id) && user.getPassword().equals(password)) {
-			model.addAttribute("user", userService.selectOneById(user.getId()));
-			return "/user/update";
-		}
-		model.addAttribute("msg", "비밀번호가 틀립니다");
-		model.addAttribute("url", "/user/mypage");
-		return "/result";
-	}
-
-	@RequestMapping(value = "/user/checkPassword", method = RequestMethod.POST)
-	@ResponseBody
-	public String checkPassword(@AuthenticationPrincipal User user,
-			@RequestParam String password, Model model) {
-		if (user.getPassword().equals(password)) {
-			return "correct";
-		}
-		model.addAttribute("msg", "비밀번호가 틀립니다");
-		model.addAttribute("url", "/user/mypage");
-		return "incorrect";
-	}
-
 	@RequestMapping(value = "/user/sendEmail", method = RequestMethod.POST)
 	@ResponseBody
 	public String checkEmail(@RequestParam String email) {
@@ -205,109 +162,50 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/user/update", method = RequestMethod.GET)
-	public String update(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
-			Model model) {
-		if (user.getId().equals(id)) {
-			return "/user/update";
-		} else {
-			model.addAttribute("msg", "잘못된 요청입니다");
-			model.addAttribute("url", "/main");
-			return "/result";
-		}
-	}
-	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
-	public String updatePost(@ModelAttribute User user, @RequestParam String id, Model model) {
-		if (user.getId().equals(id)) {
-			String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
-			try {
-				user.setImage(fileService.saveFile(path, user.getImage_file()));
-			} catch (InadequateFileExtException e) {
-				long time = System.currentTimeMillis();
-				SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-				String str = dayTime.format(new Date(time));
+	// 마이페이지
 
-				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-				model.addAttribute("url","/user/mypage");
-				return "/result";
-			} catch (NullPointerException e) {
-				model.addAttribute("msg", "이미지 업로드에 실패하였습니다. 다시 수정해주세요");
-				model.addAttribute("url", "/user/mypage");
-				return "/result";
-			}
-			if (user.getImage().equals("no_file")) {
-				user.setImage(null);
-			}
-				userService.update(user);
-				model.addAttribute("user",user);
-				model.addAttribute("msg","수정이 완료되었습니다. 다시로그인해주세요");
-				model.addAttribute("url","redirect: /user/mypage");
-				return "/result";
-		} else {
-			model.addAttribute("msg", "잘못된 요청입니다");
-			model.addAttribute("url", "/");
-		}
-		return "/result";
-	}
-
-	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
-	public String delete(@AuthenticationPrincipal User user, @ModelAttribute User inputUser, Model model) {
-		if (user.getId().equals(inputUser.getId()) && user.getPassword().equals(inputUser.getPassword())) {
-			userService.delete(user.getId());
-			model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
-			model.addAttribute("url", "/?signout");
-		} else {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			model.addAttribute("url", "/");
-		}
-		return "/result";
-	}
-
-	@RequestMapping(value = "/manage/delete", method = RequestMethod.GET)
-	public String manageChange(@ModelAttribute User user, @RequestParam String id, Model model) {
-		if (user.getId().equals(id)) {
-			userService.manageDelete(id);
-			model.addAttribute("msg", "이제 일반회원입니다. 회원탈퇴도 가능합니다.다시 로그인해주세요");
-			model.addAttribute("url", "/?signout");
-		} else {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			model.addAttribute("url", "/");
-		}
-		return "/result";
-	}
-
-	@RequestMapping(value = "/manage", method = RequestMethod.GET)
-	public String manageGet(@RequestParam(defaultValue = "1") String page, Model model,
-			@AuthenticationPrincipal User user) {
+	@RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
+	public String getMypage(@AuthenticationPrincipal User user, @ModelAttribute Board board,
+			@RequestParam(defaultValue = "1") String page, Model model) {
+		// 새로 업데이트된 유저값 받아오기..
+		model.addAttribute("user", userService.selectOneById(user.getId()));
 		int npage = 0;
-		try {
-			npage = Integer.parseInt(page);
-		} catch (Exception e) {
-		}
-		int totalPage = Pager.getTotalPage(userService.userTotal());
+		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
+		npage = Integer.parseInt(page);
 		if (npage >= 1 && npage <= totalPage) {
-			model.addAttribute("page", userService.getPage(npage));
-			model.addAttribute("userList", userService.getUserList(npage));
-			return "/user/manage/manage";
+			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(), npage));
+			model.addAttribute("myBoardList", boardService.getMyBoardList(user.getId(), npage));
 		} else {
 			return "/board/notPage";
 		}
+		return "/user/mypage";
 	}
 
-	@RequestMapping(value = "/manage/user", method = RequestMethod.GET)
-	public String managePost(Model model, @ModelAttribute User user) {
-		model.addAttribute("user", userService.getUserListSelectOne(user.getId()));
-		return "/user/manage/view";
+	@RequestMapping(value = "/user/mypage", method = RequestMethod.POST)
+	public String postMypage(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
+			Model model) {
+		User currentUser = userService.selectOneById(user.getId());
+		if (user.getId().equals(id) && currentUser.getPassword().equals(password)) {
+			model.addAttribute("user", currentUser);
+			return "/user/update";
+		}
+		model.addAttribute("msg", "비밀번호가 틀립니다");
+		model.addAttribute("url", "/user/mypage");
+		return "/result";
 	}
 
-	@RequestMapping(value = "/user/manage/view", method = RequestMethod.GET)
-	public String manageView(Model model, @ModelAttribute User user) {
-		model.addAttribute("user", user);
-		return "/user/manage/view";
-	}
+	/*
+	 * @RequestMapping(value = "/user/update", method = RequestMethod.GET) public
+	 * String update(@AuthenticationPrincipal User user, @RequestParam String
+	 * id, @RequestParam String password, Model model) { System.out.println("dd");
+	 * if (user.getId().equals(id)) { return "/user/update"; } else {
+	 * model.addAttribute("msg", "잘못된 요청입니다"); model.addAttribute("url", "/main");
+	 * return "/result"; } }
+	 */
 
-	@RequestMapping(value = "/user/manage/update", method = RequestMethod.POST)
-	public String manageUpdate(@ModelAttribute User user, Model model) {
+	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
+	public String updatePost(@ModelAttribute User user, @AuthenticationPrincipal User savedUser, Model model) {
+		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
 			user.setImage(fileService.saveImage(path, user.getImage_file()));
@@ -316,73 +214,57 @@ public class UserController {
 			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 			String str = dayTime.format(new Date(time));
 
-			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
-			model.addAttribute("url", "/manage");
+			model.addAttribute("msg", "이미지 파일만 업로드 가능합니다.");
+			model.addAttribute("url", "/user/mypage");
+			return "/result";
+		} catch (NullPointerException e) {
+			model.addAttribute("msg", "이미지 업로드에 실패하였습니다. 다시 수정해주세요");
+			model.addAttribute("url", "/user/mypage");
 			return "/result";
 		}
 		if (user.getImage().equals("no_file")) {
 			user.setImage(null);
 		}
-		try {
-			userService.manageUpdate(user);
-		} catch (Exception e) {
-			model.addAttribute("msg", "이 페이지에서는 관리자는 수정할 수 없습니다. 마이페이지를 이용해주세요");
-			model.addAttribute("url", "/user/mypage");
-			return "/result";
-		}
-		model.addAttribute("msg", "수정완료(매니저권한)");
-		model.addAttribute("url", "/manage");
+		userService.update(user);
+		model.addAttribute("msg", "수정이 완료되었습니다.");
+		model.addAttribute("url", "/user/mypage");
 		return "/result";
 	}
 
-	@RequestMapping(value = "/user/manage/delete", method = RequestMethod.GET)
-	public String manageDelete(@AuthenticationPrincipal User user, @RequestParam String id, Model model) {
-		try {
-			userService.delete(id);
-		} catch (Exception e) {
-			model.addAttribute("msg", "이 페이지에서는 관리자는 탈퇴할 수 없습니다. 마이페이지를 이용해주세요");
-			model.addAttribute("url", "/user/mypage");
-			return "/result";
+	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+	public String delete(@AuthenticationPrincipal User user, @ModelAttribute User inputUser, Model model) {
+		if (user.getId().equals(inputUser.getId()) && user.getPassword().equals(inputUser.getPassword())) {
+			userService.delete(user.getId());
+			model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
+			return "user/signout";
+		} else {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			model.addAttribute("url", "/");
 		}
-		model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
-		model.addAttribute("url", "/manage");
-
 		return "/result";
-
-	}
-
-	@RequestMapping(value = "/manage/user/list", method = RequestMethod.GET)
-	public String userMangeSearch(@RequestParam(required = false) String search, Model model) {
-		List<User> userSearchList = userService.userSearchManage(search);
-		model.addAttribute("userList", userSearchList);
-		if (search != null) {
-			model.addAttribute("search", search);
-		}
-		return "/user/manage/manage";
 	}
 	
-	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	
+	//프로필
+	
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String profile(@ModelAttribute User user, Model model) {
-		model.addAttribute("user", userService.getUserListSelectOne(user.getId()));
-		List<Game> gameList = gameService.gameMyList(20,user.getId());
+		model.addAttribute("user", userService.selectOne(user.getId()));
+		List<Game> gameList = gameService.gameMyList(20, user.getId());
 		model.addAttribute("gameList", gameList);
 		return "/user/profile";
 	}
-	
-	@RequestMapping(value="/user/ranking",method=RequestMethod.GET)
-	public String ranking(@AuthenticationPrincipal User user,Model model) {
-		model.addAttribute("userList", userService.userListRanking());
-		return "/user/ranking";
-	}
 
-	@RequestMapping(value = "/user/rankingList", method = RequestMethod.GET)
-	public String userSearch(@RequestParam(required = false) String search, Model model) {
-		List<User> userSearchList = userService.userSearch(search);
-		model.addAttribute("userList", userSearchList);
-		if (search != null) {
-			model.addAttribute("search", search);
-		}
-		return "/user/ranking";
+	
+	//랭킹
+	
+	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
+	public String ranking(@AuthenticationPrincipal User user,@RequestParam(required = false) String search, Model model) {
+		Map<String, String> map = new HashMap<>();
+		map.put("search", search);
+		map.put("type", "nickname");
+		model.addAttribute("userList", userService.userList(map));
+		return "/ranking/ranking";
 	}
 
 }

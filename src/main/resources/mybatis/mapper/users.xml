@@ -54,10 +54,6 @@
 		delete from users where id = #{value}
 	</delete>
 	
-	<delete id="manageDelete" parameterType="String">
-		delete from authority where users_id = #{value}
-	</delete>
-	
 	<select id="selectOneByEmail" parameterType="String" resultType="User">
 		select * from users where email = #{value}
 	</select>
@@ -72,37 +68,15 @@
 		select * from users where id = #{value}
 	</select>
 	
-	<select id="userTotal" resultType="int">
-		select count(*) from users
-	</select>
-	
 	<select id="userList" parameterType="Map" resultType="User">
-		select * from (select rownum rnum, a.* from (select * from users) a)
-		where rnum between #{start} and #{end} order by exp desc
+		select * from (select rownum rnum, a.* from (select * from users 
+		<if test="search != null">
+		where ${type} like '%'||#{search}||'%'
+		</if>
+		order by exp desc) a)
 	</select>
 	
-	<select id="ranking" resultType="User">
-		select * from (select rownum rnum, a.* from (select * from users order by exp desc) a)
-	</select>
-	
-	<select id="userSearchManage" parameterType="String" resultType="User">
-		select * from users
-			<if test="#{value} != null">
-				where id like '%'||#{value}||'%'
-			</if>
-	</select>
-	
-	<select id="userSearch" parameterType="String" resultType="User">
-		select * from users
-			<if test="#{value} != null">
-				where nickname like '%'||#{value}||'%'
-			</if>
-	</select>
-	
-	<update id="getExp10" parameterType="String">
-		update users set exp = exp + 10 where id = #{value}
-	</update>
-	<update id="getExp100" parameterType="String">
-		update users set exp = exp + 100 where id = #{value}
+	<update id="getExp" parameterType="Map">
+		update users set exp = exp + ${exp} where id = #{id}
 	</update>
 </mapper>

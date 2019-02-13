@@ -45,8 +45,10 @@
 					<div
 						class="col-sm-4 <c:if test="${fn:length(hotGameList) <= 2 }">col-offset-sm-2</c:if><c:if test="${fn:length(hotGameList) <= 1 }">col-offset-sm-2</c:if>">
 						<div class="hotGame">
-							<img class="gameImage" alt="game image"
-								src="/upload/image/${hotGame.image }">
+							<a href="/game/view?id=${hotGame.id }">
+								<img class="gameImage" alt="game image"
+									src="/upload/image/${hotGame.image }">
+							</a>
 							<div class="text-center">${hotGame.name }</div>
 						</div>
 					</div>

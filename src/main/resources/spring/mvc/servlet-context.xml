@@ -28,6 +28,8 @@
 				   location="/WEB-INF/upload/image/" />
 	<mvc:resources mapping="/upload/game/**" 
 				   location="/WEB-INF/upload/game/" />
+	<mvc:resources mapping="/favicon.ico" 
+				   location="/WEB-INF/public/favicon.ico" />
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>

@@ -51,8 +51,7 @@
 				<h4>회원정보 수정</h4>
 			</div>
 			<div class="panel-body">
-				<form:form
-					id="sendForm"
+				<form:form id="sendForm"
 					action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 					method="post" enctype="multipart/form-data" modelAttribute="user"
 					class="form-horizontal">
@@ -101,12 +100,7 @@
 					</div>
 				</form:form>
 			</div>
-<<<<<<< HEAD
-			
-				<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${user.exp}</pre>
-=======
 			<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
->>>>>>> 50200d7abd776e98179d5be8e21cb63af75dd966
 		</div>
 	</div>
 	<div class="footer"></div>
@@ -126,25 +120,8 @@
 			if (!check) {
 				return;
 			}
-			var userPassword = $("#userpassword").val();
-			$.ajax({
-				type : "post",
-				beforeSend : function(xhr) {
-					xhr.setRequestHeader("${_csrf.headerName}",
-							"${_csrf.token}");
-				},
-				data : {
-					password : userPassword
-				},
-				url : "/user/checkPassword",
-				success : function(data) {
-					if (data == "correct") {
-						$("#sendForm").attr("action","/user/delete?${_csrf.parameterName}=${_csrf.token }")
-					} else {
-						alert("비밀번호가 틀립니다");
-					}
-				}
-			});
+			$("#sendForm").attr("action",
+					"/user/delete?${_csrf.parameterName}=${_csrf.token }")
 		}
 
 		$(document).ready(resizeImageBoard());

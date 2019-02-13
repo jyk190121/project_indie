@@ -36,7 +36,7 @@ public class ReplyController {
 		} else if (reply.getType().equals("game")) {
 			gameService.updateReplyCount(reply.getIdx());
 		}
-		userService.getExp10(user.getId());
+		userService.getExp(user.getId(), 10);
 		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
 
@@ -49,7 +49,7 @@ public class ReplyController {
 		} else if (reply.getType().equals("game")) {
 			gameService.updateReplyCount(reply.getIdx());
 		}
-		userService.getExp10(user.getId());
+		userService.getExp(user.getId(), 10);
 		return "redirect:/"+reply.getType()+"/view?id=" + reply.getIdx();
 	}
 }

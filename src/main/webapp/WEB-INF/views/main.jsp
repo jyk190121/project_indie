@@ -67,7 +67,7 @@
 					<a href="/board/list"><img class="image" src="/upload/image/board.jpeg" alt="게시판"></img></a>
 				</td>
 				<td>
-					<a href="/user/ranking"><img class="image" src="/upload/image/ranking.jpg" alt="랭킹"></img></a>
+					<a href="/ranking"><img class="image" src="/upload/image/ranking.jpg" alt="랭킹"></img></a>
 				</td>
 				<td>
 					<a href="/user/mypage"><img class="image" src="/upload/image/mypage.png" alt="마이페이지"></img></a>

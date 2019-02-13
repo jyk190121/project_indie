@@ -110,7 +110,7 @@ public class GameController {
 		game.setSrc(srcPath);
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);
-		userService.getExp100(user.getId());
+		userService.getExp(user.getId(), 100);
 		return "redirect:/game/list";
 	}
 

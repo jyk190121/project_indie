@@ -17,7 +17,7 @@
 	<div class="header">
 		<div class="jumbotron">
 			<h1 class="text-center">
-				<i class="glyphicon glyphicon-th-list
+				<i class="glyphicon glyphicon-th-list"
 				   style="font-size:85%"></i>
 				 랭킹
 			</h1>
@@ -30,8 +30,9 @@
 						<thead>
 							<tr>
 								<td colspan="5" class="text-right">
-								<form action="/user/rankingList" method="get">
-									유저 검색 <input type="text" name="search" />
+								<form action="" method="get" class="form-inline">
+									유저 검색 
+									<input type="text" name="search" class="form-control"/>
 									<button type="submit" class="btn btn-primary">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>

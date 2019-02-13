@@ -73,10 +73,8 @@ public class BoardController {
 		board.setWriter(user.getId());
 		board.setIp(httpRequest.getRemoteAddr());
 		boardService.add(board);
-		userService.getExp10(user.getId());
-		model.addAttribute("msg","게시물이 등록되었습니다. (exp +10)");
-		model.addAttribute("url","/board/list");
-		return "/result";
+		userService.getExp(user.getId(), 10);
+		return "redirect:/board/list";
 	}
 
 	@RequestMapping(value = "/board/view", method = RequestMethod.GET)
