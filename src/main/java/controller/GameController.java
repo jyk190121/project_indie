@@ -55,16 +55,13 @@ public class GameController {
 	@RequestMapping(value = "/game/insert", method = RequestMethod.GET)
 	public String insertGet(Model model) {
 		model.addAttribute(new Game());
-		model.addAttribute("msg","게임이 등록되었습니다. 경험치 + 100");
-		model.addAttribute("url","/game/main");
-		return "/result";
+		return "/game/insert";
 	}
 
 	@RequestMapping(value = "/game/insert", method = RequestMethod.POST)
 	public String insertPost(@ModelAttribute @Valid Game game, BindingResult bindingResult,
 			MultipartHttpServletRequest mtRequest, @AuthenticationPrincipal User user, Model model) {
 		if (bindingResult.hasErrors()) {
-			System.out.println("1");
 			return "/game/insert";
 		}
 		String path = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/image/");
@@ -102,7 +99,7 @@ public class GameController {
 				System.out.println(clock.getCurrentTime() + " : 사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
 				model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
 				model.addAttribute("url", "/game/insert");
-				return "result";
+				return "/result";
 			}
 		}
 		

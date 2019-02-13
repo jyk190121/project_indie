@@ -171,6 +171,9 @@ public class UserController {
 		model.addAttribute("user", userService.selectOneById(user.getId()));
 		int npage = 0;
 		int totalPage = Pager.getMyTotalPage(boardService.myBoardTotal(user.getId()));
+		if(totalPage == 0) {
+			return "/user/mypage";
+		}
 		npage = Integer.parseInt(page);
 		if (npage >= 1 && npage <= totalPage) {
 			model.addAttribute("myBoardPage", boardService.getMyBoardPage(user.getId(), npage));
@@ -208,7 +211,7 @@ public class UserController {
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
-			user.setImage(fileService.saveImage(path, user.getImage_file()));
+			user.setImage(fileService.saveFile(path, user.getImage_file()));
 		} catch (InadequateFileExtException e) {
 			long time = System.currentTimeMillis();
 			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
@@ -222,6 +225,8 @@ public class UserController {
 			model.addAttribute("url", "/user/mypage");
 			return "/result";
 		}
+		System.out.println(user.getImage());
+		System.out.println(savedUser.getImage());
 		if (user.getImage().equals("no_file")) {
 			user.setImage(null);
 		}
@@ -266,5 +271,18 @@ public class UserController {
 		model.addAttribute("userList", userService.userList(map));
 		return "/ranking/ranking";
 	}
-
+	
+	/*@RequestMapping(value="/user/levUp",method=RequestMethod.GET)
+	public String levUp(@AuthenticationPrincipal User user,Model model) {
+		System.out.println("dd");
+		if(user != null) {
+			userService.levUp(user.getId(),user.getExp(),user.getLev());
+			model.addAttribute("msg","레벨 업");
+			model.addAttribute("url","/user/mypage");
+		}else if (user == null) {
+			model.addAttribute("msg","잘못된 접근입니다");
+			model.addAttribute("url","main");
+		}
+		return "/result";
+	}*/
 }

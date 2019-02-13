@@ -6,8 +6,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.PostConstruct;
+import javax.jws.soap.InitParam;
 import javax.mail.internet.MimeMessage;
 
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -30,6 +33,16 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	int a = 300;
+	int[] levUp = new int[a];
+	
+	@PostConstruct
+	public void init() {
+		for(int i=0; i<=a-1; i++) {
+			levUp[i] = i*20;
+		}
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -120,10 +133,40 @@ public class UserService implements UserDetailsService {
 		map.put("id", id);
 		map.put("exp", exp);
 		userDao.getExp(map);
+		User user = selectOne(id);
+		levUp(id,user.getExp(),user.getLev());
 	}
 
 
 	public void manageUpdate(User user) {
 		userDao.manageUpdate(user);
+	}
+
+	public void levUp(String id, int exp, int lev) {
+		/*String str = "{1, 2 ";
+		int a = 1;
+		int b = 2;
+		int c = 0;
+		for(int i=0; i<=100; i++) {
+			str+=",";
+			c = i*20;
+			str+= String.valueOf(c);
+		}
+		str+="}";
+		System.out.println(str);*/
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
+		while(true) {
+			map.put("exp", exp);
+			map.put("levUpExp", levUp[lev]);
+			if(exp >= levUp[lev]) {
+				userDao.levUp(map);
+				exp -= levUp[lev];
+				lev += 1;
+			}else if(exp < levUp[lev]) {
+				break;
+			}
+		}
+		
 	}
 }

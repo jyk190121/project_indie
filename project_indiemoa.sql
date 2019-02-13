@@ -3,10 +3,13 @@
 select * from (select rownum rnum, a.* from 
 		(select * from board where writer = 'test' order by id desc)a) 
 		where rnum between 1 and 22;
-
+select*from users;
 delete from users where id ='test2';
 
-
+update users set 
+		lev = lev + 1 ,
+		exp = exp - 150
+		where id = 'test' and exp >= 150;
 desc users;
 update users set password = '1111' where id = 'test2';
 select *
