@@ -191,5 +191,5 @@ drop sequence seq_users_ranking;
 create sequence seq_users_ranking;
 update users set ranking = 1 where exp = (select max(exp) from users);
 
-select * from board;
+select * from reply;
 alter table users drop column ranking;
