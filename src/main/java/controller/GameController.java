@@ -63,6 +63,19 @@ public class GameController {
 		if (bindingResult.hasErrors()) {
 			return "/game/insert";
 		}
+		if(game.getImage_file().getSize() == 0) {
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			model.addAttribute("url", "/game/insert");
+			return "result";
+		}
+		List<MultipartFile> files = mtRequest.getFiles("gameFiles");
+		for(MultipartFile file : files) {
+			if(file.getSize() == 0) {
+				model.addAttribute("msg", "잘못된 접근입니다.");
+				model.addAttribute("url", "/game/insert");
+				return "result";
+			}
+		}
 		String path = mtRequest.getServletContext().getRealPath("/WEB-INF/upload/image/");
 		String filename;
 		try {
@@ -74,7 +87,7 @@ public class GameController {
 		}
 		game.setImage(filename);
 
-		List<MultipartFile> files = mtRequest.getFiles("gameFiles");
+		
 		String[] paths = new String[files.size()];
 		paths = mtRequest.getParameter("paths").split(",");
 		
@@ -104,6 +117,9 @@ public class GameController {
 		
 		String srcPath = mtRequest.getParameter("srcPath");
 		game.setSrc(srcPath);
+		if(game.getSrc() == null) {
+			game.setSrc("");
+		}
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);
 		userService.getExp(user.getId(), 100);

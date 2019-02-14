@@ -46,6 +46,10 @@
 				href="javascript:go('hit')">조회순</a> <a href="javascript:go('like')">추천순</a>
 		</p>
 		<div class="container-fluid">
+			<c:if test="${fn:length(gameList) < 5 }">
+				<h2 class="text-center">검색 결과가 없습니다</h2>
+			</c:if>
+			<c:if test="${fn:length(gameList) >= 5 }">
 			<c:forEach begin="0" end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1)-1 }" var="i">
 				<div class="row">
 					<div class="col-sm-3">
@@ -78,6 +82,7 @@
 					</div>
 				</div>
 			</c:forEach>
+			</c:if>
 		</div>
 	</div>
 	<div class="footer"></div>
