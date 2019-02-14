@@ -160,7 +160,7 @@
 							<input type="file" name="image_file" onchange="uploadImage(this)" />
 						</div>
 						<div>
-							<a href="/" target="_blank">이미지 조정하러가기</a>
+							<a href="/user/cropimage" target="_blank">이미지 조정하러가기</a>
 						</div>
 					</div>
 				</div>

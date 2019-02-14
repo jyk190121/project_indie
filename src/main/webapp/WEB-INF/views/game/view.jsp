@@ -136,7 +136,7 @@ textarea:focus {
 			<div class="profileImage" style="background-image: url('/upload/image/${game.user.image}');"></div>
 			<div style="display: inline-block; transform:translate(0,-17px)">
 				<a onclick="location.href='/profile?writer_id=${game.user.writer_id}'" style="cursor: pointer; text-decoration: none;">
-					LV${game.user.lev } ${game.user.nickname}
+					Lv.${game.user.lev } ${game.user.nickname}
 				</a>
 			</div>
 		</div>

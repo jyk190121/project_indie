@@ -266,4 +266,11 @@ public class UserController {
 		return "/ranking/ranking";
 	}
 	
+	//crop image
+	@RequestMapping(value="/user/cropimage", method=RequestMethod.GET)
+	public String cropImage() {
+		return "cropimage";
+	}
+	
+	
 }
