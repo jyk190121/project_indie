@@ -22,8 +22,9 @@
 .image-board {
 	width: 100%;
 	max-width: 340px;
-	border: 1px solid gray;
+	border: 2px solid #ccc;
 	margin-bottom: 15px;
+	border-radius: 10px;
 }
 
 #image {
@@ -149,10 +150,17 @@
 						<div class="form-group">
 							<div class="image-board">
 								<div class="text-center">
-									<label class="control-label">프로필 이미지</label>
+									<div id="image-board-text">
+										<label class="control-label">프로필 이미지</label>
+										<p style="margin : 10px 0 0 0;">가로세로 비율이 1대1인 이미지만 </p>
+										<p>사용할 수 있습니다</p>
+									</div>
 								</div>
 							</div>
-							<input type="file" name="image_file" onchange="showImage(this)" />
+							<input type="file" name="image_file" onchange="uploadImage(this)" />
+						</div>
+						<div>
+							<a href="/" target="_blank">이미지 조정하러가기</a>
 						</div>
 					</div>
 				</div>
@@ -173,6 +181,8 @@
 		var isCertified = false;
 		var idCheck = false;
 		var rToken = "";
+		var $imageBoard = $(".image-board");
+		var $imageText = $("#image-board-text");
 		
 		/* reCAPCHA */
 		var verifyCallback = function(response) {
@@ -189,19 +199,21 @@
 		$(document).ready(resizeImageBoard());
 
 		$(window).resize(function() {
-			var width = $(".image-board").outerWidth();
-			$(".image-board").css({
+			var width = $imageBoard.outerWidth();
+			$imageBoard.css({
 				'height' : width + "px",
-				"line-height" : width + "px"
+				//"line-height" : width + "px"
 			});
+			$imageText.css("margin-top",(width-$imageText.height())/2+"px");
 		});
 
 		function resizeImageBoard() {
-			var width = $(".image-board").outerWidth();
-			$(".image-board").css({
+			var width = $imageBoard.outerWidth();
+			$imageBoard.css({
 				'height' : width + "px",
-				"line-height" : width + "px"
+				//"line-height" : width + "px"
 			});
+			$imageText.css("margin-top",(width-$imageText.height())/2+"px");
 		}
 
 		function sendCode(f) {
@@ -350,16 +362,12 @@
 			$("#idCheck-btn").css("border-color", "red");
 		}
 
-		function showImage(input) {
-			console.log(input.files[0]);
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				$(".image-board").empty();
-				$(".image-board").append(
-						"<img id='image' src='"+e.target.result+"'></img>");
-				$(".image-board").css('border', 'none');
-			}
-			reader.readAsDataURL(input.files[0]);
+		function showImage(src) {
+			//console.log(input.files[0]);
+			$(".image-board").empty();
+			$(".image-board").append(
+					"<img id='image' src='"+src+"'></img>");
+			$(".image-board").css('border', 'none');
 		}
 
 		function insert(f) {
@@ -390,6 +398,51 @@
 				passwordCheck = false;
 				$("#pCheck").css('border-color', 'red');
 			}
+		}
+		
+		var agent = navigator.userAgent.toLowerCase();
+		
+		function initInput(input){
+			if ((navigator.appName == 'Netscape' && navigator.userAgent
+					.search('Trident') != -1)
+					|| (agent.indexOf("msie") != -1)) {
+				// ie 일때 input[type = file] init.
+				$(input).replaceWith($(input).clone(true));
+			} else { // other browser 일때 input[type = file] init.
+				$(input).val("");
+			}
+		}
+		
+		function uploadImage(input){
+			var ext = input.value.substring(input.value.lastIndexOf('.') + 1).toUpperCase();
+			if(!(ext == 'PNG' || ext == 'JPG' || ext == 'JPEG' || ext == 'GIF' || ext == "BMP")){
+				initInput(input);
+				$imageBoard.css("border-color","red");
+				alert('이미지는 png, jpg, bmp, gif 형식의 파일만 업로드할 수 있습니다');
+				return;
+			}
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var newimage = new Image();
+				newimage.src = e.target.result; 
+				newimage.onload = function()
+				{
+				    if(this.naturalWidth < 50 || this.naturalHeight < 50){
+				    	initInput(input);
+				    	$imageBoard.css("border-color","red");
+				    	alert('프로필 이미지는 가로세로 최소 50px 이상이어야 합니다.');
+				    	return;
+				    }
+				    if(this.naturalWidth != this.naturalHeight){
+				    	initInput(input);
+				    	$imageBoard.css("border-color","red");
+				    	alert('가로세로 비율이 1 대 1인 이미지만 사용할 수 있습니다.')
+				    	return;
+				    }
+					showImage(e.target.result);
+				}
+			}
+			reader.readAsDataURL(input.files[0]);
 		}
 	</script>
 </body>
