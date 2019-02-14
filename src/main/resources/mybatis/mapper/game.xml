@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="gameMyList" parameterType="Map" resultType="Game">
-		select * from (select rownum rnum, g.* from (select * from game where users_id = #{id} order by regist_date desc) g)  where rnum  &lt;= #{count}
+		select * from (select rownum rnum, g.* from (select * from game where users_id = (select id from users where writer_id = #{id}) order by regist_date desc) g)  where rnum  &lt;= #{count}
 	</select>
 	
 	<select id="selectList" parameterType="Map" resultType="Game">

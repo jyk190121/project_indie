@@ -61,7 +61,7 @@
 		update users set email = #{email} where id = #{id}
 	</update>
 	<insert id="insert" parameterType="User">
-		insert into users values(#{id}, #{password}, #{nickname}, #{email}, #{image}, #{myinfo}, 1, 0)
+		insert into users values(#{id}, #{password}, #{nickname}, #{email}, #{image}, #{myinfo}, 1, 0, seq_users_id.nextval)
 	</insert>
 	
 	<select id="selectOneById" parameterType="String" resultType="User">
@@ -91,4 +91,7 @@
 		where id = #{id} and exp &gt;= ${levUpExp}
 	</update>
 	
+	<select id="selectOnebyWriter" parameterType="int" resultType="User">
+		select * from users where writer_id = #{value}
+	</select>
 </mapper>

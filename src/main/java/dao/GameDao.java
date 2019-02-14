@@ -70,7 +70,7 @@ public class GameDao {
 		session.update("game.reply_count",idx);
 	}
 
-	public List<Game> gameMyList(Map<String, Object> map) {
+	public List<Game> gameMyList(Map<String, Integer> map) {
 		return session.selectList("game.gameMyList", map);
 	}
 	

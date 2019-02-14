@@ -25,11 +25,19 @@ public class User implements UserDetails {
 	private int lev;
 	private int exp;
 	private int rnum;
-
-	private List<Authority> authorities;
+	private int writer_id;
 
 	private MultipartFile image_file;
 
+	public int getWriter_id() {
+		return writer_id;
+	}
+	
+	public void setWriter_id(int writer_id) {
+		this.writer_id = writer_id;
+	}
+	
+	private List<Authority> authorities;
 	
 	
 	public int getRnum() {

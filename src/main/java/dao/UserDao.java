@@ -67,4 +67,8 @@ public class UserDao {
 		return session.selectOne("users.exp",id);
 	}
 
+	public User selectOnebyWriter(int writer_id) {
+		return session.selectOne("users.selectOnebyWriter",writer_id);
+	}
+
 }

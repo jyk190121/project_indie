@@ -247,9 +247,9 @@ public class UserController {
 	//프로필
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String profile(@ModelAttribute User user, Model model) {
-		model.addAttribute("user", userService.selectOne(user.getId()));
-		List<Game> gameList = gameService.gameMyList(20, user.getId());
+	public String profile(Model model,@RequestParam int writer_id) {
+		model.addAttribute("user", userService.selectOnebyWriter(writer_id));
+		List<Game> gameList = gameService.gameMyList(20, writer_id);
 		model.addAttribute("gameList", gameList);
 		return "/user/profile";
 	}

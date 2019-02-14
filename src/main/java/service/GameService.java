@@ -121,8 +121,8 @@ public class GameService {
 		gameDao.updateReplyCount(idx);		
 	}
 
-	public List<Game> gameMyList(int i, String id) {
-		Map<String, Object> map = new HashMap<>();
+	public List<Game> gameMyList(int i, int id) {
+		Map<String, Integer> map = new HashMap<>();
 		map.put("id", id);
 		map.put("count", i);
 		List<Game> gameMyList = gameDao.gameMyList(map);

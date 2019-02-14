@@ -3,7 +3,7 @@
 select * from (select rownum rnum, a.* from 
 		(select * from board where writer = 'test' order by id desc)a) 
 		where rnum between 1 and 22;
-select*from users;
+select*from users ;
 delete from users where id ='test2';
 
 update users set 
@@ -11,7 +11,6 @@ update users set
 		exp = exp - 150
 		where id = 'test' and exp >= 150;
 desc users;
-update users set password = '1111' where id = 'test2';
 select *
 		from (select rownum rnum, a.* from
 		(select * from (select * from board where type = 'notice' and writer = 'test' order by id desc)
@@ -27,7 +26,10 @@ select * from game;
 update users set lev = 2,exp=100 where id='jin';
 update users set password ='1111';
 update users set image = 'default.png' where image is null and rownum = 1;
-insert into users values('test2','1111','admin','test2323@gamil.com','default.png','test123231', 1, 0);
+insert into users values('jin2','1111','tester!!','test2323@gamil.com','default.png','test123231', 1, 0);
+select a.id from ((select id,nickname from users) a) where nickname = 'tester!!' and rownum >= 1;
+select nickname,id from users;
+
 select * from (select rownum rnum, a.* from (select * from  
 		(select * from users)) a) where rnum between 1 and 10;
 update users set 
@@ -48,6 +50,7 @@ create table users (
     exp number default 0
 );
 select * from users;
+
 insert into users values('test','1111','tester','test@gmail.com','default.png','?��?��?��?��?��?��?��', 1, 0);
 select * from users where nickname like '%%';
 create sequence seq_authority_id;
@@ -189,9 +192,10 @@ select users_id, (score_a + score_B + score_c) score from
 			(select rownum rnum, h.* from hotGameHighScore h order by score_a + score_B + score_c desc)
 				where rnum <= 2;
 
-alter table users add ranking number;
-drop sequence seq_users_ranking;
-create sequence seq_users_ranking;
+alter table users add writer_id number;
+select * from users;
+update users set writer_id = SEQ_USERS_ID.NEXTVAL;
+create sequence seq_users_id;
 update users set ranking = 1 where exp = (select max(exp) from users);
 
 select * from reply;

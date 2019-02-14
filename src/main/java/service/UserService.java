@@ -169,4 +169,8 @@ public class UserService implements UserDetailsService {
 		}
 		
 	}
+
+	public User selectOnebyWriter(int writer_id) {
+		return userDao.selectOnebyWriter(writer_id);
+	}
 }
