@@ -141,17 +141,17 @@ public class GameController {
 	}
 
 	@RequestMapping(value = "/game/view", method = RequestMethod.GET)
-	public String gameView(@RequestParam(required = false) String id, Model model, @AuthenticationPrincipal User user) {
+	public String gameView(@RequestParam(required = false) String id, Model model, @AuthenticationPrincipal User user,
+			@ModelAttribute Game game) {
 		if (id == null) {
 			return "redirect:/game/";
 		}
-		Game game = gameService.selectOne(id);
-		if (game == null) {
-			model.addAttribute("msg", "없는 페이지입니다");
+		model.addAttribute("game",gameService.selectOne(id));
+		if (gameService.selectOne(id) == null) {
+			model.addAttribute("msg", "잘못된 요청입니다");
 			model.addAttribute("url", "/game/main");
 			return "result";
 		}
-		model.addAttribute("game", game);
 		GameLike eval = new GameLike();
 		eval.setGame_id(id);
 		eval.setUsers_id(user.getId());

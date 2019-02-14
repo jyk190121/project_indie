@@ -57,11 +57,11 @@
 		select * from board where id = #{value}
 	</select>
 	<resultMap type="Board" id="boardMap">
-		<result column="id" property="id"></result>
+		<result column="id" property="id"/>
 		<result column="writer" property="writer"/>
 		<association property="user" column="writer"
 			select="users.selectOne" javaType="User" />
-		<collection property="replyList" ofType="Reply" column="id" select="reply.boardReplyList"></collection>
+		<collection property="replyList" ofType="Reply" column="id" select="reply.boardReplyList"/>
 	</resultMap>
 
 	<update id="update" parameterType="Board">

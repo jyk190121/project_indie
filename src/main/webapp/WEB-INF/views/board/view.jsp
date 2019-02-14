@@ -67,7 +67,7 @@ textarea {
 								style="background-image: url('/upload/image/${board.user.image}');">
 						</div>
 						<div style="display: inline-block; transform:translate(0,-17px)">
-						<a href="/profile?writer_id=${board.user.writer_id}">${board.user.nickname }</a>
+							<a href="/profile?writer_id=${board.user.writer_id}">LV ${board.user.lev } ${board.user.nickname }</a>
 							<span class="glyphicon glyphicon-time"></span> ${board.write_date }
 							<span class="badge">${board.hit }</span>
 						</div>
@@ -116,7 +116,9 @@ textarea {
 								style="background-image: url('/upload/image/${reply.user.image}');">
 							</div>
 							<div style="display: inline-block; transform:translate(0,-17px)">
-								<a onclick="location.href='/profile?writer_id=${reply.user.writer_id}'" style="cursor: pointer;">${reply.user.nickname }</a>
+								<a onclick="location.href='/profile?writer_id=${reply.user.writer_id}'" style="cursor: pointer;">
+									LV ${reply.user.lev } ${reply.user.nickname }
+								</a>
 								<c:if test="${empty reply.user.nickname  }">
 								삭제된 사용자입니다
 								</c:if>

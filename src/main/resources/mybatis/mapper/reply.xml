@@ -28,7 +28,7 @@
 			select="users.selectOne" javaType="User" />
 	</resultMap>
 	
-	<select id="gameReplyList" parameterType="int" resultType="Reply">
+	<select id="gameReplyList" parameterType="int" resultMap="ReplyMap">
 		select * from reply where idx = #{value} and type = 'game' order by step 		
 	</select>
 	<select id="selectOne" parameterType="int"

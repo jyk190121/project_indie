@@ -15,7 +15,14 @@ public class Game {
 	@NotBlank(message="설명해라 설명")
 	private String info;
 	private String image;
+	private User user;
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	private String users_id, regist_date, etc_info;
 	
 	private MultipartFile image_file;
