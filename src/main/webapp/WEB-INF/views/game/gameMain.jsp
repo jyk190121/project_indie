@@ -50,6 +50,7 @@ a{
 .podium-content img{
 	width: 90%;
 	border-radius: 5px;
+	height: 90%;
 }
 .podium-content span{
 	padding: 0;

@@ -5,7 +5,7 @@ select * from (select rownum rnum, a.* from
 		where rnum between 1 and 22;
 select*from users ;
 delete from users where id ='test2';
-
+create sequence seq_id_a;
 update users set 
 		lev = lev + 1 ,
 		exp = exp - 150

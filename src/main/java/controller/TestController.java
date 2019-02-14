@@ -1,8 +1,15 @@
 package controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +29,15 @@ public class TestController {
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String test() {
+		return "test";
+	}
+	
+	@RequestMapping(value="/test/zip", method=RequestMethod.GET)
+	public String zip() throws IOException {
+		String rootPath = "/WEB-INF/upload/game/";
+		String rootPathStr = rootPath.replaceAll("/", "\\\\");
+		System.out.println(rootPathStr);
+		//fileService.createZipFile("c:/test/zip/clumsy-bird-ziptest", "c:/test/zip", "zipfiletest.zip");
 		return "test";
 	}
 
