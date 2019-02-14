@@ -7,7 +7,7 @@ public class Reply {
 	private Board board;
 	
 	private User user;
-	
+
 	public User getUser() {
 		return user;
 	}

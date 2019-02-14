@@ -28,7 +28,6 @@ public class ReplyController {
 
 	@RequestMapping(value = "/reply/insert", method = RequestMethod.POST)
 	public String reply(@ModelAttribute Reply reply, @AuthenticationPrincipal User user) {
-		System.out.println("insert");
 		reply.setWriter(user.getId());
 		replyService.add(reply);
 		if (reply.getType().equals("board")) {

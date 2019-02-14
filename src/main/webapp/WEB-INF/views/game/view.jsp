@@ -117,11 +117,29 @@ textarea:focus {
 .far{
 	font-size: 50px;
 }
+.profileImage {
+	display: inline-block; 
+	border-radius : 100%;
+	width: 50px;
+	height: 50px;
+	background-position: center center;
+	border-radius: 100%;
+	background-size: contain;
+}
+
 </style>
 <body onload="draw();" onresize="draw();">
 	<div class="header">
 		game view
 		<h1 class="text-center">${game.name }</h1>
+		<div class="text-center">
+			<div class="profileImage" style="background-image: url('/upload/image/${game.user.image}');"></div>
+			<div style="display: inline-block; transform:translate(0,-17px)">
+				<a onclick="location.href='/profile?writer_id=${game.user.writer_id}'" style="cursor: pointer; text-decoration: none;">
+					LV${game.user.lev } ${game.user.nickname}
+				</a>
+			</div>
+		</div>
 	</div>
 	<div class="content">
 		<div class="container-fluid">
@@ -219,18 +237,22 @@ textarea:focus {
 							<c:forEach var="reply" items="${game.replyList }">
 								<div class="reply" style="margin-left:${reply.depth*30}px">
 									<div class="reply-header">
-										<span class="glyphicon glyphicon-user"></span> ${reply.writer }
-										<c:if test="${empty reply.writer }">
-							삭제된 사용자입니다
-						</c:if>
-										&nbsp;&nbsp;
-										<c:if test="${!empty reply.writer }">
-											<span class="glyphicon glyphicon-time"></span>
-							${reply.write_date } &nbsp;&nbsp;
-							<button class="btn btn-primary btn-xs" type="button"
-												data-parent="#reply-list" data-toggle="collapse"
-												data-target="#form_${reply.id }">댓글</button>
-										</c:if>
+										<div class="profileImage" style="background-image: url('/upload/image/${reply.user.image}');"></div>
+										<div style="display: inline-block; transform:translate(0,-17px)">
+											<a onclick="location.href='/profile?writer_id=${reply.user.writer_id}'" style="cursor: pointer; text-decoration: none;">
+												LV ${reply.user.lev } ${reply.user.nickname }
+											</a>
+											<c:if test="${empty reply.user.nickname}">
+												삭제된 사용자입니다
+											</c:if>
+											<c:if test="${!empty reply.user.nickname}">
+												<span class="glyphicon glyphicon-time"></span>
+												${reply.write_date } &nbsp;&nbsp;
+												<button class="btn btn-primary btn-xs" type="button"
+													data-parent="#reply-list" data-toggle="collapse"
+													data-target="#form_${reply.id }">댓글</button>
+											</c:if>
+										</div>
 									</div>
 									<div class="reply-body">
 										<c:if test="${reply.depth != 0 }">

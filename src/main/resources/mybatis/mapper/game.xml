@@ -48,8 +48,11 @@
 		select * from game where id = #{value}
 	</select>
 	<resultMap type="Game" id="replyListMap">
+		<result column="users_id" property="users_id"/>
 		<result column="id" property="id"/>
-		<collection property="replyList" column="id" ofType="Reply" select="reply.gameReplyList"></collection>
+		<association property="user" column="users_id"
+			select="users.selectOne" javaType="User" />
+		<collection property="replyList" column="id" ofType="Reply" select="reply.gameReplyList"/>
 	</resultMap>
 	<select id="getNextId" resultType="int">
 		select seq_game_id.nextval from dual
