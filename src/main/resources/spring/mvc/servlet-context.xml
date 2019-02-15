@@ -9,33 +9,31 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
-	
-	<!-- <mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/"/>
-			<ref bean="interceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors> -->
+
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/"/> <ref bean="interceptor"/> 
+		</mvc:interceptor> </mvc:interceptors> -->
 
 	<bean name="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 		p:defaultEncoding="utf-8" p:maxUploadSize="10485760" />
-	
-	<context:component-scan base-package="controller, interceptor"/>
+
+	<context:component-scan
+		base-package="controller, interceptor" />
 	<mvc:resources mapping="/public/**"
-				   location="/WEB-INF/public/" />
-	<mvc:resources mapping="/upload/image/**" 
-				   location="/WEB-INF/upload/image/" />
-	<mvc:resources mapping="/upload/game/**" 
-				   location="/WEB-INF/upload/game/" />
-	<mvc:resources mapping="/favicon.ico" 
-				   location="/WEB-INF/public/favicon.ico" />
+		location="/WEB-INF/public/" />
+	<mvc:resources mapping="/upload/image/**"
+		location="/WEB-INF/upload/image/" />
+	<mvc:resources mapping="/upload/game/**"
+		location="/WEB-INF/upload/game/" />
+	<mvc:resources mapping="/favicon.ico"
+		location="/WEB-INF/public/favicon.ico" />
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
+			<bean
+				class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
-
+	
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp" />

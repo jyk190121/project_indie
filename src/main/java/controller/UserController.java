@@ -1,17 +1,22 @@
 package controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +55,9 @@ public class UserController {
 
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping(value = { "/", "/main" }, method = RequestMethod.GET)
 	public String main(@AuthenticationPrincipal User user, Model model) {
@@ -186,7 +194,7 @@ public class UserController {
 	public String postMypage(@AuthenticationPrincipal User user, @RequestParam String id, @RequestParam String password,
 			Model model) {
 		User currentUser = userService.selectOneById(user.getId());
-		if (user.getId().equals(id) && currentUser.getPassword().equals(password)) {
+		if (user.getId().equals(id) && passwordEncoder.matches(password, currentUser.getPassword())) {
 			model.addAttribute("user", currentUser);
 			return "/user/update";
 		}
@@ -232,13 +240,14 @@ public class UserController {
 
 	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
 	public String delete(@AuthenticationPrincipal User user, @ModelAttribute User inputUser, Model model) {
-		if (user.getId().equals(inputUser.getId()) && user.getPassword().equals(inputUser.getPassword())) {
+		user = userService.selectOneById(user.getId());
+		if (user.getId().equals(inputUser.getId()) && passwordEncoder.matches(inputUser.getPassword(), user.getPassword())) {
 			userService.delete(user.getId());
 			model.addAttribute("msg", "회원탈퇴가 정상적으로 되었습니다");
 			return "user/signout";
 		} else {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			model.addAttribute("url", "/");
+			model.addAttribute("msg", "비밀번호가 틀립니다");
+			model.addAttribute("url", "/user/mypage");
 		}
 		return "/result";
 	}
@@ -248,7 +257,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String profile(Model model,@RequestParam int writer_id) {
-		model.addAttribute("user", userService.selectOnebyWriter(writer_id));
+		model.addAttribute("user", userService.selectOnebyWriter_id(writer_id));
 		List<Game> gameList = gameService.gameMyList(20, writer_id);
 		model.addAttribute("gameList", gameList);
 		return "/user/profile";
@@ -271,6 +280,5 @@ public class UserController {
 	public String cropImage() {
 		return "cropimage";
 	}
-	
 	
 }

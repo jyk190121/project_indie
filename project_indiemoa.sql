@@ -41,7 +41,7 @@ update users set
 select * from board;
 create table users (
     id varchar2(20) primary key,
-    password varchar2(20)    not null,
+    password varchar2(60)    not null,
     nickname varchar2(20) not null,
     email varchar2(50) unique,
     image varchar2(100) default 'default.png',
@@ -50,7 +50,7 @@ create table users (
     exp number default 0
 );
 select * from users;
-
+alter table users modify(password varchar2(60));
 insert into users values('test','1111','tester','test@gmail.com','default.png','?��?��?��?��?��?��?��', 1, 0);
 select * from users where nickname like '%%';
 create sequence seq_authority_id;
@@ -115,7 +115,7 @@ delete from game;
 insert into game values(1, 'testGame', 'web', '<script>test</script>','?��?��?��게임?��?��?��', 'test1.jpg', 'test', 0, sysdate, 0, 0 ,0);
 insert into game values(2, 'testGame', 'exe', '<script>test</script>','?��?��?��게임?��?��?��2', 'test2.jpg', 'test', 0, sysdate, 0, 0 ,0);
 insert into game values(3, 'testGame', 'etc', '<script>test</script>','?��?��?��게임?��?��?��3', 'test3.jpg', 'test', 0, sysdate, 0, 0 ,0);
-insert into game values(seq_game_id.nextval, 'testGame', 'web', '<script>test</script>','?��?��?��게임?��?��?��', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0);
+insert into game values(seq_game_id.nextval, 'testGame', 'exe', 'zipfiletest한글.zip','파일명에 한글 들어가도되나', 'gameDefault.jpg', 'test', 0, sysdate, 0, 0 ,0, null);
 insert into game values(seq_game_id.nextval, 'pacman', 'web', 'index.html','깃허브에?�� �??��?�� ?���?', 'pacman.jpg', 'user', 0, sysdate, 0, 0 ,0, null);
 update game set likes = 3, unlikes = 14 where id = 2;
 update game set unlikes = 5 where id in (1);

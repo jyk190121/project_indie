@@ -1,37 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="seq" uri="http://www.springframework.org/security/tags"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="seq"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="643415307527-il731pmi36f68sn61e2ljieudcm3d107.apps.googleusercontent.com">
+   
 <title>main</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
 <style>
-	.header{
-		font-size: 20px;
-  		font-weight: 150;
-  		max-height: 280px;
-	}
-	#image{
-		width: 100px;
-		heigth: 100px;
-		border: 1px solid gray;
-	}
-	.image{
-		width: 200px;
-		height: 200px;
-		border: 1px solid gray;
-	}
-	.content-table{
-		width: 60%;
-		margin: auto;
-	}
+.header {
+	font-size: 20px;
+	font-weight: 150;
+	max-height: 280px;
+}
+
+#image {
+	width: 100px;
+	heigth: 100px;
+	border: 1px solid gray;
+}
+
+.image {
+	width: 200px;
+	height: 200px;
+	border: 1px solid gray;
+}
+
+.content-table {
+	width: 60%;
+	margin: auto;
+}
 </style>
 <body>
 	<div class="jumbotron text-center header">
@@ -39,14 +49,16 @@
 		<c:if test="${user != null }">
 			<div>
 				<!-- <a class="btn btn-danger" href="/user/levUp">LevelUp</a> -->
-				<p><img id="image" src="/upload/image/${user.image }" alt="${user.image }" />
-				${user.nickname }으로 로그인
-				<button onclick="javascript:signout();">로그아웃</button></p>
+				<p>
+					<img id="image" src="/upload/image/${user.image }"
+						alt="${user.image }" /> ${user.nickname }으로 로그인
+					<button onclick="javascript:signout();">로그아웃</button>
+				</p>
 			</div>
 		</c:if>
 		<c:if test="${user == null }">
-			<p><button onclick="showLoginModal();">로그인</button>
-			<a href="/user/join" class="btn btn-warning">회원가입</a></p>
+				<button onclick="showLoginModal();">로그인</button>
+				<a href="/user/join" class="btn btn-warning">회원가입</a>
 			<p>랭킹 이외의 모든 컨텐츠는 로그인 후에 이용이 가능합니다</p>
 		</c:if>
 	</div>
@@ -62,47 +74,90 @@
 			</tr>
 			<tr class="content">
 				<td>
-					<a href="/game/main"><img class="image" src="/upload/image/game.jpg" alt="게임"></img></a>
+					<a href="/game/main"><img class="image"
+					src="/upload/image/game.jpg" alt="게임"></img></a>
 				</td>
 				<td>
-					<a href="/board/list"><img class="image" src="/upload/image/board.jpeg" alt="게시판"></img></a>
+					<a href="/board/list"><img class="image"
+					src="/upload/image/board.jpeg" alt="게시판"></img></a>
 				</td>
 				<td>
-					<a href="/ranking"><img class="image" src="/upload/image/ranking.jpg" alt="랭킹"></img></a>
+					<a href="/ranking"><img class="image"
+					src="/upload/image/ranking.jpg" alt="랭킹"></img></a>
 				</td>
 				<td>
-					<a href="/user/mypage"><img class="image" src="/upload/image/mypage.png" alt="마이페이지"></img></a>
+					<a href="/user/mypage"><img class="image"
+					src="/upload/image/mypage.png" alt="마이페이지"></img></a>
 				</td>
 				<seq:authorize access="hasRole('ROLE_ADMIN')">
 					<td>
-						<a href="/manage"><img class="image" src="/upload/image/manage.jpg" alt="관리자"></img></a>
+						<a href="/manage"><img class="image"
+						src="/upload/image/manage.jpg" alt="관리자"></img></a>
 					</td>
 				</seq:authorize>
 			</tr>
 		</table>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<jsp:include page="/WEB-INF/views/user/signin.jsp"></jsp:include>
 	<script>
-		function signout(){
+		var gCount = 0;
+		
+		function signout() {
 			var form = document.createElement("form");
-			form.method="post";
-			form.action="/user/signout";
+			form.method = "post";
+			form.action = "/user/signout";
 			var input = document.createElement("input");
-			input.type="hidden";
-			input.name="${_csrf.parameterName}";
-			input.value="${_csrf.token}";
+			input.type = "hidden";
+			input.name = "${_csrf.parameterName}";
+			input.value = "${_csrf.token}";
 			form.appendChild(input);
 			document.body.appendChild(form);
 			form.submit();
 		}
 
-		$(document).ready(
-				resizeImageBoard());	
+		$(document).ready(resizeImageBoard());
 
-			function resizeImageBoard(){
-				var width = $(".image-board").outerWidth();
+		function resizeImageBoard() {
+			var width = $(".image-board").outerWidth();
+		}
+
+		
+		//구글 로그인
+		function onSignIn(googleUser) {
+			// Useful data for your client-side scripts:
+			if(gCount++ == 0){
+				return;
+			}
+			var profile = googleUser.getBasicProfile();
+			var form = document.createElement("form");
+			form.action = '/user/googleLogin';
+			form.method = 'post';
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "${_csrf.parameterName}";
+			input.value = "${_csrf.token}";
+			form.appendChild(input);
+			var email = document.createElement("input");
+			email.name = "email";
+			email.value = profile.getEmail();
+			form.appendChild(email);
+			document.body.appendChild(form);
+			form.submit();
+			
+			console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+			console.log('Full Name: ' + profile.getName());
+			console.log('Given Name: ' + profile.getGivenName());
+			console.log('Family Name: ' + profile.getFamilyName());
+			console.log("Image URL: " + profile.getImageUrl());
+			console.log("Email: " + profile.getEmail());
+
+			// The ID token you need to pass to your backend:
+			var id_token = googleUser.getAuthResponse().id_token;
+			console.log("ID Token: " + id_token);
 		}
 	</script>
 </body>

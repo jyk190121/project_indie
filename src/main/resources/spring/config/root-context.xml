@@ -10,6 +10,21 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+	<!-- 구글 로그인 -->
+	<bean id="googleConnectionFactory"
+		class="org.springframework.social.google.connect.GoogleConnectionFactory">
+		<constructor-arg value="643415307527-bfuk22adsj5he23mv469n9q4f2pqdhnf.apps.googleusercontent.com" />
+		<constructor-arg value="JNDj5k6Xb705dN7O_viWB3wz" />
+	</bean>
+
+	<bean id="googleOAuth2Parameters"
+		class="org.springframework.social.oauth2.OAuth2Parameters">
+		<property name="scope"
+			value="https://www.googleapis.com/auth/userinfo.email"></property>
+		<property name="redirectUri"
+			value="http://localhost:8080/googleSignInCallback" />
+	</bean>
+
 	<bean id="JavaMailSenderImpl"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl"
 		p:host="smtp.gmail.com" p:port="587"

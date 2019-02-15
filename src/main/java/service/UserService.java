@@ -7,23 +7,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
-import javax.jws.soap.InitParam;
 import javax.mail.internet.MimeMessage;
 
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
-import domain.Board;
-import domain.Game;
 import domain.User;
-import util.Pager;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -33,6 +29,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	int a = 300;
 	int[] levUp = new int[a];
@@ -58,6 +57,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void update(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDao.update(user);
 	}
 
@@ -113,6 +113,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void insert(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDao.insert(user);
 	}
 
@@ -170,7 +171,11 @@ public class UserService implements UserDetailsService {
 		
 	}
 
-	public User selectOnebyWriter(int writer_id) {
-		return userDao.selectOnebyWriter(writer_id);
+	public User selectOnebyWriter_id(int writer_id) {
+		return userDao.selectOnebyWriter_id(writer_id);
+	}
+
+	public User selectOneByEmail(String email) {
+		return userDao.selectOneByEmail(email);
 	}
 }
