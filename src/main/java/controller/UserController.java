@@ -1,16 +1,12 @@
 package controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-
 import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -25,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domain.Board;
 import domain.Game;
@@ -60,12 +57,14 @@ public class UserController {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping(value = { "/", "/main" }, method = RequestMethod.GET)
-	public String main(@AuthenticationPrincipal User user, Model model) {
+	public String main(@AuthenticationPrincipal User user, @RequestParam(required=false ,name="googleInfo") Map<String,String> googleInfo, Model model) {
 		if(user == null) {
 			model.addAttribute("user",user);
 		}else {
 			model.addAttribute("user", userService.selectOne(user.getId()));
 		}
+		System.out.println("googleInfo");
+		System.out.println(googleInfo);
 		return "main";
 	}
 
@@ -281,4 +280,71 @@ public class UserController {
 		return "cropimage";
 	}
 	
+	
+	//구글계정으로 로그인
+	@RequestMapping(value="/user/google/login", method=RequestMethod.POST)
+	public String googleLogin(@RequestParam String email, @RequestParam String googleId, Model model, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+		User user = userService.selectOneByEmail(email);
+		if(user == null) {
+			Map<String, String> map = new HashMap<>();
+			map.put("email",email);
+			map.put("googleId", googleId);
+			redirectAttributes.addFlashAttribute("googleInfo",map);
+			return "redirect:/?googleFail";
+		}else {
+			model.addAttribute("id",user.getId());
+			model.addAttribute("googleId", googleId);
+			return "googleLogin";
+		}
+	}
+	
+	//구글계정으로 회원가입
+	@RequestMapping(value="/user/google/join", method=RequestMethod.POST)
+	public String googleJoinPageView(@RequestParam String email, @RequestParam String googleId, Model model) {
+		model.addAttribute("email", email);
+		model.addAttribute("googleId", googleId);
+		return "/user/googleJoin";
+	}
+	
+	@RequestMapping(value = "/user/google/regist", method = RequestMethod.POST)
+	public String googleJoin(@RequestParam(value = "g-recaptcha-response") String response, @ModelAttribute User user, Model model) {
+		try {
+			if (!VerifyRecaptcha.verify(response)) {
+				model.addAttribute("msg","잘못된 접근입니다");
+				model.addAttribute("url","/");
+				return "result";
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return "redirect:/";
+		}
+		if(!user.getNickname().matches("[ㄱ-ㅎ가-힣ㅏ-ㅣ0-9A-Za-z!@#*_-]{4,20}")) {
+			model.addAttribute("msg","잘못된 접근입니다");
+			model.addAttribute("url","/");
+			return "result"; 
+		}
+		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
+		String filename;
+		try {
+			filename = fileService.saveFile(path, user.getImage_file());
+		} catch (InadequateFileExtException e) {
+			System.out.println(Clock.getCurrentTime() + "사용자가 jsp나 asp, php 파일의 업로드를 시도함.");
+			model.addAttribute("msg", "JSP, ASP, PHP 파일은 업로드할 수 없습니다.");
+			model.addAttribute("url", "/game/insert");
+			return "result";
+		}
+		if (filename.equals("no_file")) {
+			user.setImage("default.png");
+		} else if (!filename.equals("no_file")) {
+			user.setImage(filename);
+		}
+		user.setId("google_"+userService.getRandomCode(13));
+		while (userService.selectOne(user.getId()) != null) {
+			user.setId("google_"+userService.getRandomCode(13));
+		}
+		user.setPassword(user.getGoogleId());
+		userService.insert(user);
+		return "redirect:/?signin";
+	}
+
 }

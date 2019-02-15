@@ -68,7 +68,7 @@ public class UserService implements UserDetailsService {
 	public String sendCertifyEmail(String email) throws Exception {
 		String from = "indiemoa.com@google.com";
 		String subject = "[ INDIE MOA ] 인증메일";
-		String emailCode = getRandomCode();
+		String emailCode = getRandomCode(5);
 		String content = "[ INDIE MOA ] 회원가입 인증코드는 [" + emailCode + "]입니다.\n" + "인증코드를 입력하여 이메일 인증을 완료해 주세요";
 
 		MimeMessage msg = javaMailSender.createMimeMessage();
@@ -82,9 +82,9 @@ public class UserService implements UserDetailsService {
 		return emailCode;
 	}
 
-	private String getRandomCode() {
+	public String getRandomCode(int n) {
 		String randomCode = "";
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < n; i++) {
 			randomCode += (int) (Math.random() * 10);
 		}
 		return randomCode;

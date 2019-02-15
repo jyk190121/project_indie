@@ -26,8 +26,16 @@ public class User implements UserDetails {
 	private int exp;
 	private int rnum;
 	private int writer_id;
-
+	private String googleId;
+	
 	private MultipartFile image_file;
+
+	public String getGoogleId() {
+		return googleId;
+	}
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
 
 	public int getWriter_id() {
 		return writer_id;
