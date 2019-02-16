@@ -63,6 +63,15 @@ public class GameController {
 		if (bindingResult.hasErrors()) {
 			return "/game/insert";
 		}
+		String srcPath = mtRequest.getParameter("srcPath");
+		if(game.getType().equals("web")) {
+			if(srcPath == null) {
+				model.addAttribute("msg", "잘못된 접근입니다.");
+				model.addAttribute("url", "/game/insert");
+				return "result";
+			}
+			game.setSrc(srcPath);
+		}
 		if(game.getImage_file().getSize() == 0) {
 			model.addAttribute("msg", "잘못된 접근입니다.");
 			model.addAttribute("url", "/game/insert");
@@ -115,10 +124,13 @@ public class GameController {
 			}
 		}
 		
-		String srcPath = mtRequest.getParameter("srcPath");
-		game.setSrc(srcPath);
-		if(game.getSrc() == null) {
-			game.setSrc("");
+		if(!game.getType().equals("web")) {
+			String zipPath = rootDir.substring(0, rootDir.length()-1);
+			String zipName = fileService.createZipFile(zipPath, zipPath, "indiemoa_"+game.getName());
+			if(zipName == "error") {
+				return "/error500";
+			}
+			game.setSrc(zipName);
 		}
 		game.setUsers_id(user.getId());
 		gameService.insertGame(game);

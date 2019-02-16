@@ -69,12 +69,14 @@
 	</select>
 	
 	<select id="userList" parameterType="Map" resultType="User">
-		select * from (select rownum rnum, b.* from (select * from (select rownum rank, a.* from (select * from users) a)
+		select * from 
+		(select rownum rnum, b.* from 
+		(select * from 
+		(select rownum rank, a.* from (select * from users order by lev desc) a)
 		<if test="search != null">
 		where ${type} like '%'||#{search}||'%'
 		</if>) b)
-		where rnum &lt;= ${page}*30 and rnum &gt;= (${page}-1)*30+1 order by lev desc
-		
+		where rnum &lt;= ${page}*30 and rnum &gt;= (${page}-1)*30 order by rank
 	</select>
 	
 	<update id="getExp" parameterType="Map">

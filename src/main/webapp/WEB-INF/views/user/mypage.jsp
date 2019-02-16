@@ -121,7 +121,8 @@
 				return;
 			}
 			$("#sendForm").attr("action",
-					"/user/delete?${_csrf.parameterName}=${_csrf.token }")
+					"/user/delete?${_csrf.parameterName}=${_csrf.token }");
+			f.submit();
 		}
 
 		$(document).ready(resizeImageBoard());

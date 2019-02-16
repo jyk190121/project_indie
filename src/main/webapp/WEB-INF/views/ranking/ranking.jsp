@@ -68,14 +68,14 @@
 	
 //결과값이 없을 때 page증가 멈춤
 	$(document).ready(function(){
-		var page = 1; //처음 30개
+		var page = 2; //처음 30개를 빼고 시작해야하므로
 		var docH = $(document).height(); //document의 높이
 		var scrollH = $(window).height()+$(window).scrollTop();
 		  $(window).scroll(function(){
-			  	scrollH = $(window).height()+$(window).scrollTop();	
+			  scrollH = $(window).height()+$(window).scrollTop();	
 			  if(scrollH == docH){       //(문서의 높이 - 50)에서 실행됨
 				  //alert('d');
-			  console.log(scrollH);
+			  	  //console.log(scrollH);
 				  $.ajax({
 					url:"/ranking",
 					type: "post",
@@ -88,6 +88,7 @@
 						$("#userList").append(data);
 						docH = $(document).height();
 						page++;
+						
 						}
 					});
 			  }
