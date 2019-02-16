@@ -40,7 +40,7 @@
 			<div>
 				<!-- <a class="btn btn-danger" href="/user/levUp">LevelUp</a> -->
 				<p><img id="image" src="/upload/image/${user.image }" alt="${user.image }" />
-				${user.nickname }으로 로그인
+				<a href="/profile?writer_id=${user.writer_id }" style="text-decoration: none;">${user.nickname }</a>으로 로그인
 				<button onclick="javascript:signout();">로그아웃</button></p>
 			</div>
 		</c:if>

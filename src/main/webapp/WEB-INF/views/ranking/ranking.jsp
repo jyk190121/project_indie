@@ -7,11 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<style>
-.line{
-	margin-bottom: 0;
-}
-</style>
 </head>
 <body>
 	<div class="header">
@@ -48,16 +43,16 @@
 								<th width="10%">경험치</th>
 							</tr>
 						</tbody>
-						<tfoot>
+						<tfoot id="userList">
 							<c:forEach var="user" items="${userList}">
-							<tr onclick="javascript:userList('${user.id}');"
-								style="cursor:pointer;">
-								<td>${user.rnum}</td>
-								<td>${user.nickname }</td>
-								<td>${user.lev}</td>
-								<td>${user.exp }</td>
-							</tr>
-						</c:forEach>
+								<tr onclick="javascript:userList('${user.writer_id}');"
+									style="cursor:pointer;">
+									<td>${user.rnum}</td>
+									<td>${user.nickname }</td>
+									<td>${user.lev}</td>
+									<td>${user.exp }</td>
+								</tr>
+							</c:forEach>
 						</tfoot>
 					</table>
 				</div>
@@ -68,8 +63,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>
 	function userList(id){
-		location.href = "/profile?id="+id
+		location.href = "/profile?writer_id="+id
 	}
+	
+//결과값이 없을 때 page증가 멈춤
+	$(document).ready(function(){
+		var page = 1; //처음 30개
+		var docH = $(document).height(); //document의 높이
+		var scrollH = $(window).height()+$(window).scrollTop();
+		  $(window).scroll(function(){
+			  	scrollH = $(window).height()+$(window).scrollTop();	
+			  if(scrollH == docH){       //(문서의 높이 - 50)에서 실행됨
+				  //alert('d');
+			  console.log(scrollH);
+				  $.ajax({
+					url:"/ranking",
+					type: "post",
+					data: {page:page},
+					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+					},
+					success:function(data){
+						console.log(page);
+						$("#userList").append(data);
+						docH = $(document).height();
+						page++;
+						}
+					});
+			  }
+		});
+	});
+		
+	
 </script>
 </body>
 </html>
