@@ -3,9 +3,12 @@
 select * from 
 (select rownum rnum, b.* from 
 (select * from 
-(select rownum rank, a.* from (select * from users order by lev desc) a)) b)
+(select rownum rank, a.* from (select * from users order by lev desc) a)
+where nickname like 'test%') b)
 		where rank <= 1*30 and rank >= (1-1)*30 order by rank;
     
+update users set lev = 2 where nickname like 'tester4%';
+select * from users where nickname like 'tester4%';
 
 select * from (select rownum rnum, a.* from 
 		(select * from board where writer = 'test' order by id desc)a) 

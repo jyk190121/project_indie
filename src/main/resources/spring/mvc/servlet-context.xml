@@ -36,8 +36,9 @@
 	
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
-
+		p:prefix="/WEB-INF/views/" p:suffix=".jsp">
+		<!-- <property name="contentType" value="text/html; charset=UTF-8"/> -->
+	</bean>
 </beans>
 
 

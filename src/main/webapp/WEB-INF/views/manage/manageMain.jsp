@@ -40,7 +40,7 @@ tfoot {
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" name="search" value="${search }" 	class="form-control" />
+							<input type="text" name="search" value="${search }" class="form-control" />
 						</div>
 						<button type="submit" class="btn btn-primary">
 							<span class="glyphicon glyphicon-search"></span>

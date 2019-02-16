@@ -66,7 +66,6 @@
 		location.href = "/profile?writer_id="+id
 	}
 	
-//결과값이 없을 때 page증가 멈춤
 	$(document).ready(function(){
 		var page = 2; //처음 30개를 빼고 시작해야하므로
 		var docH = $(document).height(); //document의 높이
@@ -87,7 +86,10 @@
 						console.log(page);
 						$("#userList").append(data);
 						docH = $(document).height();
-						page++;
+						if(scrollH < document.body.scrollHeight){
+							//결과값이 없을 때 page증가 멈춤
+							page++;
+						}
 						
 						}
 					});

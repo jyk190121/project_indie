@@ -285,7 +285,7 @@ public class UserController {
 		return "/ranking/ranking";
 	}
 	
-	@RequestMapping(value = "/ranking", method = RequestMethod.POST)
+	@RequestMapping(value = "/ranking", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String rankingPost(@RequestParam String page,
 				@AuthenticationPrincipal User user, @RequestParam(required = false) String search, Model model) {
@@ -294,13 +294,14 @@ public class UserController {
 		map.put("type", "nickname");
 		map.put("page", page);
 		List<User> userList = userService.userList(map);
+
 		String tabletd="";
-		for(User getuser : userList) {
-			tabletd += ("<tr onclick=\"javascript:userList("+getuser.getWriter_id()+");\"\r\n style=\"cursor:pointer;\">");
-			tabletd += ("<td>"+getuser.getRnum()+"</td>");
-			tabletd += ("<td>"+getuser.getNickname()+"</td>");
-			tabletd += ("<td>"+getuser.getLev()+"</td>");
-			tabletd += ("<td>"+getuser.getExp()+"</td>");
+		for(User getUser : userList) {
+			tabletd += ("<tr onclick=\"javascript:userList("+getUser.getWriter_id()+");\"\r\n style=\"cursor:pointer;\">");
+			tabletd += ("<td>"+getUser.getRnum()+"</td>");
+			tabletd += ("<td>"+getUser.getNickname()+"</td>");
+			tabletd += ("<td>"+getUser.getLev()+"</td>");
+			tabletd += ("<td>"+getUser.getExp()+"</td>");
 			tabletd += ("</tr>");
 		}
 		/*System.out.println("table : ");
