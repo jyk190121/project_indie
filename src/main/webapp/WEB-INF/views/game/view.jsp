@@ -11,8 +11,9 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 </head>
 <style>
 * {
@@ -130,7 +131,9 @@ textarea:focus {
 </style>
 <body onload="draw();" onresize="draw();">
 	<div class="header">
-		game view
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 		<h1 class="text-center">${game.name }</h1>
 		<div class="text-center">
 			<div class="profileImage" style="background-image: url('/upload/image/${game.user.image}');"></div>

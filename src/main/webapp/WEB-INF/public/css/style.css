@@ -2,3 +2,13 @@
 	.content{
 		
 	}
+	
+	.btn-primary {
+		background-color: #be2edd !important;
+		border-color: #be2edd;
+	}
+	
+	.btn-primary:hover{
+		border-color: #be2edd !important;
+		opacity: 0.8;
+	}

@@ -3,10 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="game">
-	<select id="selectListAsCount" parameterType="int" resultType="Game">
+	<select id="selectListAsCount" parameterType="int" resultMap="normalGameList">
 		select * from (select rownum rnum, g.* from (select * from game order by regist_date desc) g) where rnum  &lt;= #{value}
 	</select>
-	
+	<resultMap type="Game" id="normalGameList">
+		<association property="user" column="users_id" javaType="User" select="users.selectOne"></association>
+	</resultMap>
 	<select id="gameMyList" parameterType="Map" resultType="Game">
 		select * from (select rownum rnum, g.* from (select * from game where users_id = (select id from users where writer_id = #{id}) order by regist_date desc) g)  where rnum  &lt;= #{count}
 	</select>

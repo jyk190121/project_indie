@@ -85,4 +85,12 @@ public class BoardService {
 		return boardDao.myBoardTotal(id);
 	}
 
+	public List<Board> getNormalBoardList(int cnt) {
+		return boardDao.getNormalBoardList(cnt);
+	}
+
+	public List<Board> getNoticeBoardList(int cnt) {
+		return boardDao.getNoticeBoardList(cnt);
+	}
+
 }
