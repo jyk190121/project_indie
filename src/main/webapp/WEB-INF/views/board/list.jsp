@@ -17,6 +17,14 @@
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
+.row {
+	margin-top: 50px;
+}
+
+.header{
+	height: 320px;
+}
+
 .table-board {
 	background-color: white;
 }
@@ -55,10 +63,17 @@ tfoot {
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
+		<div class="container">
+			<div class="row">
+				<div style="background-image: url('/public/image/background4-dark.jpg'); width: 100%; height: 200px;">
+					<h1 class="text-center" style="padding-top: 0; color: white; font-weight: 600; font-size: 200px;">Board Main</h1>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="content">
 		<div class="container">
-			<div class="row" style="padding-bottom: 50px">
+			<div class="row">
 				<h2 class="text-center">자유롭게 의견을 나눠보아요!</h2>
 			</div>
 			<div class="row">

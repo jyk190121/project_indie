@@ -27,10 +27,14 @@
 }
 
 .header {
-	height: 250px;
+	height: 260px;
 	background-image: url("/public/image/background1-1.jpg");
 	background-position: center;
-	margin-bottom: 30px;
+}
+
+.header h1{
+	text-shadow: -2px 0 #222, 0 2px #222, 2px 0 #222, 0 -2px #222;
+	color: white; font-size: 300px; margin:0;
 }
 
 @keyframes showbar {
@@ -77,28 +81,6 @@
 	padding: 10px 5px;
 }
 
-.div-title-underbar {
-	border-bottom: 1px lightgray solid;
-	margin-bottom: 20px;
-}
-
-.div-title-underbar span {
-	text-decoration: none !important;
-	color: black;
-	font-size: 20px;
-	padding: 5px 10px;
-}
-
-.div-title-underbar-bold {
-	display: inline-block;
-	border-bottom: 2px black solid;
-	margin-bottom: -0.5px;
-}
-
-.lightgray {
-	color: lightgray !important;
-}
-
 .signin{
 	border: 1px solid #be2edd;
 	padding: 10px;
@@ -140,11 +122,9 @@
 </style>
 <body>
 	<div class="text-center header">
-		<div style="height: 50px;">
-			<jsp:include page="/WEB-INF/views/navbar.jsp" />
-		</div>
-		<div style="padding-top: 40px;">
-			<h1 style="color: white;"><i class="fas fa-gamepad"></i> Indiemoa</h1>
+		<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		<div style="padding-top: 0;">
+			<h1 style="">Indiemoa</h1>
 		</div>
 		<%-- <c:if test="${user != null }">
 			<div>
@@ -164,6 +144,7 @@
 			<p>랭킹 이외의 모든 컨텐츠는 로그인 후에 이용이 가능합니다</p>
 		</c:if> --%>
 	</div>
+	<div style="height: 50px; z-index: 0; background-color: white; position: relative;"></div>
 	<%-- <table class="content-table" style="margin-bottom: 50px;">
 		<tr>
 			<th class="text-center">게임</th>
@@ -202,7 +183,7 @@
 						</div>
 						<div style="margin-top:40px;">
 							<div class="carousel slide" data-ride="carousel"
-								id="gameCarousel" style="width: 80%; margin: auto;">
+								id="gameCarousel" style="width: 90%; margin: auto;">
 								<ol class="carousel-indicators">
 									<li data-target="#mycarousel" data-slide-to="0" class="active"></li>
 									<li data-target="#mycarousel" data-slide-to="1"></li>
@@ -264,8 +245,9 @@
 								<div class="col-xs-3 hover-lightgray" style="">
 									<a href="/game/view?id=${gameList[i].id }" style="text-decoration: none; color:black;">
 										<img src="/upload/image/${gameList[i].image }" alt="game" />
+										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
 										<div class="text-left">
-											<p class="over-hidden" style="overflow: hidden; margin: 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
+											<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
 											<p class="over-hidden" style="overflow: hidden;">${gameList[i].user.nickname }</p>
 										</div>
 										<div>
@@ -274,6 +256,7 @@
 											&nbsp;&nbsp;
 											<i class="far fa-comment-dots"></i>
 											<span>${gameList[i].reply_count }</span>
+										</div>
 										</div>
 									</a>
 								</div>
@@ -284,16 +267,18 @@
 								<div class="col-xs-3 hover-lightgray" style="">
 									<a href="/game/view?id=${gameList[i].id }" style="text-decoration: none; color:black;">
 										<img src="/upload/image/${gameList[i].image }" alt="game" />
-										<div class="text-left">
-											<p class="over-hidden" style="overflow: hidden; margin: 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
-											<p class="over-hidden" style="overflow: hidden;">${gameList[i].user.nickname }</p>
-										</div>
-										<div>
-											<i class="far fa-thumbs-up"></i>
-											<span>${gameList[i].likes-gameList[i].unlikes }</span>
-											&nbsp;&nbsp;
-											<i class="far fa-comment-dots"></i>
-											<span>${gameList[i].reply_count }</span>
+										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
+											<div class="text-left">
+												<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
+												<p class="over-hidden" style="overflow: hidden;">${gameList[i].user.nickname }</p>
+											</div>
+											<div>
+												<i class="far fa-thumbs-up"></i>
+												<span>${gameList[i].likes-gameList[i].unlikes }</span>
+												&nbsp;&nbsp;
+												<i class="far fa-comment-dots"></i>
+												<span>${gameList[i].reply_count }</span>
+											</div>
 										</div>
 									</a>
 								</div>

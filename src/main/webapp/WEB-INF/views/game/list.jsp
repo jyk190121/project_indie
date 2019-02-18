@@ -29,6 +29,7 @@
 
 .gameImage {
 	width: 100%;
+	height: 15vw;
 }
 </style>
 </head>
@@ -61,7 +62,12 @@
 							class="gameImage" alt=""
 							src="/upload/image/${gameList[i*4].image }">
 						</a>
-						<div class="text-center">${gameList[i*4].name }</div>
+						<div>
+							<div class="text-center">${gameList[i*4].name }</div>
+							${gameList[i*4].user.nickname }
+							${gameList[i*4].reply_count }
+							${gameList[i*4].likes - gameList[i*4].unlikes }
+						</div>
 					</div>
 					<div class="col-sm-3">
 						<a href="/game/view?id=${gameList[i*4+1].id }"> <img

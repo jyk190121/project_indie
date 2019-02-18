@@ -37,3 +37,25 @@ body {
 	height: 20px;
 	overflow: hidden;
 }
+
+.div-title-underbar {
+	border-bottom: 1px lightgray solid;
+	margin-bottom: 20px;
+}
+
+.div-title-underbar span {
+	text-decoration: none !important;
+	color: black;
+	font-size: 20px;
+	padding: 5px 10px;
+}
+
+.div-title-underbar-bold {
+	display: inline-block;
+	border-bottom: 2px black solid;
+	margin-bottom: -0.5px;
+}
+
+.lightgray {
+	color: lightgray !important;
+}

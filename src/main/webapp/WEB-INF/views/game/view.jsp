@@ -11,7 +11,8 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 </head>
@@ -59,22 +60,33 @@ body {
 	overflow: hidden;
 }
 
-@keyframes show {
-  from {background-color: white;}
-  to {background-color: lightgray;}
+@
+keyframes show {
+	from {background-color: white;
 }
 
-@keyframes hide {
-  from {background-color: lightgray;}
-  to {background-color: white;}
+to {
+	background-color: lightgray;
 }
 
+}
+@
+keyframes hide {
+	from {background-color: lightgray;
+}
+
+to {
+	background-color: white;
+}
+
+}
 .game-info button {
-	width:41px;
+	width: 41px;
 	background-color: white;
 	border: none;
 	border-radius: 20px;
 }
+
 .game-info button:focus {
 	outline: none;
 }
@@ -109,18 +121,20 @@ textarea:focus {
 }
 
 #downloadFile-btn {
-	margin-left: 10px; color : #337ab7;
+	margin-left: 10px;
+	color: #337ab7;
 	border: 1px solid #337ab7;
 	text-decoration: none;
 	color: #337ab7;
 }
 
-.far{
+.far {
 	font-size: 50px;
 }
+
 .profileImage {
-	display: inline-block; 
-	border-radius : 100%;
+	display: inline-block;
+	border-radius: 100%;
 	width: 50px;
 	height: 50px;
 	background-position: center center;
@@ -128,6 +142,25 @@ textarea:focus {
 	background-size: contain;
 }
 
+[id$=like-deactivated] {
+	background-color: #e056fd;
+	color: white;
+	width: 100%;
+	height: 70px;
+	border-radius: 35px;
+}
+
+.game-eval i {
+	margin-top: 10px;
+}
+
+.game-eval [class^=col-] {
+	padding: 5px;
+}
+
+.footer {
+	height: 200px;
+}
 </style>
 <body onload="draw();" onresize="draw();">
 	<div class="header">
@@ -136,11 +169,13 @@ textarea:focus {
 		</div>
 		<h1 class="text-center">${game.name }</h1>
 		<div class="text-center">
-			<div class="profileImage" style="background-image: url('/upload/image/${game.user.image}');"></div>
-			<div style="display: inline-block; transform:translate(0,-17px)">
-				<a onclick="location.href='/profile?writer_id=${game.user.writer_id}'" style="cursor: pointer; text-decoration: none;">
-					Lv.${game.user.lev } ${game.user.nickname}
-				</a>
+			<div class="profileImage"
+				style="background-image: url('/upload/image/${game.user.image}');"></div>
+			<div style="display: inline-block; transform: translate(0, -17px)">
+				<a
+					onclick="location.href='/profile?writer_id=${game.user.writer_id}'"
+					style="cursor: pointer; text-decoration: none;">
+					Lv.${game.user.lev } ${game.user.nickname} </a>
 			</div>
 		</div>
 	</div>
@@ -180,18 +215,22 @@ textarea:focus {
 								<div class="game-info">
 									<h1 class="game-info-title">
 										게임 실행 방법
-										<button type="button" onclick="show(this, 'game-ect_info-text')">+</button>
+										<button type="button"
+											onclick="show(this, 'game-ect_info-text')">+</button>
 									</h1>
 									<pre id="game-ect_info-text" style="">${game.etc_info }</pre>
 								</div>
 							</c:if>
 						</div>
-						<div class="row" style="">
-							<div class="col-xs-1">
+						<div class="row game-eval" style="">
+							<div class="col-xs-1 text-center">
 								<div class="disnone" id="like-activated">
-									<a href="javascript:evaluateGame('like');" class="likes-btn"><i class="far fa-thumbs-up"></i></a>
+									<a href="javascript:evaluateGame('like');" class="likes-btn"><i
+										class="far fa-thumbs-up"></i></a>
 								</div>
-								<div id="like-deactivated"><i class="far fa-thumbs-up"></i></div>
+								<div id="like-deactivated">
+									<i class="far fa-thumbs-up"></i>
+								</div>
 							</div>
 							<div class="col-xs-10" id="likes-bar-container">
 								<div>
@@ -205,11 +244,14 @@ textarea:focus {
 									<span id="unlikeCount">${game.unlikes }</span>
 								</div>
 							</div>
-							<div class="col-xs-1">
+							<div class="col-xs-1 text-center">
 								<div class="disnone" id="unlike-activated">
-									<a href="javascript:evaluateGame('unlike');" class="likes-btn"><i class="far fa-thumbs-down"></i></a>
+									<a href="javascript:evaluateGame('unlike');" class="likes-btn"><i
+										class="far fa-thumbs-down"></i></a>
 								</div>
-								<div id="unlike-deactivated"><i class="far fa-thumbs-down"></i></div>
+								<div id="unlike-deactivated">
+									<i class="far fa-thumbs-down"></i>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -240,11 +282,14 @@ textarea:focus {
 							<c:forEach var="reply" items="${game.replyList }">
 								<div class="reply" style="margin-left:${reply.depth*30}px">
 									<div class="reply-header">
-										<div class="profileImage" style="background-image: url('/upload/image/${reply.user.image}');"></div>
-										<div style="display: inline-block; transform:translate(0,-17px)">
-											<a onclick="location.href='/profile?writer_id=${reply.user.writer_id}'" style="cursor: pointer; text-decoration: none;">
-												LV ${reply.user.lev } ${reply.user.nickname }
-											</a>
+										<div class="profileImage"
+											style="background-image: url('/upload/image/${reply.user.image}');"></div>
+										<div
+											style="display: inline-block; transform: translate(0, -17px)">
+											<a
+												onclick="location.href='/profile?writer_id=${reply.user.writer_id}'"
+												style="cursor: pointer; text-decoration: none;"> LV
+												${reply.user.lev } ${reply.user.nickname } </a>
 											<c:if test="${empty reply.user.nickname}">
 												삭제된 사용자입니다
 											</c:if>
@@ -285,6 +330,8 @@ textarea:focus {
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="footer">
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script

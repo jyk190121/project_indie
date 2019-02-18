@@ -42,7 +42,7 @@ public class GameController {
 
 	@RequestMapping(value = "/game/main", method = RequestMethod.GET)
 	public String main(Model model) {
-		List<Game> gameList = gameService.gameList(20);
+		List<Game> gameList = gameService.gameList(30);
 		List<Game> hotGameList = gameService.hotGameList();
 		List<User> rankerList = gameService.rankerList(3);
 		model.addAttribute("gameList", gameList);

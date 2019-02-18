@@ -55,7 +55,7 @@ textarea {
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/board/boardTopPage.jsp" />
+		<jsp:include page="/WEB-INF/views/navbar.jsp" />
 	</div>
 	<div class="content">
 		<div class="container-fluid" style="width: 80%">
