@@ -16,8 +16,12 @@
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
-.row{
+.row {
 	margin-top: 30px;
+}
+
+.header{
+	height: 200px;
 }
 
 .content {
@@ -32,26 +36,43 @@
 	width: 100%;
 	height: 10vw;
 }
+
+a {
+	text-decoration: none !important;
+	color: #222;
+}
+
+a:hover {
+	color: #444;
+}
+
 </style>
 </head>
 <body>
 	<div class="header">
-		<div style="height: 50px;">
+		<div style="height: 100px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<form action="/game/list" method="get">
-			<input type="text" name="search" />
-			<button>
-				<i class="fas fa-search"></i>
-			</button>
-		</form>
+		<div class="text-center" style="margin-top: 50px;">
+			<form action="/game/list" method="get" class="form form-inline">
+				<div class="input-group">
+					<input placeholder="Search.." type="text" name="search" class="form-control input" style="width: 300px; height: 50px; font-size: 32px;">
+					<button class="btn btn-primary input-group-btn" style="width:50px; height: 50px;">
+						<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
+					</button>
+				</div>
+			</form>
+		</div>
 	</div>
 	<div class="content">
-		<p class="text-right">
-			<a href="javascript:go('date')">최신순</a> <a
-				href="javascript:go('hit')">조회순</a> <a href="javascript:go('like')">추천순</a>
-		</p>
 		<div class="container">
+			<div class="row">
+				<p class="text-right" style="font-size: 20px; font-weight: 600; padding-right: 20px;">
+					<a href="javascript:go('date')">최신순</a> | 
+					<a href="javascript:go('hit')">조회순</a> |
+					<a href="javascript:go('like')">추천순</a>
+				</p>
+			</div>
 			<c:if test="${fn:length(gameList) < 5 }">
 				<h2 class="text-center">검색 결과가 없습니다</h2>
 			</c:if>
@@ -66,7 +87,8 @@
 								src="/upload/image/${gameList[i*4].image }">
 							</a>
 							<div>
-								<div class="" style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+								<div class=""
+									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4].type}]
@@ -77,6 +99,7 @@
 									<div style="font-size: 20px">
 										<i class="far fa-thumbs-up"></i> <span>${gameList[i*4].likes-gameList[i*4].unlikes }</span>
 										&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*4].reply_count }</span>
+										&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 									</div>
 								</div>
 							</div>
@@ -87,7 +110,8 @@
 								src="/upload/image/${gameList[i*4+1].image }">
 							</a>
 							<div>
-								<div class=""  style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+								<div class=""
+									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+1].type}]
@@ -98,6 +122,7 @@
 									<div style="font-size: 20px">
 										<i class="far fa-thumbs-up"></i> <span>${gameList[i*4+1].likes-gameList[i*4+1].unlikes }</span>
 										&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*4+1].reply_count }</span>
+										&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 									</div>
 								</div>
 							</div>
@@ -108,7 +133,8 @@
 								src="/upload/image/${gameList[i*4+2].image }">
 							</a>
 							<div>
-								<div class="" style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+								<div class=""
+									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+2].type}]
@@ -119,6 +145,7 @@
 									<div style="font-size: 20px">
 										<i class="far fa-thumbs-up"></i> <span>${gameList[i*4+2].likes-gameList[i*4+2].unlikes }</span>
 										&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*4+2].reply_count }</span>
+										&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 									</div>
 								</div>
 							</div>
@@ -129,7 +156,8 @@
 								src="/upload/image/${gameList[i*4+3].image }">
 							</a>
 							<div>
-								<div class="" style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+								<div class=""
+									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+3].type}]
@@ -140,6 +168,7 @@
 									<div style="font-size: 20px">
 										<i class="far fa-thumbs-up"></i> <span>${gameList[i*4+3].likes-gameList[i*4+3].unlikes }</span>
 										&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*4+3].reply_count }</span>
+										&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 									</div>
 								</div>
 							</div>

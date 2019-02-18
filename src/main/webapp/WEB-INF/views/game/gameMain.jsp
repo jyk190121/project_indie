@@ -304,6 +304,7 @@ a:hover {
 												<div>
 													<i class="far fa-thumbs-up"></i> <span>${gameList[i*6].likes-gameList[i*6].unlikes }</span>
 													&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6].reply_count }</span>
+													&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 												</div>
 											</div>
 										</a>
@@ -321,6 +322,7 @@ a:hover {
 											<div>
 												<i class="far fa-thumbs-up"></i> <span>${gameList[i*6+1].likes-gameList[i*6+1].unlikes }</span>
 												&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6+1].reply_count }</span>
+												&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 											</div>
 										</div>
 									</a>
@@ -337,6 +339,7 @@ a:hover {
 											<div>
 												<i class="far fa-thumbs-up"></i> <span>${gameList[i*6+2].likes-gameList[i*6+2].unlikes }</span>
 												&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6+2].reply_count }</span>
+												&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 											</div>
 										</div>
 									</a>
@@ -353,6 +356,7 @@ a:hover {
 											<div>
 												<i class="far fa-thumbs-up"></i> <span>${gameList[i*6+3].likes-gameList[i*6+3].unlikes }</span>
 												&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6+3].reply_count }</span>
+												&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 											</div>
 										</div>
 									</a>
@@ -369,6 +373,7 @@ a:hover {
 											<div>
 												<i class="far fa-thumbs-up"></i> <span>${gameList[i*6+4].likes-gameList[i*6+4].unlikes }</span>
 												&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6+4].reply_count }</span>
+												&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 											</div>
 										</div>
 									</a>
@@ -385,6 +390,7 @@ a:hover {
 											<div>
 												<i class="far fa-thumbs-up"></i> <span>${gameList[i*6+5].likes-gameList[i*6+5].unlikes }</span>
 												&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i*6+5].reply_count }</span>
+												&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i*4].hit }</span>
 											</div>
 										</div>
 									</a>

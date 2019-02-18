@@ -36,17 +36,18 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<sec:authorize access="isAuthenticated()">
-				<li><a href="/game/main">game</a></li>
-				<li><a href="/board/list">board</a></li>
-				<li><a href="/user/mypage">mypage</a></li>
+				<li><a href="/game/main">Game</a></li>
+				<li><a href="/board/list">Board</a></li>
+				<li><a href="/ranking">Ranking</a></li>
+				<li><a href="/user/mypage">Mypage</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<li><a href="/manage">manage</a></li>
+				<li><a href="/manage">Manage</a></li>
 			</sec:authorize>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<sec:authorize access="isAuthenticated()">
-				<li class="text-right"><a href="javascript:signout();"><i class="fas fa-sign-out-alt"></i> signout &nbsp;&nbsp;</a></li>
+				<li class="text-right"><a href="javascript:signout();"><i class="fas fa-sign-out-alt"></i> Signout &nbsp;&nbsp;</a></li>
 			</sec:authorize>
 		</ul>
 	</div>
