@@ -1,0 +1,98 @@
+[33mb71607a[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m)[m main gameList 수정
+[33m5a380be[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33mb6be63d[m ranking 작업중
+[33m33bfa5f[m[33m ([m[1;31morigin/develop[m[33m)[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33md0519c0[m 프로필css수정중넘김
+[33mdbf475a[m 프로필 css중
+[33mf4bd777[m 프로필css중
+[33med1508f[m 프로필css중
+[33m980bf46[m mypage 프론트 완성
+[33m0bfba08[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m20fd865[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m51a81c5[m 마이페이지css
+[33m22a6e90[m game list 프론트 완성
+[33m885154c[m mypage update시 비밀번호 해시적용 수정
+[33mde4decf[m start 190218
+[33m7d655d3[m game main 프론트 완성
+[33m52b48c0[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m4cacf61[m gameMain 프론트 틀 완성
+[33m3665666[m main 포론트 완성, 모든 페이지 navbar 추가
+[33m8ad37db[m 무한스크롤 완성
+[33m82f6347[m 랭킹페이지 무한스크롤 정렬완료 추가데이터 한글깨짐현상미해결
+[33m334d37b[m 무한 스크롤랭킹페이지
+[33m69f3a5e[m 매니저로 비밀번호 수정시 해시값으로 입력
+[33m32f2d05[m 구글계정으로 로그인
+[33mb6ed3bc[m 로그인 비밀번호 bcrypt 적용
+[33m7e13eed[m 이미지 크기 조정 api 'croppie' 진행중
+[33m6854e98[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33mfef9b3a[m 게임 파일 zip 파일로 압축
+[33mcdc1de7[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33mb95b332[m nickname 옆에 lev추가
+[33m4bd3012[m 회원가입시 프로필이미지 조건 추가
+[33m618d9ab[m gameMain 시상대 추가
+[33m0f56b6a[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m2b28130[m 프로필 아이디 hidden
+[33mab020d1[m rankerList에 user 변수 추가 -nickname 가져올수 있음
+[33m9419b4f[m merge
+[33m0cf657b[m game view 게임 타입별 차이 반영
+[33m9798d7d[m 레벨 업 테스트
+[33m636d1a2[m Merge 190213 start
+[33me8a20fa[m 190213 start
+[33md83a0c0[m merge
+[33m958c2a4[m url 수정, 유저 검색 수정 등
+[33m0020ef7[m 190212 게시판프로필이미지
+[33me85f250[m 마이페이지 게시판0일떄 수정
+[33m5ecf889[m mypage 게시판갯수0일때 수정
+[33m50200d7[m 회원탈퇴 post 방식으로 수정 - 비밀번호 검사
+[33ma137331[m merge
+[33m8216aa7[m 190212
+[33m46ee56a[m mypage 프론트 수정
+[33m9033323[m 190212 exp추가작업
+[33m0f80f99[m 20190211
+[33mc2eac04[m 190211
+[33m5f59218[m .gitignore에 .sql 추가
+[33m09d1b04[m 이미지 이름변경
+[33m7dadc54[m 중간점검
+[33mab168fb[m 회원가입 시 기본이미지설정
+[33m3b9b653[m 프론트 작업 및 기타 작업
+[33m57efc99[m 메인페이지 프론트
+[33m99e5494[m 190209 18:30
+[33m30e8807[m 프로필 완성 및 기타작업
+[33m07378df[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m2b7d693[m 게임 like/unlike 완성, 게임 댓글 완성 -reply 전부 수정
+[33m85e7946[m Merge branch 'develop' 190207
+[33m46be685[m 마이페이지 게시판 완성
+[33m378ac33[m 마이페이지 게시판작업중
+[33m64067ff[m merge
+[33md081ae7[m game like/unlike jsp 작업중
+[33mbdbc8a0[m 마이페이지 수정완료
+[33m4c5267e[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33mf10a33e[m 마이페이지 점검중 및 매니저페이지 수정
+[33m60f3cbe[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m 게임 업로드 완성
+[33mf8a6675[m with 지성군
+[33m3f2f352[m manage 190131
+[33mb74da74[m 게임 파일, 이미지 업로드 완성
+[33m114400c[m 그냥 집에서 하던거 커밋 - 파일, 이미지 업로드 확장자체크중
+[33m7d7f3ed[m 20190130 퇴근
+[33m64b0649[m 게임 업로드 작업중 -testController에서 성공
+[33m1d648c3[m manage working..
+[33m085e47d[m working manage
+[33m753da2a[m game/view -likeBar 완성
+[33m9e86416[m 회원가입 reCAPCHA 추가
+[33m9e752af[m 회원탈퇴:add
+[33m8b0d314[m 회원탈퇴추가
+[33m0e9abd1[m 회원가입 백엔드 완성
+[33m23853a7[m 프로필 수정 개발중
+[33mecf0406[m modify sql
+[33m9ce0821[m working mypage
+[33mda5e304[m 마이페이지작업중
+[33m1cbc975[m 회원가입 이메일인증 아직안함
+[33m5380cdc[m update board -notice
+[33md3aea23[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m7e80c2a[m board update(3)
+[33m40c6c26[m Merge branch 'develop' of https://github.com/jyk190121/project_indie into develop
+[33m3aff737[m add game insert, user join
+[33mf454ddf[m update board(2)
+[33mbb95543[m[33m ([m[1;32mfeature2[m[33m)[m add game method
+[33me5c32e6[m update board
+[33m4a4ac13[m project init

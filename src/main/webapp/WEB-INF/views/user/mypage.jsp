@@ -37,10 +37,6 @@
 	text-align: center;
 }
 
-textarea {
-	outline: none;
-}
-
 .header{
 	height: 350px;
 

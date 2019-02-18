@@ -36,25 +36,13 @@
 	margin: 0;
 }
 
-@
-keyframes showbar {
-	from {opacity: 0;
+@keyframes showbar {
+	from {opacity: 0;}
+	to {opacity: 1;}
 }
-
-to {
-	opacity: 1;
-}
-
-}
-@
-keyframes hidebar {
-	from {opacity: 1;
-}
-
-to {
-	opacity: 0;
-}
-
+@keyframes hidebar {
+	from {opacity: 1;}
+	to {opacity: 0;}
 }
 .navbar {
 	opacity: 0;

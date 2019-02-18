@@ -68,3 +68,7 @@ body {
 	background-color: #ccc !important;
 	border-radius: 5px;
 }
+
+textarea {
+	outline: none;
+}
