@@ -124,6 +124,7 @@
 	</div>
 
 	<div class="footer">
+		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
 		<a href="/user/mypage" class="btn btn-primary btn-block">나의 정보수정하기</a>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

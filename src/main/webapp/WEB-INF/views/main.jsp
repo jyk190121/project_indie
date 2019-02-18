@@ -20,6 +20,7 @@
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <style>
 .header {
 	height: 260px;
@@ -581,7 +582,7 @@
 		}
 		
 		<c:if test="${param.signin != null }">
-		alert('로그인 후 이용가능합니다');
+			alert('로그인 후 이용가능합니다');
 		</c:if>
 		<c:if test="${param.signout != null }">
 			alert('로그아웃되었습니다');

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">4
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -18,8 +18,8 @@
 <title>MyPage</title>
 <style>
 .image-board {
-	width: 80%;
-	height: 200px;
+	width: 300px;
+	height: 300px;
 	border: 1px solid gray;
 }
 
@@ -33,8 +33,8 @@
 	font-size: 15px;
 	border: 1px solid gray;
 	text-align: center;
-	height: 338px;
-	overflow: auto;
+	height: 350px;
+	overflow: scroll;
 }
 </style>
 </head>
@@ -50,7 +50,6 @@
 		</div>
 	</div>
 	<div class="content">
-		<a class="btn btn-primary btn-block" href="/main">main</a>
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<span class="glyphicon glyphicon-user"></span>
@@ -61,52 +60,62 @@
 					action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 					method="post" enctype="multipart/form-data" modelAttribute="user"
 					class="form-horizontal">
-					<div class="col-sm-offset-1 col-sm-5" style="font-size: 20px;">
+					<div class="col-sm-offset-2 col-sm-2" style="font-size: 20px;">
 						<div class="form-group">
-							<label class="control-label">프로필 이미지</label>
+							<div class="text-center" style="width: 300px;">
+								<label class="control-label">프로필 이미지</label>
+							</div>
 							<div class="image-board">
 								<img id="image" name="image" src="/upload/image/${user.image }"
 									alt="${user.image }" />
 							</div>
 						</div>
+					</div>
+					<div class="col-sm-offset-1 col-sm-7" style="font-size: 20px; height: 300px; margin-top: 50px;">
 						<form:input type="hidden" path="id" name="id" />
-						<p>ID : ${user.id }</p>
-						비밀번호
+						<p><label class="control-label">아이디 : ${user.id }</label></p> 
+						<label class="control-label">비밀번호</label>
 						<form:password id="userpassword" name="password" path="password" />
 						<button class="btn btn-primary" type="button"
 							onclick="userUpdate(this.form);">수정</button>
 						<button class="btn btn-danger" type="button"
 							onclick="userDelete(this.form);">회원탈퇴</button>
+						<p><label class="control-label">이메일 : ${user.email }</label></p>
+						<p><label class="control-label">레벨 : ${user.lev }</label></p>
+						<p><label class="control-label">경험치 : ${user.exp }</label></p>
 					</div>
-					<div class="col-sm-5 myBoard">
-						<div>
-							<p style="font-size: 20px;">나의 게시판</p>
-							<table class="table table-hover table-board">
-								<thead>
-									<tr>
-										<th class="text-center" width="50%">제목</th>
-										<th class="text-center" width="50%">작성일</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="board" items="${myBoardList}">
-										<tr onclick="location.href='/board/view?id=${board.id}'"
-											style="cursor: pointer;">
-											<td>${board.title }</td>
-											<td>${board.write_date }</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-								<tfoot>
-
-								</tfoot>
-							</table>
-						</div>
-						<div class="pagination">${myBoardPage }</div>
-					</div>
+					
 				</form:form>
 			</div>
-			<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
+			
+			<div class="myBoard col-sm-offset-2 col-sm-8">
+				<div>
+					<p style="font-size: 20px;">나의 게시판</p>
+					<table class="table table-hover table-board">
+						<thead>
+							<tr>
+								<th class="text-center" width="50%">제목</th>
+								<th class="text-center" width="50%">작성일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="board" items="${myBoardList}">
+								<tr onclick="location.href='/board/view?id=${board.id}'"
+									style="cursor: pointer;">
+									<td>${board.title }</td>
+									<td>${board.write_date }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
+					<c:if test="${myBoardList eq null}">
+						<a href="/board/insert?type=normal" class="btn btn-primary">글쓰기</a>
+					</c:if>
+				</div>
+				<div class="pagination">${myBoardPage }</div>
+			</div>
 		</div>
 	</div>
 	<div class="footer"></div>

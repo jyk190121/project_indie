@@ -72,7 +72,7 @@ public class UserController {
 		model.addAttribute("gameList", gameService.gameList(8));
 		return "main";
 	}
-
+	
 	// 회원가입
 
 	@RequestMapping(value = "/user/join", method = RequestMethod.GET)
@@ -288,7 +288,6 @@ public class UserController {
 		map.put("type", "nickname");
 		map.put("page", page);
 		List<User> userList = userService.userList(map);
-
 		String tabletd="";
 		for(User getUser : userList) {
 			tabletd += ("<tr onclick=\"javascript:userList("+getUser.getWriter_id()+");\"\r\n style=\"cursor:pointer;\">");
