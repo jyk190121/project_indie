@@ -1,9 +1,22 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
+select * from (select rownum rnum, a.* from (select * from board where type = 'normal') a) where rnum <= 10;
+
+select * from 
+(select rownum rnum, b.* from 
+(select * from 
+(select rownum rank, a.* from (select * from users order by lev desc) a)
+where nickname like 'test%') b)
+		where rank <= 1*30 and rank >= (1-1)*30 order by rank;
+    
+update users set lev = 2 where nickname like 'tester4%';
+select * from users where nickname like 'tester4%';
+
 select * from (select rownum rnum, a.* from 
 		(select * from board where writer = 'test' order by id desc)a) 
 		where rnum between 1 and 22;
 select*from users ;
+select * from (select rownum rnum, a.* from (select * from users where rownum < 3 order by lev desc) a);
 delete from users where id ='test2';
 create sequence seq_id_a;
 update users set 

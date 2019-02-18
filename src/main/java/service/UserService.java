@@ -179,4 +179,8 @@ public class UserService implements UserDetailsService {
 	public User selectOneByEmail(String email) {
 		return userDao.selectOneByEmail(email);
 	}
+
+	public List<User> userGetList(Map<String, String> map) {
+		return userDao.userGetList(map);
+	}
 }

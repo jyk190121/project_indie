@@ -46,7 +46,7 @@ public class ManageController {
 			return "result";
 		}
 		map.put("type", type);
-		List<User> userList = userService.userList(map);
+		List<User> userList = userService.userGetList(map);
 		model.addAttribute("userList", userList);
 		if (search != null) {
 			model.addAttribute("search", search);

@@ -13,6 +13,9 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <style>
 .table-board {
 	background-color: white;
@@ -49,7 +52,9 @@ tfoot {
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/board/boardTopPage.jsp" />
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 	</div>
 	<div class="content">
 		<div class="container">

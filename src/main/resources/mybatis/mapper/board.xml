@@ -82,4 +82,10 @@
 		reply_count = (select count(*) from reply
 		where type ='board' and idx = #{value}) where id = #{value}
 	</update>
+	<select id="getNormalBoardList" parameterType="int" resultType="Board">
+		select * from (select rownum rnum, a.* from (select * from board where type = 'normal') a) where rnum &lt;= #{value} 
+	</select>
+	<select id="getNoticeBoardList" parameterType="int" resultType="Board">
+		select * from (select rownum rnum, a.* from (select * from board where type = 'notice') a) where rnum &lt;= #{value} 
+	</select>
 </mapper>

@@ -71,4 +71,8 @@ public class UserDao {
 		return session.selectOne("users.selectOnebyWriter",writer_id);
 	}
 
+	public List<User> userGetList(Map<String, String> map) {
+		return session.selectList("users.userGetList",map);
+	}
+
 }

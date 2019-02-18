@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
@@ -63,8 +62,14 @@ public class UserController {
 		}else {
 			model.addAttribute("user", userService.selectOne(user.getId()));
 		}
-		System.out.println("googleInfo");
-		System.out.println(googleInfo);
+		List<Game> hotGameList = gameService.hotGameList();
+		model.addAttribute("hotGameList", hotGameList);	
+		Map<String, String> map = new HashMap<>();
+		map.put("page", "1");
+		model.addAttribute("userList", userService.userList(map));
+		model.addAttribute("normalBoardList", boardService.getNormalBoardList(10));
+		model.addAttribute("noticeBoardList", boardService.getNoticeBoardList(10));
+		model.addAttribute("gameList", gameService.gameList(8));
 		return "main";
 	}
 
@@ -213,6 +218,7 @@ public class UserController {
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	public String updatePost(@ModelAttribute User user, @AuthenticationPrincipal User savedUser, Model model) {
+		System.out.println(user);
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
@@ -226,8 +232,6 @@ public class UserController {
 			model.addAttribute("url", "/user/mypage");
 			return "/result";
 		}
-		System.out.println(user.getImage());
-		System.out.println(savedUser.getImage());
 		if (user.getImage().equals("no_file")) {
 			user.setImage(null);
 		}
@@ -266,12 +270,38 @@ public class UserController {
 	//랭킹
 	
 	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
-	public String ranking(@AuthenticationPrincipal User user,@RequestParam(required = false) String search, Model model) {
+	public String ranking(@RequestParam(defaultValue="1") String page,
+				@AuthenticationPrincipal User user,@RequestParam(required = false) String search, Model model) {
 		Map<String, String> map = new HashMap<>();
 		map.put("search", search);
 		map.put("type", "nickname");
+		map.put("page", page);
 		model.addAttribute("userList", userService.userList(map));
 		return "/ranking/ranking";
+	}
+	
+	@RequestMapping(value = "/ranking", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String rankingPost(@RequestParam String page,
+				@AuthenticationPrincipal User user, @RequestParam(required = false) String search, Model model) {
+		Map<String, String> map = new HashMap<>();
+		map.put("search", search);
+		map.put("type", "nickname");
+		map.put("page", page);
+		List<User> userList = userService.userList(map);
+
+		String tabletd="";
+		for(User getUser : userList) {
+			tabletd += ("<tr onclick=\"javascript:userList("+getUser.getWriter_id()+");\"\r\n style=\"cursor:pointer;\">");
+			tabletd += ("<td>"+getUser.getRnum()+"</td>");
+			tabletd += ("<td>"+getUser.getNickname()+"</td>");
+			tabletd += ("<td>"+getUser.getLev()+"</td>");
+			tabletd += ("<td>"+getUser.getExp()+"</td>");
+			tabletd += ("</tr>");
+		}
+		/*System.out.println("table : ");
+		System.out.println(tabletd);*/
+		return tabletd;
 	}
 	
 	//crop image
