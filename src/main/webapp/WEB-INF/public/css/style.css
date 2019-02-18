@@ -1,14 +1,39 @@
 @charset "UTF-8";
-	.content{
-		
-	}
+
+body {
+	min-width: 1000px;
+}
+
+.content {
 	
-	.btn-primary {
-		background-color: #be2edd !important;
-		border-color: #be2edd;
-	}
-	
-	.btn-primary:hover{
-		border-color: #be2edd !important;
-		opacity: 0.8;
-	}
+}
+
+.btn-primary {
+	background-color: #be2edd !important;
+	border-color: #be2edd;
+}
+
+.btn-primary:hover {
+	border-color: #be2edd !important;
+	opacity: 0.8;
+}
+
+.image-cover {
+	position: relative;
+}
+
+.image-cover::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.75),
+		rgba(0, 0, 0, 0.25));
+}
+
+.over-hidden {
+	height: 20px;
+	overflow: hidden;
+}

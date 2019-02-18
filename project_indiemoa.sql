@@ -1,5 +1,7 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
+select * from (select rownum rnum, a.* from (select * from board where type = 'normal') a) where rnum <= 10;
+
 select * from 
 (select rownum rnum, b.* from 
 (select * from 

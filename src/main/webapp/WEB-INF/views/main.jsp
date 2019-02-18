@@ -77,21 +77,6 @@
 	padding: 10px 5px;
 }
 
-.image-cover {
-	position: relative;
-}
-
-.image-cover::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.75),
-		rgba(0, 0, 0, 0.25));
-}
-
 .div-title-underbar {
 	border-bottom: 1px lightgray solid;
 	margin-bottom: 20px;
@@ -140,11 +125,6 @@
 	text-align: center;
 	border-radius: 2px;
 	font-size: 12px;
-}
-
-.over-hidden {
-	height: 20px;
-	overflow: hidden;
 }
 
 .board .row {
@@ -507,7 +487,6 @@
 		history.replaceState({}, null, location.pathname);
 	
 		var gCount = 0;
-		$googleBtn = $("#google-btn");
 		$signinBtn = $("#signin-btn");
 		
 		$navbar = $(".navbar");
@@ -534,12 +513,14 @@
 			form.submit();
 		}
 
-		$(document).ready(resizeImageBoard());
+		$(document).ready(function(){
+			$("#google-btn").width($signinBtn.outerWidth()+"px");
+		});
 
-		function resizeImageBoard() {
-			var width = $(".image-board").outerWidth();
-			$googleBtn.width($signinBtn.outerWidth());
-		}
+		$(window).resize(function() {
+			console.log($signinBtn.outerWidth());
+			$(".abcRioButton").width($signinBtn.outerWidth()+"px");
+		});
 
 		//game carousel
 		$("#gameCarousel").carousel({
