@@ -73,7 +73,7 @@
 		(select rownum rnum, b.* from 
 		(select * from 
 		(select rownum rank, a.* from (select * from users order by lev desc) a)) b)
-		where rnum &lt;= ${page}*30 and rnum &gt; (${page}-1)*30 
+		where rank &lt;= ${page}*30 and rank &gt; (${page}-1)*30 
 		<if test="search != null">
 		and
 		${type} like '%'||#{search}||'%'

@@ -77,6 +77,16 @@ public class UserController {
 		System.out.println(googleInfo);
 		return "main";
 	}
+	
+	@RequestMapping(value = "/main2", method = RequestMethod.GET)
+	public String main2(@AuthenticationPrincipal User user, @RequestParam(required=false ,name="googleInfo") Map<String,String> googleInfo, Model model) {
+		if(user == null) {
+			model.addAttribute("user",user);
+		}else {
+			model.addAttribute("user", userService.selectOne(user.getId()));
+		}
+		return "/main2";
+	}
 
 	// 회원가입
 
@@ -223,7 +233,6 @@ public class UserController {
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	public String updatePost(@ModelAttribute User user, @AuthenticationPrincipal User savedUser, Model model) {
-		System.out.println(user);
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {
@@ -294,7 +303,6 @@ public class UserController {
 		map.put("type", "nickname");
 		map.put("page", page);
 		List<User> userList = userService.userList(map);
-
 		String tabletd="";
 		for(User getUser : userList) {
 			tabletd += ("<tr onclick=\"javascript:userList("+getUser.getWriter_id()+");\"\r\n style=\"cursor:pointer;\">");

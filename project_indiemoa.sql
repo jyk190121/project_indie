@@ -1,15 +1,27 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
-select * from 
-(select rownum rnum, b.* from 
-(select * from 
-(select rownum rank, a.* from (select * from users order by lev desc) a)
-where nickname like 'test%') b)
-		where rank <= 1*30 and rank >= (1-1)*30 order by rank;
-    
-update users set lev = 2 where nickname like 'tester4%';
-select * from users where nickname like 'tester4%';
+select * from users where nickname like '%테스%';
 
+
+select * from
+(select b.* from
+(select * from 
+(select rownum rank, a.* from (select * from users order by lev desc) a)) b)
+where nickname like '%테스%' and
+rank <= 1*30 and rank > (1-1)*30 order by rank;
+select * from 
+		(select rownum rnum, b.* from 
+		(select * from 
+		(select rownum rank, a.* from (select * from users order by lev desc) a)) b)
+		where rnum &lt;= ${page}*30 and rnum &gt; (${page}-1)*30 
+		<if test="search != null">
+		and
+		${type} like '%'||#{search}||'%'
+		</if>
+		order by rank;
+
+    
+update users set nickname = '무지' where nickname like '%15%';
 select * from (select rownum rnum, a.* from 
 		(select * from board where writer = 'test' order by id desc)a) 
 		where rnum between 1 and 22;

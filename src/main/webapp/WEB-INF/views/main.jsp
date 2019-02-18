@@ -20,8 +20,7 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
-<style>
-.header {
+<style>.header {
 	font-size: 20px;
 	font-weight: 150;
 	max-height: 280px;
@@ -50,7 +49,7 @@
 </style>
 <body>
 	<div class="jumbotron text-center header">
-		<h1>Game Site</h1>
+		<h1><a href="/main2">Game Site</a></h1>
 		<c:if test="${user != null }">
 			<div>
 				<!-- <a class="btn btn-danger" href="/user/levUp">LevelUp</a> -->
