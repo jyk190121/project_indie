@@ -38,7 +38,7 @@
 			<sec:authorize access="isAuthenticated()">
 				<li><a href="/game/main">Game</a></li>
 				<li><a href="/board/list">Board</a></li>
-				<li><a href="/user/mypage">Ranking</a></li>
+				<li><a href="/ranking">Ranking</a></li>
 				<li><a href="/user/mypage">Mypage</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">

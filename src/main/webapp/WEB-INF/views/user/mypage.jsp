@@ -12,7 +12,8 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 <title>MyPage</title>
@@ -31,10 +32,21 @@
 .myBoard {
 	margin-top: 10px;
 	font-size: 15px;
-	border: 1px solid gray;
+	height: 400px;
+	overflow: hidden;
 	text-align: center;
+}
+
+textarea {
+	outline: none;
+}
+
+.header{
 	height: 350px;
-	overflow: scroll;
+}
+
+.footer{
+	height: 100px;
 }
 </style>
 </head>
@@ -43,78 +55,151 @@
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<div class="jumbotron">
-			<h1 class="text-center">
-				<i class="" style="font-size: 85%"></i> ${user.nickname }님의 정보
-			</h1>
+		<div class="container">
+			<div class="row" style="margin-top: 30px;">
+				<div
+					style="background-image: url('/public/image/background5-1.jpg'); width: 100%; height: 200px;">
+					<h1 class="text-center"
+						style="padding-top: 0; color: white; font-weight: 600; font-size: 100px; padding-top: 40px;">Mypage</h1>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="content">
-		<div class="panel panel-default">
-			<div class="panel-heading text-center">
-				<span class="glyphicon glyphicon-user"></span>
-				<h4>회원정보 수정</h4>
-			</div>
-			<div class="panel-body">
+		<div class="container">
+			<div class="row">
 				<form:form id="sendForm"
 					action="/user/mypage?${_csrf.parameterName}=${_csrf.token }"
 					method="post" enctype="multipart/form-data" modelAttribute="user"
 					class="form-horizontal">
-					<div class="col-sm-offset-2 col-sm-2" style="font-size: 20px;">
-						<div class="form-group">
-							<div class="text-center" style="width: 300px;">
-								<label class="control-label">프로필 이미지</label>
-							</div>
-							<div class="image-board">
+					<div class="col-sm-4 text-center" style="font-size: 20px;">
+						<div class="div-title-underbar text-left">
+							<a href=""> <span class="div-title-underbar-bold"> <b>프로필 이미지</b></span></a>
+						</div>
+						<div class="form-group" style="">
+							<div class="image-board" style="margin: auto;">
 								<img id="image" name="image" src="/upload/image/${user.image }"
 									alt="${user.image }" />
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-offset-1 col-sm-7" style="font-size: 20px; height: 300px; margin-top: 50px;">
+					<div class="col-sm-8"
+						style="font-size: 20px; height: 300px;">
+						<div class="div-title-underbar text-left">
+							<a href=""> <span class="div-title-underbar-bold"> <b>내 정보</b></span></a>
+						</div>
+						<div class="row" style=" margin-top: 25px;">
+							<div class="col-xs-6" style="padding-left: 30px;">
+								<div class="form-group">
+									<div class="col-xs-3">
+										<label class="control-label">아이디</label>
+									</div>
+									<div class="col-xs-9">
+										<label class="control-label">${user.id }</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-3">
+										<label class="control-label">닉네임</label>
+									</div>
+									<div class="col-xs-9 text-left" style="height:35px;">
+										<label style="height:35px;" class="over-hidden control-label">${user.nickname }</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-3">
+										<label class="control-label">이메일</label>
+									</div>
+
+									<div class="col-xs-9" style="height: 35px;">
+										<label style="height: 35px;"class="over-hidden control-label">${user.email }</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-3">
+										<label class="control-label">레벨</label>
+									</div>
+									<div class="col-xs-9">
+										<label class="control-label">Lv. ${user.lev }</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-3">
+										<label class="control-label">경험치</label>
+									</div>
+									<div class="col-xs-9">
+										<label class="control-label">${user.exp} exp</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<span
+									style="background-color: white; position: relative; z-index: 2;">
+									<label for="" class="control-label">&nbsp;&nbsp; 한줄 소개
+										&nbsp;&nbsp;</label>
+								</span>
+								<div
+									style="width: 90%; height: 210px; border: 1px solid gray; margin-top: 10px; position: absolute; transform: translate(-20px, -25px);">
+									<textarea
+										style="resize: none; width: 100%; font-size: 16px; background-color: white; border: none; margin-top: 20px; height: 185px; padding: 10px; overflow: hidden;">${user.myinfo }</textarea>
+								</div>
+							</div>
+						</div>
 						<form:input type="hidden" path="id" name="id" />
-						<p><label class="control-label">아이디 : ${user.id }</label></p> 
-						<label class="control-label">비밀번호</label>
-						<form:password id="userpassword" name="password" path="password" />
-						<button class="btn btn-primary" type="button"
-							onclick="userUpdate(this.form);">수정</button>
-						<button class="btn btn-danger" type="button"
-							onclick="userDelete(this.form);">회원탈퇴</button>
-						<p><label class="control-label">이메일 : ${user.email }</label></p>
-						<p><label class="control-label">레벨 : ${user.lev }</label></p>
-						<p><label class="control-label">경험치 : ${user.exp }</label></p>
+						<div class="row">
+							<div class="form-group" style="margin-bottom: 5px;">
+								<form:hidden id="userpassword" name="password" path="password"
+									style="width:205px;" />
+							</div>
+							<div class="form-group" style="margin-top: 15px;">
+								<div class="" style="font-size: 0; padding-left: 35px;">
+									<button class="btn btn-primary" type="button"
+										style="width: 46%; height: 30px; padding: 0px; margin-right: 1%;"
+										onclick="userUpdate(this.form);">수정</button>
+									<button class="btn btn-danger" type="button"
+										style="width: 46%; height: 30px; padding: 0px;"
+										onclick="userDelete(this.form);">회원탈퇴</button>
+								</div>
+							</div>
+						</div>
 					</div>
-					
 				</form:form>
 			</div>
-			
-			<div class="myBoard col-sm-offset-2 col-sm-8">
-				<div>
-					<p style="font-size: 20px;">나의 게시판</p>
-					<table class="table table-hover table-board">
-						<thead>
-							<tr>
-								<th class="text-center" width="50%">제목</th>
-								<th class="text-center" width="50%">작성일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="board" items="${myBoardList}">
-								<tr onclick="location.href='/board/view?id=${board.id}'"
-									style="cursor: pointer;">
-									<td>${board.title }</td>
-									<td>${board.write_date }</td>
+			<div class="row" style="margin-top: 30px;">
+				<div class="myBoard">
+					<div>
+						<div class="div-title-underbar text-left">
+							<a href=""> <span class="div-title-underbar-bold"> <b>나의 게시물</b></span></a>
+						</div>
+						<table class="table table-hover table-board">
+							<thead>
+								<tr>
+									<th class="text-center">제목</th>
+									<th class="text-center">조회수</th>
+									<th class="text-center">댓글수</th>
+									<th class="text-center">작성일</th>
 								</tr>
-							</c:forEach>
-						</tbody>
-						<tfoot>
-						</tfoot>
-					</table>
-					<c:if test="${myBoardList eq null}">
-						<a href="/board/insert?type=normal" class="btn btn-primary">글쓰기</a>
-					</c:if>
+							</thead>
+							<tbody>
+								<c:forEach var="board" items="${myBoardList}">
+									<tr onclick="location.href='/board/view?id=${board.id}'"
+										style="cursor: pointer;">
+										<td>${board.title }</td>
+										<td>${board.hit }</td>
+										<td>${board.reply_count }</td>
+										<td>${board.write_date }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+							<tfoot>
+							</tfoot>
+						</table>
+						<c:if test="${myBoardList eq null}">
+							<a href="/board/insert?type=normal" class="btn btn-primary">글쓰기</a>
+						</c:if>
+					</div>
+					<div class="pagination">${myBoardPage }</div>
 				</div>
-				<div class="pagination">${myBoardPage }</div>
 			</div>
 		</div>
 	</div>
@@ -127,6 +212,11 @@
 			if (!confirm("수정하시겠습니까??")) {
 				return;
 			}
+			var password;
+			if (!(password = prompt("비밀번호를 입력하세요"))) {
+				return;
+			}
+			f.password.value = password;
 			f.submit();
 		}
 
@@ -135,6 +225,11 @@
 			if (!check) {
 				return;
 			}
+			var password;
+			if (!(password = prompt("비밀번호를 입력하세요"))) {
+				return;
+			}
+			f.password.value = password;
 			$("#sendForm").attr("action",
 					"/user/delete?${_csrf.parameterName}=${_csrf.token }");
 			f.submit();

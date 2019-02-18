@@ -394,7 +394,7 @@
 										<div>안녕하세요!</div>
 										<div style="font-size: 16px; font-weight: 600;">${user.nickname }님 </div>
 										<div style="margin-top: 10px;">
-											<a href="/profile?writer_id=${user.writer_id }"
+											<a href="/user/mypage?writer_id=${user.writer_id }"
 												style="text-decoration: none; font-size: 16px; font-weight: 600;"><i class="fas fa-user-edit"></i> 마이페이지</a>
 										</div>
 									</div>
