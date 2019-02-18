@@ -59,3 +59,8 @@ body {
 .lightgray {
 	color: lightgray !important;
 }
+
+.hover-lightgray:hover{
+	background-color: #eee !important;
+	border-radius: 5px;
+}

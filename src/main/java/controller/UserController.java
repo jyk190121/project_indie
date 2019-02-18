@@ -218,7 +218,6 @@ public class UserController {
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	public String updatePost(@ModelAttribute User user, @AuthenticationPrincipal User savedUser, Model model) {
-		System.out.println(user);
 		user.setId(savedUser.getId());
 		String path = session.getServletContext().getRealPath("/WEB-INF/upload/image");
 		try {

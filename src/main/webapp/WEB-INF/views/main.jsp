@@ -21,11 +21,6 @@
 <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <style>
-.hover-lightgray:hover{
-	background-color: #eee;
-	border-radius: 5px;
-}
-
 .header {
 	height: 260px;
 	background-image: url("/public/image/background1-1.jpg");
@@ -248,7 +243,6 @@
 										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
 										<div class="text-left">
 											<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
-											<p class="over-hidden" style="overflow: hidden;">${gameList[i].user.nickname }</p>
 										</div>
 										<div>
 											<i class="far fa-thumbs-up"></i>
@@ -270,7 +264,6 @@
 										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
 											<div class="text-left">
 												<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
-												<p class="over-hidden" style="overflow: hidden;">${gameList[i].user.nickname }</p>
 											</div>
 											<div>
 												<i class="far fa-thumbs-up"></i>
