@@ -64,5 +64,4 @@ public class BoardDao {
 		return session.selectList("board.getNoticeBoardList", cnt);
 	}
 
-
 }

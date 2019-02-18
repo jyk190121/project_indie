@@ -185,4 +185,5 @@ public class UserService implements UserDetailsService {
 	public List<User> userGetList(Map<String, String> map) {
 		return userDao.userGetList(map);
 	}
+
 }

@@ -107,4 +107,5 @@
 	<select id="selectOnebyWriter" parameterType="int" resultType="User">
 		select * from users where writer_id = #{value}
 	</select>
+	
 </mapper>

@@ -61,7 +61,7 @@ textarea {
 		<div class="container-fluid" style="width: 80%">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h4>${board.title }</h4>
+					<h4>${board.title}</h4>
 					<hr style="margin: 5px 0;" />
 					<div class="text-right">
 						<div class="profileImage"

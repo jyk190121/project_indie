@@ -38,19 +38,41 @@
 }
 
 #myinfo {
-	border: 1px solid gray;
 	width: 100%;
-	height: 200px;
+	height: 350px;
+	font-size: 25px;
+	color: Indigo;
+}
+.background{
+  	position: relative;
+}
+.background:after {
+    content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("/upload/image/sea.png");
+    background-repeat: no-repeat;
+   	background-size: cover;
+    width: 100%;
+    height: 100%;
+    opacity : 0.7;
+    z-index: -1;
+}
+.profile{
+	background: none;
 }
 </style>
 </head>
 <body>
 <body>
+<div class="background">
 	<div class="header">
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<div class="jumbotron">
+		<div class="jumbotron profile">
 			<h1 class="text-center">
 				<i class="glyphicon glyphicon-sunglasses
 				   style="font-size:85%"></i>
@@ -62,22 +84,15 @@
 	<div class="content">
 		<div class="container">
 			<div class="row">
-				<div class="form-group col-sm-5">
-					<label class="control-label">프로필 이미지</label>
+				<div class="form-group col-xs-4 col-sm-5">
 					<div class="profile-image-board">
 						<img id="image" name="image" src="/upload/image/${user.image }"
 							alt="${user.image }" />
 					</div>
 				</div>
-				<div class="form-group col-sm-7">
-					<div id="nickname">
-						<p>${user.nickname }</p>
-					</div>
-					<div>
-						<p id="lev">유저 레벨 : ${user.lev }</p>
-					</div>
+				<div class="form-group col-xs-6 col-sm-7">
 					<div id="myinfo" class="form-group">
-						<p class="text-center">나의 소개</p>
+						<p class="text-center"><strong style="font-size: 30px;">나의 소개</strong></p>
 						${user.myinfo }
 					</div>
 				</div>
@@ -88,28 +103,28 @@
 						end="${(fn:length(gameList)/4)-((fn:length(gameList)/4)%1) }"
 						var="i">
 						<div class="row">
-							<div class="col-sm-3">
+							<div class="col-sm-3 col-xs-3">
 								<a href="/game/view?id=${gameList[i*4].id }"> <img
 									class="gameImage" alt=""
 									src="/upload/image/${gameList[i*4].image }">
 								</a>
 								<div class="text-center">${gameList[i*4].name }</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-3 col-xs-3">
 								<a href="/game/view?id=${gameList[i*4+1].id }"> <img
 									class="gameImage" alt=""
 									src="/upload/image/${gameList[i*4+1].image }">
 								</a>
 								<div class="text-center">${gameList[i*4+1].name }</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-3 col-xs-3">
 								<a href="/game/view?id=${gameList[i*4+2].id }"> <img
 									class="gameImage" alt=""
 									src="/upload/image/${gameList[i*4+2].image }">
 								</a>
 								<div class="text-center">${gameList[i*4+2].name }</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-3 col-xs-3">
 								<a href="/game/view?id=${gameList[i*4+3].id }"> <img
 									class="gameImage" alt=""
 									src="/upload/image/${gameList[i*4+3].image }">
@@ -124,9 +139,10 @@
 	</div>
 
 	<div class="footer">
-		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
-		<a href="/user/mypage" class="btn btn-primary btn-block">나의 정보수정하기</a>
+		<pre class="text-center profile" style="font-size: 30px;">${user.nickname}님의 프로필 
+현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
 	</div>
+</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

@@ -34,7 +34,6 @@
 	border: 1px solid gray;
 	text-align: center;
 	height: 350px;
-	overflow: scroll;
 }
 </style>
 </head>
@@ -87,7 +86,6 @@
 					
 				</form:form>
 			</div>
-			
 			<div class="myBoard col-sm-offset-2 col-sm-8">
 				<div>
 					<p style="font-size: 20px;">나의 게시판</p>

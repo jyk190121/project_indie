@@ -258,7 +258,9 @@ public class UserController {
 	//프로필
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String profile(Model model,@RequestParam int writer_id) {
+	public String profile(Model model,@RequestParam int writer_id,
+			@ModelAttribute Board board,
+			@RequestParam(defaultValue = "1") String page) {
 		model.addAttribute("user", userService.selectOnebyWriter_id(writer_id));
 		List<Game> gameList = gameService.gameMyList(20, writer_id);
 		model.addAttribute("gameList", gameList);
