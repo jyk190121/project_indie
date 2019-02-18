@@ -43,13 +43,9 @@ textarea {
 
 .header{
 	height: 350px;
-<<<<<<< HEAD
-=======
-}
 
 .footer{
 	height: 100px;
->>>>>>> 980bf46e3ca3ed144ba97c6c44eb93817cc216b5
 }
 </style>
 </head>

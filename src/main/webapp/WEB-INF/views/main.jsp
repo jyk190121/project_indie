@@ -16,7 +16,8 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 </head>
@@ -28,20 +29,34 @@
 	background-position: center;
 }
 
-.header h1{
+.header h1 {
 	text-shadow: -2px 0 #222, 0 2px #222, 2px 0 #222, 0 -2px #222;
-	color: white; font-size: 300px; margin:0;
+	color: white;
+	font-size: 300px;
+	margin: 0;
 }
 
-@keyframes showbar {
-  from {opacity: 0;}
-  to {opacity: 1;}
+@
+keyframes showbar {
+	from {opacity: 0;
 }
-@keyframes hidebar {
-  from {opacity: 1;}
-  to {opacity: 0;}
+
+to {
+	opacity: 1;
 }
-.navbar{
+
+}
+@
+keyframes hidebar {
+	from {opacity: 1;
+}
+
+to {
+	opacity: 0;
+}
+
+}
+.navbar {
 	opacity: 0;
 }
 
@@ -69,15 +84,16 @@
 	height: 25vw;
 }
 
-.game-recent img{
+.game-recent img {
 	width: 100%;
 	height: 7vw;
 }
-.game-recent [class^=col-]{
+
+.game-recent [class^=col-] {
 	padding: 10px 5px;
 }
 
-.signin{
+.signin {
 	border: 1px solid #be2edd;
 	padding: 10px;
 }
@@ -112,6 +128,7 @@
 .board .row [class^=col-] {
 	padding: 0;
 }
+
 .signin [class^=col-] {
 	padding: 0;
 }
@@ -140,7 +157,8 @@
 			<p>랭킹 이외의 모든 컨텐츠는 로그인 후에 이용이 가능합니다</p>
 		</c:if> --%>
 	</div>
-	<div style="height: 50px; z-index: 0; background-color: white; position: relative;"></div>
+	<div
+		style="height: 50px; z-index: 0; background-color: white; position: relative;"></div>
 	<%-- <table class="content-table" style="margin-bottom: 50px;">
 		<tr>
 			<th class="text-center">게임</th>
@@ -177,7 +195,7 @@
 							</span>
 							</a>
 						</div>
-						<div style="margin-top:40px;">
+						<div style="margin-top: 40px;">
 							<div class="carousel slide" data-ride="carousel"
 								id="gameCarousel" style="width: 90%; margin: auto;">
 								<ol class="carousel-indicators">
@@ -235,48 +253,55 @@
 								</a>
 							</div>
 						</div>
-						<div class="game-recent" style="width: 80%; margin: auto;">
-							<div class="row" style="margin-top:20px;">
-							<c:forEach begin="0" end="${fn:length(gameList)/2-1}" var="i" >
-								<div class="col-xs-3 hover-lightgray" style="">
-									<a href="/game/view?id=${gameList[i].id }" style="text-decoration: none; color:black;">
-										<img src="/upload/image/${gameList[i].image }" alt="game" />
-										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
-										<div class="text-left">
-											<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
+						<div class="game-recent" style="width: 90%; margin: auto;">
+							<div class="row" style="margin-top: 20px;">
+								<c:forEach begin="0" end="${fn:length(gameList)/2-1}" var="i">
+									<div class="col-xs-3" style="padding: 10px;">
+										<div class="hover-gray"
+											style="background-color: #eee; padding: 10px;">
+											<a href="/game/view?id=${gameList[i].id }"
+												style="text-decoration: none; color: black;"> <img
+												src="/upload/image/${gameList[i].image }" alt="game" />
+												<div style="border: none; border-top: none; padding: 10px;">
+													<div class="text-left">
+														<p class="over-hidden"
+															style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
+													</div>
+													<div>
+														<i class="far fa-thumbs-up"></i> <span>${gameList[i].likes-gameList[i].unlikes }</span>
+														&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i].reply_count }</span>
+														&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i].hit }</span>
+													</div>
+												</div>
+											</a>
 										</div>
-										<div>
-											<i class="far fa-thumbs-up"></i>
-											<span>${gameList[i].likes-gameList[i].unlikes }</span>
-											&nbsp;&nbsp;
-											<i class="far fa-comment-dots"></i>
-											<span>${gameList[i].reply_count }</span>
-										</div>
-										</div>
-									</a>
-								</div>
-							</c:forEach>
+									</div>
+								</c:forEach>
 							</div>
-							<div class="row" style="margin-top:10px;">
-							<c:forEach begin="${fn:length(gameList)/2}" end="${fn:length(gameList)-1}" var="i" >
-								<div class="col-xs-3 hover-lightgray" style="">
-									<a href="/game/view?id=${gameList[i].id }" style="text-decoration: none; color:black;">
-										<img src="/upload/image/${gameList[i].image }" alt="game" />
-										<div style="border: 1px solid #be2edd; border-top: none; padding: 10px;">
-											<div class="text-left">
-												<p class="over-hidden" style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
-											</div>
-											<div>
-												<i class="far fa-thumbs-up"></i>
-												<span>${gameList[i].likes-gameList[i].unlikes }</span>
-												&nbsp;&nbsp;
-												<i class="far fa-comment-dots"></i>
-												<span>${gameList[i].reply_count }</span>
-											</div>
+							<div class="row" style="margin-top: 10px;">
+								<c:forEach begin="${fn:length(gameList)/2}"
+									end="${fn:length(gameList)-1}" var="i">
+									<div class="col-xs-3" style="padding: 10px;">
+										<div class="hover-gray"
+											style="background-color: #eee; padding: 10px;">
+											<a href="/game/view?id=${gameList[i].id }"
+												style="text-decoration: none; color: black;"> <img
+												src="/upload/image/${gameList[i].image }" alt="game" />
+												<div style="border: none; border-top: none; padding: 10px;">
+													<div class="text-left">
+														<p class="over-hidden"
+															style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; height: 25px;">${gameList[i].name }</p>
+													</div>
+													<div>
+														<i class="far fa-thumbs-up"></i> <span>${gameList[i].likes-gameList[i].unlikes }</span>
+														&nbsp;&nbsp; <i class="far fa-comment-dots"></i> <span>${gameList[i].reply_count }</span>
+														&nbsp;&nbsp; <i class="far fa-eye"></i> <span>${gameList[i].hit }</span>
+													</div>
+												</div>
+											</a>
 										</div>
-									</a>
-								</div>
-							</c:forEach>
+									</div>
+								</c:forEach>
 							</div>
 						</div>
 					</div>
@@ -290,30 +315,30 @@
 							</div>
 							<div style="padding: 0 5px;">
 								<div class="container-fluid">
-								<c:forEach var="board" items="${noticeBoardList}">
-									<div class="row hover-lightgray"
-										onclick="location.href='/board/view?id=${board.id}'"
-										style="cursor: pointer; padding: 5px 0;">
-										<div class="col-xs-2 text-center">
-											<div class="text-center" style="display: inline-block;">
-												<span class="badge" style="background-color: #be2edd;">공지</span>
+									<c:forEach var="board" items="${noticeBoardList}">
+										<div class="row hover-lightgray"
+											onclick="location.href='/board/view?id=${board.id}'"
+											style="cursor: pointer; padding: 5px 0;">
+											<div class="col-xs-2 text-center">
+												<div class="text-center" style="display: inline-block;">
+													<span class="badge" style="background-color: #be2edd;">공지</span>
+												</div>
 											</div>
-										</div>
-										<div class="col-xs-7">
-											<div class="over-hidden" style="display: inline-block;">${board.title }</div>
-										</div>
-										<div class="col-xs-1">
-											<div class="over-hidden text-right" style="color: #be2edd;">
-												<c:if test="${board.reply_count != 0 }">
+											<div class="col-xs-7">
+												<div class="over-hidden" style="display: inline-block;">${board.title }</div>
+											</div>
+											<div class="col-xs-1">
+												<div class="over-hidden text-right" style="color: #be2edd;">
+													<c:if test="${board.reply_count != 0 }">
 													+${board.reply_count }
 												</c:if>
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="text-center" style="overflow: hidden;">${fn:substring(board.write_date,5,11) }</div>
 											</div>
 										</div>
-										<div class="col-xs-2">
-											<div class="text-center" style="overflow: hidden;">${fn:substring(board.write_date,5,11) }</div>
-										</div>
-									</div>
-								</c:forEach>
+									</c:forEach>
 								</div>
 							</div>
 						</div>
@@ -326,40 +351,43 @@
 							</div>
 							<div style="padding: 0 5px;">
 								<div class="container-fluid">
-								<c:forEach var="board" items="${normalBoardList}">
-									<div class="row hover-lightgray"
-										onclick="location.href='/board/view?id=${board.id}'"
-										style="cursor: pointer; padding: 5px 0;">
-										<div class="col-xs-1 text-right">
-											<span class="text-center" style="display:inline-block ;width: 20px; background-color: #be2edd; color:white; margin-right: 0 !important;">N</span>
-										</div>
-										<div class="col-xs-8">
-											<div class="over-hidden" style="display: inline-block; padding-left: 10px;">${board.title }</div>
-										</div>
-										<div class="col-xs-1">
-											<div class="over-hidden text-right" style="color: #be2edd;">
-												<c:if test="${board.reply_count != 0 }">
+									<c:forEach var="board" items="${normalBoardList}">
+										<div class="row hover-lightgray"
+											onclick="location.href='/board/view?id=${board.id}'"
+											style="cursor: pointer; padding: 5px 0;">
+											<div class="col-xs-1 text-right">
+												<span class="text-center"
+													style="display: inline-block; width: 20px; background-color: #be2edd; color: white; margin-right: 0 !important;">N</span>
+											</div>
+											<div class="col-xs-8">
+												<div class="over-hidden"
+													style="display: inline-block; padding-left: 10px;">${board.title }</div>
+											</div>
+											<div class="col-xs-1">
+												<div class="over-hidden text-right" style="color: #be2edd;">
+													<c:if test="${board.reply_count != 0 }">
 													+${board.reply_count }
 												</c:if>
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="text-center" style="overflow: hidden;">${fn:substring(board.write_date,5,11) }</div>
 											</div>
 										</div>
-										<div class="col-xs-2">
-											<div class="text-center" style="overflow: hidden;">${fn:substring(board.write_date,5,11) }</div>
-										</div>
-									</div>
-								</c:forEach>
+									</c:forEach>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div style="background-color: #be2edd; color:white; height: 45px; font-size: 20px; padding: 10px; font-weight: 600;">마이페이지</div>
+					<div
+						style="background-color: #be2edd; color: white; height: 45px; font-size: 20px; padding: 10px; font-weight: 600;">마이페이지</div>
 					<div class="signin" style="margin-bottom: 50px">
 						<seq:authorize access="!isAuthenticated()">
 							<form action="/user/signin" method="post">
 								<input type="hidden" name="${_csrf.parameterName }"
-									value="${_csrf.token }"/>
+									value="${_csrf.token }" />
 								<div class="form-group" style="margin-top: 10px;">
 									<input type="text" class="form-control" placeholder="Enter ID"
 										name="id" value="jin" />
@@ -369,38 +397,45 @@
 										placeholder="Enter Password" name="password" value="1111" />
 								</div>
 								<div style="margin-bottom: 10px;">
-									<button id ="signin-btn" class="btn btn-primary btn-block" type="button" 
-										onclick="signin(this.form);">Sign in</button>
+									<button id="signin-btn" class="btn btn-primary btn-block"
+										type="button" onclick="signin(this.form);">Sign in</button>
 								</div>
 								<div style="margin-bottom: 10px;">
-									<span class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"  id="google-btn" style="border-radius: 5px;"
-									style="display: inline;"></span>
+									<span class="g-signin2" data-onsuccess="onSignIn"
+										data-theme="dark" id="google-btn" style="border-radius: 5px;"
+										style="display: inline;"></span>
 								</div>
 								<div class="text-right">
-									<span onclick="location.href='/user/join'" style="cursor: pointer;">회원가입</span> 
-									<span style="color: gray;">|</span>
-									<span onclick="location.href='/'" style="cursor: pointer;">정보 찾기</span>
+									<span onclick="location.href='/user/join'"
+										style="cursor: pointer;">회원가입</span> <span
+										style="color: gray;">|</span> <span
+										onclick="location.href='/'" style="cursor: pointer;">정보
+										찾기</span>
 								</div>
 							</form>
 						</seq:authorize>
 						<seq:authorize access="isAuthenticated()">
-							<div class="container-fluid" style="margin-bottom: 20px; margin-top: 10px;">
+							<div class="container-fluid"
+								style="margin-bottom: 20px; margin-top: 10px;">
 								<div class="row">
 									<div class="col-xs-4">
 										<img id="image" src="/upload/image/${user.image }"
-											alt="${user.image }" /> 
+											alt="${user.image }" />
 									</div>
 									<div class="col-xs-7 col-xs-offset-1">
 										<div>안녕하세요!</div>
-										<div style="font-size: 16px; font-weight: 600;">${user.nickname }님 </div>
+										<div style="font-size: 16px; font-weight: 600;">${user.nickname }님
+										</div>
 										<div style="margin-top: 10px;">
 											<a href="/user/mypage?writer_id=${user.writer_id }"
-												style="text-decoration: none; font-size: 16px; font-weight: 600;"><i class="fas fa-user-edit"></i> 마이페이지</a>
+												style="text-decoration: none; font-size: 16px; font-weight: 600;"><i
+												class="fas fa-user-edit"></i> 마이페이지</a>
 										</div>
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary btn-block" type="button" onclick="javascript:signout();">로그아웃</button>
+							<button class="btn btn-primary btn-block" type="button"
+								onclick="javascript:signout();">로그아웃</button>
 						</seq:authorize>
 					</div>
 					<div class="ranking" style="margin-bottom: 30px;">
