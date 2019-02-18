@@ -47,7 +47,7 @@ delete from users where id='jin2';
 insert into AUTHORITY values(SEQ_AUTHORITY_ID.NEXTVAL,'jin2','ROLE_ADMIN');
 select * from game;
 update users set lev = 2,exp=100 where id='jin';
-update users set password ='1111';
+update users set password ='$2a$10$/RMx5fwyMUWJLN1G0PacUOyjpbMmrBHUxqZTK.v/u0LSLnLHTMtFe';
 update users set image = 'default.png' where image is null and rownum = 1;
 insert into users values('jin2','1111','tester!!','test2323@gamil.com','default.png','test123231', 1, 0);
 select a.id from ((select id,nickname from users) a) where nickname = 'tester!!' and rownum >= 1;

@@ -57,7 +57,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void update(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if(!user.getPassword().equals("")) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
 		userDao.update(user);
 	}
 
