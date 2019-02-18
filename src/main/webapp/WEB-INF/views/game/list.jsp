@@ -56,10 +56,12 @@ a:hover {
 		<div class="text-center" style="margin-top: 50px;">
 			<form action="/game/list" method="get" class="form form-inline">
 				<div class="input-group">
-					<input placeholder="Search.." type="text" name="search" class="form-control input" style="width: 300px; height: 50px; font-size: 32px;">
-					<button class="btn btn-primary input-group-btn" style="width:50px; height: 50px;">
-						<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
-					</button>
+					<input placeholder="" type="text" name="search" class="form-control input" style="width: 300px; height: 50px; font-size: 32px;">
+					<div class="input-group-btn">
+						<button class="btn btn-primary" style="width:50px; height: 50px;">
+							<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
+						</button>
+					</div>
 				</div>
 			</form>
 		</div>
