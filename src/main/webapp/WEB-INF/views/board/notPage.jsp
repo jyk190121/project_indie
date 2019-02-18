@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -1,10 +1,10 @@
 --create user indiemoa identified by 1111;
 --grant dba to indiemoa;
-select * from users where nickname like '%테스%';
+select * from users;
+select * from (select rownum rnum, a.* from (select * from board where type = 'normal') a) where rnum <= 10;
 
-
-select * from
-(select b.* from
+select * from 
+(select rownum rnum, b.* from 
 (select * from 
 (select rownum rank, a.* from (select * from users order by lev desc) a)) b)
 where nickname like '%테스%' and

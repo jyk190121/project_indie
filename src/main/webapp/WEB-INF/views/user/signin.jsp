@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="modal fade" id="loginModal">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog ">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" 

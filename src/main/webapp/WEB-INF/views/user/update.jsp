@@ -8,6 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <title>Insert title here</title>
 <style>
 	.image-board{
@@ -30,10 +34,12 @@
 		height: 100px;
 	}
 </style>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="header">
+	<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+	</div>
 	<h1 class="text-center"> 회원정보 수정 </h1>
 </div>
 <div class="content">

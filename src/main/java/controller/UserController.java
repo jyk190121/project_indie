@@ -1,26 +1,17 @@
 package controller;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-
-import java.beans.Encoder;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.xml.ws.spi.http.HttpContext;
 
-import org.omg.IOP.Encoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.util.EncodingUtils;
-import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 import domain.Board;
 import domain.Game;
@@ -73,21 +62,17 @@ public class UserController {
 		}else {
 			model.addAttribute("user", userService.selectOne(user.getId()));
 		}
-		System.out.println("googleInfo");
-		System.out.println(googleInfo);
+		List<Game> hotGameList = gameService.hotGameList();
+		model.addAttribute("hotGameList", hotGameList);	
+		Map<String, String> map = new HashMap<>();
+		map.put("page", "1");
+		model.addAttribute("userList", userService.userList(map));
+		model.addAttribute("normalBoardList", boardService.getNormalBoardList(10));
+		model.addAttribute("noticeBoardList", boardService.getNoticeBoardList(10));
+		model.addAttribute("gameList", gameService.gameList(8));
 		return "main";
 	}
 	
-	@RequestMapping(value = "/main2", method = RequestMethod.GET)
-	public String main2(@AuthenticationPrincipal User user, @RequestParam(required=false ,name="googleInfo") Map<String,String> googleInfo, Model model) {
-		if(user == null) {
-			model.addAttribute("user",user);
-		}else {
-			model.addAttribute("user", userService.selectOne(user.getId()));
-		}
-		return "/main2";
-	}
-
 	// 회원가입
 
 	@RequestMapping(value = "/user/join", method = RequestMethod.GET)

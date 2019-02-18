@@ -7,9 +7,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
 	<div class="header">
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 		<div class="jumbotron">
 			<h1 class="text-center">
 				<i class="glyphicon glyphicon-th-list"
@@ -34,16 +40,14 @@
 								</form>
 								</td>
 							</tr>
-						</thead>
-						<tbody>
 							<tr>
 								<th width="10%">순위</th>
 								<th width="10%">닉네임</th>
 								<th width="10%">레벨</th>
 								<th width="10%">경험치</th>
 							</tr>
-						</tbody>
-						<tfoot id="userList">
+						</thead>
+						<tbody id="userList">
 							<c:forEach var="user" items="${userList}">
 								<tr onclick="javascript:userList('${user.writer_id}');"
 									style="cursor:pointer;">
@@ -53,7 +57,7 @@
 									<td>${user.exp }</td>
 								</tr>
 							</c:forEach>
-						</tfoot>
+						</tbody>
 					</table>
 				</div>
 			</div>

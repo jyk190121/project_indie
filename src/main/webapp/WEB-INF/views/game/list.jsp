@@ -11,8 +11,9 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <style>
 * {
 	box-sizing: border-box;
@@ -28,11 +29,15 @@
 
 .gameImage {
 	width: 100%;
+	height: 15vw;
 }
 </style>
 </head>
 <body>
 	<div class="header">
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 		<form action="/game/list" method="get">
 			<input type="text" name="search" />
 			<button>
@@ -57,7 +62,12 @@
 							class="gameImage" alt=""
 							src="/upload/image/${gameList[i*4].image }">
 						</a>
-						<div class="text-center">${gameList[i*4].name }</div>
+						<div>
+							<div class="text-center">${gameList[i*4].name }</div>
+							${gameList[i*4].user.nickname }
+							${gameList[i*4].reply_count }
+							${gameList[i*4].likes - gameList[i*4].unlikes }
+						</div>
 					</div>
 					<div class="col-sm-3">
 						<a href="/game/view?id=${gameList[i*4+1].id }"> <img

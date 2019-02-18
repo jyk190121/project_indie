@@ -56,5 +56,13 @@ public class BoardDao {
 		return session.selectOne("board.myBoardTotal",id);
 	}
 
+	public List<Board> getNormalBoardList(int cnt) {
+		return session.selectList("board.getNormalBoardList", cnt);
+	}
+
+	public List<Board> getNoticeBoardList(int cnt) {
+		return session.selectList("board.getNoticeBoardList", cnt);
+	}
+
 
 }

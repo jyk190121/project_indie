@@ -10,6 +10,9 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <style>
 .gameImage {
 	width: 100%;
@@ -44,21 +47,15 @@
 <body>
 <body>
 	<div class="header">
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 		<div class="jumbotron">
 			<h1 class="text-center">
 				<i class="glyphicon glyphicon-sunglasses
 				   style="font-size:85%"></i>
 				프로필
 			</h1>
-		</div>
-		<div class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<ul class="nav navbar-nav">
-					<li><a href="/main">main</a></li>
-					<li><a href="/board/list">board</a></li>
-					<li><a href="javascript:signout();">signout</a></li>
-				</ul>
-			</div>
 		</div>
 	</div>
 
@@ -127,6 +124,7 @@
 	</div>
 
 	<div class="footer">
+		<pre class="text-center" style="font-size: 30px;">현재레벨 : ${user.lev}  경험치 : ${requestScope.user.exp}</pre>
 		<a href="/user/mypage" class="btn btn-primary btn-block">나의 정보수정하기</a>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

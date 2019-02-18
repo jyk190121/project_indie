@@ -8,6 +8,9 @@
 <title>manage</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <style>
 tfoot {
 	text-align: center;
@@ -20,6 +23,9 @@ tfoot {
 </head>
 <body>
 	<div class="header">
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
 		<div class="jumbotron line">
 			<h1 class="text-center">
 				<i class="glyphicon glyphicon glyphicon-pencil"

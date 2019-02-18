@@ -12,9 +12,14 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <style>
+.header{
+	height: 100px;
+}
+
 .game-image-board {
 	border: 1px solid gray;
 	width: 100%;
@@ -35,6 +40,9 @@
 </style>
 </head>
 <body>
+	<div class="header">
+		<jsp:include page="/WEB-INF/views/navbar.jsp" />
+	</div>
 	<div class="content">
 		<form:form
 			action="/game/insert?${_csrf.parameterName}=${_csrf.token }"
@@ -44,8 +52,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-sm-3 col-sm-offset-2">
-						<div class="game-image-board">
-							<p>Insert Game Image</p>
+						<div class="game-image-board text-center">
+							<p style="margin-top: 90px;">Insert Game Image</p>
 						</div>
 						<input type="file" name="image_file" onchange="uploadImage(this);" />
 					</div>

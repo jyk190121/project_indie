@@ -13,8 +13,9 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="shortcut icon" href="/public/favicon.ico">
+<link rel="stylesheet" href="/public/css/style.css">
 <link
 	href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css"
 	rel="stylesheet">
@@ -54,7 +55,7 @@ textarea {
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/board/boardTopPage.jsp" />
+		<jsp:include page="/WEB-INF/views/navbar.jsp" />
 	</div>
 	<div class="content">
 		<div class="container-fluid" style="width: 80%">

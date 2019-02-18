@@ -140,6 +140,7 @@ public class UserService implements UserDetailsService {
 
 
 	public void manageUpdate(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDao.manageUpdate(user);
 	}
 
