@@ -11,8 +11,8 @@
 	z-index: 1000;
 	width: 100%;
 	top: 0;
-	background-color: #be2edd;
-	border-color: #be2edd;
+	background-color: #487eb0;
+	border-color: #487eb0;
 	height: 30px;
 	border-radius: 0;
 	animation-duration: 1s;

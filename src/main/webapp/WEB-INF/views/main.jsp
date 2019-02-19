@@ -41,8 +41,7 @@
 	height: 100px;
 }
 
-@
-keyframes showbar {
+@keyframes showbar {
 	from {opacity: 0;
 }
 
@@ -51,8 +50,7 @@ to {
 }
 
 }
-@
-keyframes hidebar {
+@keyframes hidebar {
 	from {opacity: 1;
 }
 
@@ -72,7 +70,7 @@ to {
 .image {
 	width: 200px;
 	height: 200px;
-	border: 1px solid #be2edd;
+	border: 1px solid #487eb0;
 }
 
 .content-table {
@@ -99,7 +97,7 @@ to {
 }
 
 .signin {
-	border: 1px solid #be2edd;
+	border: 1px solid #487eb0;
 	padding: 10px;
 }
 
@@ -337,14 +335,14 @@ to {
 											style="cursor: pointer; padding: 5px 0;">
 											<div class="col-xs-2 text-center">
 												<div class="text-center" style="display: inline-block;">
-													<span class="badge" style="background-color: #be2edd;">공지</span>
+													<span class="badge" style="background-color: #487eb0;">공지</span>
 												</div>
 											</div>
 											<div class="col-xs-7">
 												<div class="over-hidden" style="display: inline-block;">${board.title }</div>
 											</div>
 											<div class="col-xs-1">
-												<div class="over-hidden text-right" style="color: #be2edd;">
+												<div class="over-hidden text-right" style="color: #487eb0;">
 													<c:if test="${board.reply_count != 0 }">
 													+${board.reply_count }
 												</c:if>
@@ -373,14 +371,14 @@ to {
 											style="cursor: pointer; padding: 5px 0;">
 											<div class="col-xs-1 text-right">
 												<span class="text-center"
-													style="display: inline-block; width: 20px; background-color: #be2edd; color: white; margin-right: 0 !important;">N</span>
+													style="display: inline-block; width: 20px; background-color: #487eb0; color: white; margin-right: 0 !important;">N</span>
 											</div>
 											<div class="col-xs-8">
 												<div class="over-hidden"
 													style="display: inline-block; padding-left: 10px;">${board.title }</div>
 											</div>
 											<div class="col-xs-1">
-												<div class="over-hidden text-right" style="color: #be2edd;">
+												<div class="over-hidden text-right" style="color: #487eb0;">
 													<c:if test="${board.reply_count != 0 }">
 													+${board.reply_count }
 												</c:if>
@@ -398,7 +396,7 @@ to {
 				</div>
 				<div class="col-md-3">
 					<div
-						style="background-color: #be2edd; color: white; height: 45px; font-size: 20px; padding: 10px; font-weight: 600;">마이페이지</div>
+						style="background-color: #487eb0; color: white; height: 45px; font-size: 20px; padding: 10px; font-weight: 600;">마이페이지</div>
 					<div class="signin" style="margin-bottom: 50px">
 						<seq:authorize access="!isAuthenticated()">
 							<form action="/user/signin" method="post">

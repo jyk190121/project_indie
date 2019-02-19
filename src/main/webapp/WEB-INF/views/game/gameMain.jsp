@@ -169,7 +169,7 @@ a:hover {
 								class="gameImage" alt="game image"
 								src="/upload/image/${hotGame.image }">
 								<div class="text-center"
-									style="border: 2px solid #be2edd; border-top: none; padding-bottom: 20px;">
+									style="border: 2px solid #487eb0; border-top: none; padding-bottom: 20px;">
 									<h1 style="margin-top: 0; padding-top: 20px;">
 										${hotGame.name }</h1>
 									<p style="font-size: 16px;">${hotGame.info }</p>

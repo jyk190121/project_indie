@@ -23,7 +23,7 @@
 
 .game-image-board {
 	width: 100%;
-	max-width: 340px;
+	height: 330px;
 	border: 2px solid #ccc;
 	margin-bottom: 15px;
 	border-radius: 10px;
@@ -35,6 +35,7 @@
 
 #game-image {
 	width: 100%;
+	border-radius: 10px;
 }
 
 .disnone {
@@ -61,15 +62,17 @@
 .filebox .file-label {
 	display: inline-block;
 	padding: .5em .75em;
-	color: gray;
+	color: white;
 	font-size: inherit;
 	line-height: normal;
 	vertical-align: middle;
-	background-color: #fdfdfd;
+	background-color: #487eb0;
 	cursor: pointer;
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
 	border-radius: .25em;
+	width: 100%;
+	text-align: center;
 } /* named upload */
 .filebox .upload-name {
 	display: inline-block;
@@ -103,28 +106,28 @@
 			<!-- <img> -->
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-3 col-sm-offset-2">
+					<div class="col-sm-4 col-sm-offset-2">
 						<div class="game-image-board text-center">
-							<p style="margin-top: 90px;">Insert Game Image</p>
+							<p style="margin-top: 130px; font-size: 36px;">Insert Game Image</p>
 						</div>
 						<label for="image_file_input" class="file-label">이미지 선택</label> <input
 							class="file-label" type="file" name="image_file"
 							id="image_file_input" onchange="uploadImage(this);" />
 					</div>
-					<div class="col-sm-5">
+					<div class="col-sm-4">
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="name">게임명</label>
-							<div class="col-sm-9">
-								<form:input class="form-control" id="name" path="name"></form:input>
+							<label class="col-sm-2 control-label" style="padding-left: 0;"for="name">게임명</label>
+							<div class="col-sm-10">
+								<form:input class="form-control" id="name" path="name" placeholder=".."></form:input>
 								<form:errors path="name"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="name">게임 설명</label>
-							<div class="col-sm-9">
+							<label class="col-sm-2 control-label" style="padding-left: 0;"for="name">게임 설명</label>
+							<div class="col-sm-10">
 								<form:textarea path="info" placeholder="게임의 설명을 작성하세요"
 									class="form-control"
-									style="width: 100%; height: 150px; resize: none;"></form:textarea>
+									style="width: 100%; height: 330px; resize: none;"></form:textarea>
 								<form:errors path="info"></form:errors>
 							</div>
 						</div>
@@ -158,15 +161,16 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<div id="src-board">
-							<label for="gameFiles" class="control-label file-label">게임
-								파일 전체폴더</label> <input name="gameFiles"
+							<input class="upload-name" value="게임파일 전체폴더" disabled="disabled" style="width: 59%;margin-top: 30px;">
+							<label for="gameFiles" class="control-label file-label" style="width: 40%;margin-top: 30px;">파일 선택</label> <input name="gameFiles"
 								onchange="javascript:uploadFiles(this);" id="gameFiles"
 								type="file" multiple directory webkitdirectory />
-							<div id="triggerFile-board">
-								<label for="triggerFile" class="control-label file-label">시작
-									html File</label> <input name="game_file"
-									onchange="javascript:uploadFile(this);" id="triggerFile"
-									type="file" webkit />
+							<div id="triggerFile-board" style="margin-top: 10px;">
+								<input class="upload-name" value="시작html File" disabled="disabled" style="width: 59%;">
+								<label for="triggerFile" class="control-label file-label" style="width: 40%; ">파일 선택</label> 
+								<input name="game_file"
+								onchange="javascript:uploadFile(this);" id="triggerFile"
+								type="file" webkit />
 							</div>
 							<form:textarea id="etcInfo" class='form-control disnone'
 								path='etc_info' placeholder='게임 실행 방법을 적어주세요'></form:textarea>
@@ -194,8 +198,8 @@
 	<script>
 		$(document).ready(
 				function() {
-					var fileTarget = $('.filebox .upload-hidden');
-					fileTarget.on('change', function() { // 값이 변경되면 
+					var folder = $('#gameFiles');
+					folder.on('change', function() { // 값이 변경되면 
 						if (window.FileReader) { // modern browser 
 							var filename = $(this)[0].files[0].name;
 						} else {
@@ -205,7 +209,21 @@
 							// 파일명만 추출 
 						}
 						// 추출한 파일명 삽입 
-						$(this).siblings('.upload-name').val(filename);
+						$(this).siblings('#gameFiles-name').val(filename);
+					});
+					var htmlFile = $('#triggerFile');
+					htmlFile.on('change', function() { // 값이 변경되면 
+						if (window.FileReader) { // modern browser 
+							var filename = $(this)[0].files[0].name;
+						} else {
+							// old IE 
+							var filename = $(this).val().split('/').pop()
+									.split('\\').pop();
+							// 파일명만 추출 
+						}
+						// 추출한 파일명 삽입 
+						console.log('dd');
+						$(this).siblings('#htmlFile-name').val(filename);
 					});
 				});
 

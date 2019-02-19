@@ -184,7 +184,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">reCAPTCHA</label>
 							<div class="col-sm-9">
-								<div id="html_element"></div>
+								<div id="html_element" style="width: 100%"></div>
 							</div>
 						</div>
 						<div class="form-group">
