@@ -17,16 +17,34 @@
 <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <style>
-* {
-	box-sizing: border-box;
+.reply {
+	padding: 10px;
+	border: 1px solid white;
+	border-radius: 3px;
+}
+
+.reply+.reply {
+	margin-top: 10px;
+}
+
+.reply-header {
+	color: #286090;
+}
+
+.reply-body {
+	padding: 10px;
 }
 
 body {
 	font-size: 20px;
 }
 
+.content-reply {
+	font-size: 14px;
+}
+
 #game-frame {
-	width: 100%;
+	width: 90%;
 	height: 600px;
 	overflow: hidden;
 }
@@ -52,8 +70,8 @@ body {
 }
 
 .game-info pre {
-	min-height: 150px;
-	height: 150px;
+	min-height: 70px;
+	height: 70px;
 	padding: 20px;
 	font-size: 20px;
 	white-space: pre-wrap;
@@ -158,8 +176,25 @@ textarea:focus {
 	padding: 5px;
 }
 
+.header {
+	height: 300px;
+}
+
 .footer {
 	height: 200px;
+	margin-top: 100px;
+}
+
+.game {
+	border: 1px solid lightgray;
+	padding: 20px;
+}
+
+.game-title{
+	height: 100px;
+	background-color: #39404d;
+	padding: 25px;
+	color: white;
 }
 </style>
 <body onload="draw();" onresize="draw();">
@@ -167,26 +202,40 @@ textarea:focus {
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<h1 class="text-center">${game.name }</h1>
-		<div class="text-center">
-			<div class="profileImage"
-				style="background-image: url('/upload/image/${game.user.image}');"></div>
-			<div style="display: inline-block; transform: translate(0, -17px)">
-				<a
-					onclick="location.href='/profile?writer_id=${game.user.writer_id}'"
-					style="cursor: pointer; text-decoration: none;">
-					Lv.${game.user.lev } ${game.user.nickname} </a>
-			</div>
+		<div class="text-center" style="height: 200px; background-image: url('/public/image/background3.jpg');">
 		</div>
 	</div>
 	<div class="content">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2">
-					<div class="container-fluid">
+					<div class="game-title">
+						<div class="col-md-7">
+							<h1 class="text-left" style="margin-top: 0;">${game.name }
+								&nbsp;<span
+									style="font-size: 20px; color: lightgray; vertical-align: middle;">
+									[${game.type }]</span>
+							</h1>
+						</div>
+						<div class="col-md-5">
+							<div class="text-right">
+								<div class="profileImage"
+									style="background-image: url('/upload/image/${game.user.image}');"></div>
+								<div
+									style="display: inline-block; transform: translate(0, -17px)">
+									<a
+										onclick="location.href='/profile?writer_id=${game.user.writer_id}'"
+										style="cursor: pointer; text-decoration: none; color: lightgray;">
+										Lv.${game.user.lev } ${game.user.nickname} </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container-fluid game">
 						<div class="row content-game" id="game-panel">
 							<c:if test="${game.type == 'web' }">
 								<iframe scrolling="no" id="game-frame"
+									style="border: 1px solid gray;"
 									src="/upload/game/${game.id }/${game.src}">브라우저에 따라
 									작동하지 않을 수 있습니다. Chrome 으로 접속하는걸 권장합니다.</iframe>
 							</c:if>
@@ -279,6 +328,11 @@ textarea:focus {
 								<span class="badge"> ${fn:length(game.replyList) } </span>
 								Comments
 							</p>
+							<c:if test="${fn:length(game.replyList) == 0 }">
+								<div class="text-center" style=" margin-top: 50px;">
+									<h1>댓글이 없습니다. 첫 댓글을 작성해보세요!</h1>
+								</div>
+							</c:if>
 							<c:forEach var="reply" items="${game.replyList }">
 								<div class="reply" style="margin-left:${reply.depth*30}px">
 									<div class="reply-header">
@@ -332,6 +386,8 @@ textarea:focus {
 		</div>
 	</div>
 	<div class="footer">
+		<div class="text-center" style="height: 200px; background-image: url('/public/image/background3.jpg'); background-position: bottom;">
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
@@ -430,7 +486,7 @@ textarea:focus {
 		//게임설명 토글 직접구현
 		
 		function hide(button, target) {
-			$("#"+target).css('height','150px');
+			$("#"+target).css('height','50px');
 			$(button).css('animation-name','hide');
 			$(button).css('animation-duration','0.5s');
 			$(button).css('background-color','white');

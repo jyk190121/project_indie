@@ -99,7 +99,7 @@ a:hover {
 	padding: 5px;
 }
 
-.panel-heading {
+.notice-panel .panel-heading {
 	background-color: #535c68 !important;
 	color: white !important;
 	height: 40px;
@@ -107,7 +107,7 @@ a:hover {
 	padding: 7.5px 20px;
 }
 
-.panel-heading:hover {
+.notice-panel .panel-heading:hover {
 	opacity: 0.8;
 }
 </style>
@@ -131,7 +131,7 @@ a:hover {
 	<div class="content">
 		<div class="container">
 			<div class="row">
-				<div class="panel-group">
+				<div class="notice-panel">
 					<div class="panel panel-default"
 						style="background-color: #636e72; color: white;">
 						<a href="#notice-full" data-toggle="collapse">
@@ -146,7 +146,7 @@ a:hover {
 						<div id="notice-full" class="panel-collapse collapse">
 							<div class="panel-body"
 								style="background: #f1f2f6; color: black; font-weight: 500; border: 1px solid #636e72; font-size: 16px;">
-								<p>1. 이달의 추천 : 매니저가 선정한 이달의 게임 3종을 플레이하고 최고기록을 세워보세요.</p>
+								<p style="margin-top: 10px;">1. 이달의 추천 : 매니저가 선정한 이달의 게임 3종을 플레이하고 최고기록을 세워보세요.</p>
 								<p>2. 랭커 TOP3 : 이달의 게임 3종을 플레이한 점수를 합산해 순위를 산출합니다.</p>
 								<p>3. 게임 업로드 : 새로운 게임을 업로드해보세요! 본인이 제작한 게임을 평가받을 수 있습니다.</p>
 								<p>4. 신규 게임 : 게임들을 보다 체계적으로 분류했습니다. 검색 기능도 사용 가능합니다.</p>
@@ -395,7 +395,7 @@ a:hover {
 										</div>
 									</a>
 								</div>
-								
+
 							</div>
 						</c:forEach>
 					</c:if>

@@ -13,7 +13,8 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
@@ -21,7 +22,7 @@
 	margin-top: 50px;
 }
 
-.header{
+.header {
 	height: 320px;
 }
 
@@ -51,11 +52,10 @@ tfoot {
 	font-weight: bold;
 }
 
-.over-hidden{
+.over-hidden {
 	height: 20px;
 	overflow: hidden;
 }
-
 </style>
 </head>
 <body>
@@ -65,8 +65,11 @@ tfoot {
 		</div>
 		<div class="container">
 			<div class="row">
-				<div style="background-image: url('/public/image/background4-dark.jpg'); width: 100%; height: 200px;">
-					<h1 class="text-center" style="padding-top: 0; color: white; font-weight: 600; font-size: 200px;">Board Main</h1>
+				<div
+					style="background-image: url('/public/image/background4-dark.jpg'); width: 100%; height: 200px;">
+					<h1 class="text-center"
+						style="padding-top: 0; color: white; font-weight: 600; font-size: 200px;">Board
+						Main</h1>
 				</div>
 			</div>
 		</div>
@@ -74,10 +77,16 @@ tfoot {
 	<div class="content">
 		<div class="container">
 			<div class="row">
-				<h2 class="text-center">자유롭게 의견을 나눠보아요!</h2>
+				<h2 class="text-center">게시물을 작성할 수 있습니다</h2>
 			</div>
 			<div class="row">
-
+				<div class="text-right" style="margin-bottom: 10px;">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/board/insert?type=notice" class="btn btn-danger">공지사항
+							작성</a>
+					</sec:authorize>
+					<a href="/board/insert?type=normal" class="btn btn-primary" style="width: 200px;">게시물 작성하기</a>
+				</div>
 				<table class="table table-hover table-board">
 					<thead>
 						<tr>
@@ -92,30 +101,25 @@ tfoot {
 						<c:forEach var="board" items="${boardList}">
 							<tr onclick="location.href='/board/view?id=${board.id}'"
 								style="cursor: pointer;">
-								<td>
-									<c:if test="${board.type == 'notice' }">
+								<td><c:if test="${board.type == 'notice' }">
 										<div class="text-center"
 											style="display: inline-block; width: 10%;">
 											<span class="badge" style="background-color: red;">공지</span>
 										</div>
 										<div class="board-title-notice over-hidden">${board.title }</div>
-									</c:if> 
-									<c:if test="${board.type == 'normal' }">
+									</c:if> <c:if test="${board.type == 'normal' }">
 										<div class="over-hidden">${board.title }</div>
-									</c:if>
-								</td>
+									</c:if></td>
 								<td>
 									<div class="over-hidden">
-									${board.user.nickname } <c:if
-										test="${board.user.nickname eq null}">
-										<p class="emptyUser">탈퇴한 유저의 게시물입니다.</p>
-									</c:if>
+										${board.user.nickname }
+										<c:if test="${board.user.nickname eq null}">
+											<p class="emptyUser">탈퇴한 유저의 게시물입니다.</p>
+										</c:if>
 									</div>
 								</td>
 								<td>
-									<div class="over-hidden">
-									${board.write_date }
-									</div>
+									<div class="over-hidden">${board.write_date }</div>
 								</td>
 								<td>${board.reply_count }</td>
 								<td>${board.hit }</td>
@@ -123,14 +127,6 @@ tfoot {
 						</c:forEach>
 					</tbody>
 					<tfoot>
-						<tr>
-							<td colspan="5" class="text-right"><sec:authorize
-									access="hasRole('ROLE_ADMIN')">
-									<a href="/board/insert?type=notice" class="btn btn-danger">공지사항
-										작성</a>
-								</sec:authorize> <a href="/board/insert?type=normal" class="btn btn-primary">글쓰기</a>
-							</td>
-						</tr>
 						<tr>
 							<td colspan="5" style="border-top: none;">
 								<ul class="pagination">${page }

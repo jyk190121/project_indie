@@ -8,7 +8,7 @@
 <style>
 .navbar {
 	position: fixed;
-	z-index: 10;
+	z-index: 1000;
 	width: 100%;
 	top: 0;
 	background-color: #be2edd;

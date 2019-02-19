@@ -25,24 +25,41 @@
 <style>
 .header {
 	height: 260px;
-	background-image: url("/public/image/background1-1.jpg");
-	background-position: center;
 }
 
 .header h1 {
+	position: relative;
 	text-shadow: -2px 0 #222, 0 2px #222, 2px 0 #222, 0 -2px #222;
 	color: white;
 	font-size: 300px;
 	margin: 0;
+	transform: translate(0,-265px);
 }
 
-@keyframes showbar {
-	from {opacity: 0;}
-	to {opacity: 1;}
+.footer {
+	margin-top: 100px;
+	height: 100px;
 }
-@keyframes hidebar {
-	from {opacity: 1;}
-	to {opacity: 0;}
+
+@
+keyframes showbar {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
+@
+keyframes hidebar {
+	from {opacity: 1;
+}
+
+to {
+	opacity: 0;
+}
+
 }
 .navbar {
 	opacity: 0;
@@ -120,10 +137,20 @@
 .signin [class^=col-] {
 	padding: 0;
 }
+
+.cropping{
+    max-height: 800px;
+    overflow: hidden;
+}
+.cropping img{
+    max-height: initial;
+    margin-top: -15%;
+}
 </style>
 <body>
 	<div class="text-center header">
 		<jsp:include page="/WEB-INF/views/navbar.jsp" />
+			<img src="/public/image/background1-img.jpg" alt=""/>
 		<div style="padding-top: 0;">
 			<h1 style="">Indiemoa</h1>
 		</div>
@@ -378,11 +405,11 @@
 									value="${_csrf.token }" />
 								<div class="form-group" style="margin-top: 10px;">
 									<input type="text" class="form-control" placeholder="Enter ID"
-										name="id" value="jin" />
+										id="id" name="id" value="" />
 								</div>
 								<div class="form-group">
 									<input type="password" class="form-control"
-										placeholder="Enter Password" name="password" value="1111" />
+										placeholder="Enter Password" name="password" value="" />
 								</div>
 								<div style="margin-bottom: 10px;">
 									<button id="signin-btn" class="btn btn-primary btn-block"
@@ -476,17 +503,19 @@
 			</div>
 		</div>
 	</div>
-	<footer>
-		<a href="https://icons8.com/icon/17949/google">Google icon by
-			Icons8</a>
-	</footer>
+	<div class="footer">
+		<div class="text-center"
+			style="height: 150px; background-image: url('/public/image/background1-1.jpg'); background-position: bottom;">
+			<a href="https://icons8.com/icon/17949/google">Google icon by
+				Icons8</a>
+		</div>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<script>
 		//fail, signout 등 파라미터 한번만 표출
-		history.replaceState({}, null, location.pathname);
 	
 		var gCount = 0;
 		$signinBtn = $("#signin-btn");
@@ -520,9 +549,27 @@
 		});
 
 		$(window).resize(function() {
-			console.log($signinBtn.outerWidth());
 			$(".abcRioButton").width($signinBtn.outerWidth()+"px");
 		});
+		
+		$(window).load(function(){
+			console.log('dd');
+			<c:if test="${param.googleFail != null}">
+			$("#googleJoinModal").modal("show");
+			</c:if>
+			<c:if test="${param.signin != null }">
+				alert('로그인 후 이용가능합니다');
+				$("#id").focus();
+			</c:if>
+			<c:if test="${param.signout != null }">
+				alert('로그아웃되었습니다');
+			</c:if>
+			<c:if test="${param.fail != null }">
+				alert('아이디 또는 비밀번호가 불일치합니다');
+				$("#id").focus();
+			</c:if>
+			history.replaceState({}, null, location.pathname);
+		})
 
 		//game carousel
 		$("#gameCarousel").carousel({
@@ -556,10 +603,6 @@
 			console.log("ID Token: " + id_token); */
 		}
 		
-		<c:if test="${param.googleFail != null}">
-			$("#googleJoinModal").modal("show");
-		</c:if>
-		
 		//구글계정으로 회원가입
 		function googleJoin(){
 			if(${googleInfo == null}) {
@@ -576,9 +619,6 @@
 		}
 		
 		//signin
-		<c:if test="${param.fail != null || param.signin != null || param.signout != null}">
-		$("#loginModal").modal("show");
-		</c:if>
 		function showLoginModal(){
 			$("#loginModal").modal("show");
 		}
@@ -601,18 +641,9 @@
 		
 		//ranking
 		function userList(id){
-			location.href = "/profile?writer_id="+id
+			location.href = "/profile?writer_id="+id;
 		}
 		
-		<c:if test="${param.signin != null }">
-			alert('로그인 후 이용가능합니다');
-		</c:if>
-		<c:if test="${param.signout != null }">
-			alert('로그아웃되었습니다');
-		</c:if>
-		<c:if test="${param.fail != null }">
-			alert('아이디 또는 비밀번호가 불일치합니다');
-		</c:if>
 	</script>
 </body>
 </html>

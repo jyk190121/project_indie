@@ -20,6 +20,7 @@
 	href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css"
 	rel="stylesheet">
 <style>
+
 .reply {
 	padding: 10px;
 	border: 1px solid white;
@@ -55,13 +56,18 @@ textarea {
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		<div style="height: 50px;">
+			<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		</div>
+		<div class="text-center"
+			style="height: 200px; background-image: url('/public/image/background4-1.jpg'); background-position: center;">
+		</div>
 	</div>
-	<div class="content">
+	<div class="content" style="margin-bottom: 100px;">
 		<div class="container-fluid" style="width: 80%">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h4>${board.title}</h4>
+					<h3 class="text-center">${board.title}</h3>
 					<hr style="margin: 5px 0;" />
 					<div class="text-right">
 						<div class="profileImage"
@@ -110,6 +116,11 @@ textarea {
 					<span class="badge"> ${fn:length(board.replyList) } </span>
 					Comments
 				</p>
+				<c:if test="${fn:length(board.replyList) == 0 }">
+								<div class="text-center" style=" margin-top: 50px;">
+									<h1>댓글이 없습니다. 첫 댓글을 작성해보세요!</h1>
+								</div>
+							</c:if>
 				<c:forEach var="reply" items="${board.replyList }">
 					<div class="reply" style="margin-left:${reply.depth*30}px">
 						<div class="reply-header">
@@ -159,7 +170,9 @@ textarea {
 		</div>
 	</div>
 	<div class="footer">
-		Game Made By <a href="">me</a>
+		<div class="text-center"
+			style="height: 150px; background-image: url('/public/image/background4-1.jpg'); background-position: bottom;">
+		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/user/signin.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -45,6 +45,7 @@
 	height: 350px;
 	font-size: 25px;
 	color: white;
+	margin:0;
 }
 
 .background {
@@ -196,6 +197,12 @@
 						</div>
 					</div>
 					<div class="row" style="margin-top: 50px;">
+						<div class="div-title-underbar"  style="font-size: 20px; color:white; border-width:3px; border-color:white; box-shadow: 0 0 #222, 0 2px #222, 0 0 #222, 0 0 #222;">
+								<a href="/board/list"> <span  style="font-size: 20px; color:white; text-shadow: -2px 0 #222, 0 2px #222, 2px 0 #222, 0 -2px #222;"class="pull-right lightgray">+</span>
+									<span class="div-title-underbar-bold" style="font-size: 24px; color:white; text-shadow: -2px 0 #222, 0 2px #222, 2px 0 #222, 0 -2px #222;"><b>${user.nickname } 님이 업로드한 게임</b>
+								</span>
+								</a>
+							</div>
 						<div class="container-fluid">
 							<c:if test="${fn:length(gameList) >= 5}">
 							<c:forEach begin="0"
@@ -301,7 +308,7 @@
 		function resizeImageBoard() {
 			$("#myinfo-board").outerHeight($("#image-board").outerHeight());
 			$("#myinfo-textarea").outerHeight(
-					$("#image-board").outerHeight() * 0.75);
+					$("#image-board").outerHeight() - 110);
 		}
 		function signout() {
 			var form = document.createElement("form");

@@ -12,12 +12,13 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <link rel="shortcut icon" href="/public/favicon.ico">
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
-.header{
-	height: 100px;
+.header {
+	height: 300px;
 }
 
 .game-image-board {
@@ -37,11 +38,19 @@
 .disnone {
 	display: none !important;
 }
+
+.footer{
+	margin-top: 100px;
+	height: 100px;
+}
 </style>
 </head>
 <body>
 	<div class="header">
 		<jsp:include page="/WEB-INF/views/navbar.jsp" />
+		<div class="text-center"
+			style="height: 200px; background-image: url('/public/image/background3.jpg');">
+		</div>
 	</div>
 	<div class="content">
 		<form:form
@@ -97,9 +106,10 @@
 								name="gameFiles" onchange="javascript:uploadFiles(this);"
 								id="gameFiles" type="file" multiple directory webkitdirectory />
 							<div id="triggerFile-board">
-								<label for="triggerFile" class="control-label">시작 html File</label> 
-								<input name="game_file" onchange="javascript:uploadFile(this);"
-									id="triggerFile" type="file" webkit />
+								<label for="triggerFile" class="control-label">시작 html
+									File</label> <input name="game_file"
+									onchange="javascript:uploadFile(this);" id="triggerFile"
+									type="file" webkit />
 							</div>
 							<form:textarea id="etcInfo" class='form-control disnone'
 								path='etc_info' placeholder='게임 실행 방법을 적어주세요'></form:textarea>
@@ -114,6 +124,11 @@
 				</div>
 			</div>
 		</form:form>
+	</div>
+	<div class="footer">
+		<div class="text-center"
+			style="height: 100px; background-image: url('/public/image/background3.jpg'); background-position: bottom;">
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script
@@ -140,33 +155,33 @@
 		}
 
 		function insert(f) {
-			if(f.name.value == ''){
+			if (f.name.value == '') {
 				alert('게임명을 작성하세요');
 				f.name.focus();
 				return;
 			}
-			if(f.info.value == ''){
+			if (f.info.value == '') {
 				alert('게임 설명란을 작성하세요');
 				f.info.focus();
 				return;
 			}
-			if(f.image_file.value == ''){
+			if (f.image_file.value == '') {
 				alert('게임 대표 이미지를 선택하세요');
 				f.image_file.focus();
 				return;
 			}
-			if(f.gameFiles.value == ''){
+			if (f.gameFiles.value == '') {
 				alert('게임 폴더를 선택하세요');
 				f.gameFiles.focus();
 				return;
 			}
-			if(f.type.value == 'web'){
-				if(f.game_file.value == ''){
+			if (f.type.value == 'web') {
+				if (f.game_file.value == '') {
 					alert('html 파일을 선택하세요');
 					f.game_file.focus();
 					return;
 				}
-			}else{
+			} else {
 				$(f.game_file).remove();
 			}
 			f.submit();
@@ -187,8 +202,8 @@
 			var isExisting = false;
 			for (var i = 0; i < paths.length; i++) {
 				var path = paths[i];
-				if(paths[i].lastIndexOf('/') != -1){
-					path = paths[i].substring(paths[i].lastIndexOf('/')+1);
+				if (paths[i].lastIndexOf('/') != -1) {
+					path = paths[i].substring(paths[i].lastIndexOf('/') + 1);
 				}
 				if (path == filename) {
 					console.log(paths[i]);
@@ -213,20 +228,19 @@
 				}
 			}
 		}
-		
+
 		function uploadFiles(input) {
 			$("[name='paths']").remove();
 			initInput(document.getElementById("triggerFile"));
 			var files = $(input)[0].files;
-			if(input.value == ""){
+			if (input.value == "") {
 				return;
 			}
-			var index = files[0].webkitRelativePath.indexOf('/')+1;
+			var index = files[0].webkitRelativePath.indexOf('/') + 1;
 			for (var i = 0; i < files.length; i++) {
-				var fileExt = files[i].name
-						.substring(files[i].name.lastIndexOf('.') + 1).toUpperCase();
-				if (fileExt == "ASP" || fileExt == "PHP"
-						|| fileExt == "JSP") {
+				var fileExt = files[i].name.substring(
+						files[i].name.lastIndexOf('.') + 1).toUpperCase();
+				if (fileExt == "ASP" || fileExt == "PHP" || fileExt == "JSP") {
 					alert("ASP,PHP,JSP 파일은 업로드 하실 수 없습니다!");
 					initInput(input);
 					return;
@@ -235,8 +249,9 @@
 				console.log(files[i].webkitRelativePath.substring(index));
 			}
 			console.log(files.length);
-			$(input.form).append(
-					`<input type='hidden' name='paths' value='\${paths.toString()}'>`)
+			$(input.form)
+					.append(
+							`<input type='hidden' name='paths' value='\${paths.toString()}'>`)
 		}
 	</script>
 </body>

@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
 .row {
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .header{
-	height: 200px;
+	height: 250px;
 }
 
 .content {
@@ -50,20 +50,22 @@ a:hover {
 </head>
 <body>
 	<div class="header">
-		<div style="height: 100px;">
+		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<div class="text-center" style="margin-top: 50px;">
-			<form action="/game/list" method="get" class="form form-inline">
-				<div class="input-group">
-					<input placeholder="" type="text" name="search" class="form-control input" style="width: 300px; height: 50px; font-size: 32px;">
-					<div class="input-group-btn">
-						<button class="btn btn-primary" style="width:50px; height: 50px;">
-							<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
-						</button>
+		<div class="text-center" style="height: 200px; background-image: url('/public/image/background3.jpg');">
+			<div class="text-center" style="padding-top: 60px;">
+				<form action="/game/list" method="get" class="form form-inline">
+					<div class="input-group">
+						<input placeholder="" type="text" name="search" class="form-control input" style="width: 300px; height: 50px; font-size: 24px;">
+						<div class="input-group-btn">
+							<button class="btn btn-primary" style="width:50px; height: 50px; outline: none;">
+								<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
+							</button>
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 	<div class="content">
@@ -85,12 +87,12 @@ a:hover {
 					<div class="row">
 						<div class="col-sm-3">
 							<a href="/game/view?id=${gameList[i*4].id }"> <img
-								class="gameImage" alt="" style="border: 1px solid gray;"
+								class="gameImage" alt="" style="border: 1px solid gray; border-bottom: none; padding: 10px;"
 								src="/upload/image/${gameList[i*4].image }">
 							</a>
 							<div>
 								<div class=""
-									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+									style="padding: 10px; border: 1px solid gray; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4].type}]
@@ -108,12 +110,12 @@ a:hover {
 						</div>
 						<div class="col-sm-3">
 							<a href="/game/view?id=${gameList[i*4+1].id }"> <img
-								class="gameImage" alt="" style="border: 1px solid gray;"
+								class="gameImage" alt="" style="border: 1px solid gray; border-bottom: none; padding: 10px;"
 								src="/upload/image/${gameList[i*4+1].image }">
 							</a>
 							<div>
 								<div class=""
-									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+									style="padding: 10px; border: 1px solid gray; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+1].type}]
@@ -131,12 +133,12 @@ a:hover {
 						</div>
 						<div class="col-sm-3">
 							<a href="/game/view?id=${gameList[i*4+2].id }"> <img
-								class="gameImage" alt="" style="border: 1px solid gray;"
+								class="gameImage" alt="" style="border: 1px solid gray; border-bottom: none; padding: 10px;"
 								src="/upload/image/${gameList[i*4+2].image }">
 							</a>
 							<div>
 								<div class=""
-									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+									style="padding: 10px; border: 1px solid gray; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+2].type}]
@@ -154,12 +156,12 @@ a:hover {
 						</div>
 						<div class="col-sm-3">
 							<a href="/game/view?id=${gameList[i*4+3].id }"> <img
-								class="gameImage" alt="" style="border: 1px solid gray;"
+								class="gameImage" alt="" style="border: 1px solid gray; border-bottom: none; padding: 10px;"
 								src="/upload/image/${gameList[i*4+3].image }">
 							</a>
 							<div>
 								<div class=""
-									style="padding: 10px; border: 1px solid #be2edd; border-top: none;">
+									style="padding: 10px; border: 1px solid gray; border-top: none;">
 									<div class="text-left">
 										<p class="over-hidden"
 											style="overflow: hidden; margin: 0 0 5px 0; font-size: 20px; font-weight: 700; height: 25px;">[${gameList[i*4+3].type}]

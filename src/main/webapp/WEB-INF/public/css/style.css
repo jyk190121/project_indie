@@ -4,6 +4,10 @@ body {
 	min-width: 1000px;
 }
 
+.header{
+	height: 300px;		
+}
+
 .content {
 	
 }
@@ -72,3 +76,4 @@ body {
 textarea {
 	outline: none;
 }
+
