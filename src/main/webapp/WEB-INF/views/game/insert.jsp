@@ -22,9 +22,11 @@
 }
 
 .game-image-board {
-	border: 1px solid gray;
 	width: 100%;
-	height: 200px;
+	max-width: 340px;
+	border: 2px solid #ccc;
+	margin-bottom: 15px;
+	border-radius: 10px;
 }
 
 .row {
@@ -39,9 +41,50 @@
 	display: none !important;
 }
 
-.footer{
+.footer {
 	margin-top: 100px;
 	height: 100px;
+}
+
+/* input file 디자인 변경 */
+.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.filebox .file-label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: gray;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+} /* named upload */
+.filebox .upload-name {
+	display: inline-block;
+	padding: .5em .75em; /* label의 패딩값과 일치 */
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
 }
 </style>
 </head>
@@ -56,7 +99,7 @@
 		<form:form
 			action="/game/insert?${_csrf.parameterName}=${_csrf.token }"
 			method="post" modelAttribute="game" enctype="multipart/form-data"
-			class="form-horizontal">
+			class="form-horizontal filebox">
 			<!-- <img> -->
 			<div class="container-fluid">
 				<div class="row">
@@ -64,7 +107,9 @@
 						<div class="game-image-board text-center">
 							<p style="margin-top: 90px;">Insert Game Image</p>
 						</div>
-						<input type="file" name="image_file" onchange="uploadImage(this);" />
+						<label for="image_file_input" class="file-label">이미지 선택</label> <input
+							class="file-label" type="file" name="image_file"
+							id="image_file_input" onchange="uploadImage(this);" />
 					</div>
 					<div class="col-sm-5">
 						<div class="form-group">
@@ -87,27 +132,39 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-3 col-sm-offset-2">
-						<form:radiobutton path="type" value="web" label="웹 게임"
-							checked="true" onclick="changeType(this);" />
+						<form:radiobutton path="type" value="web"
+							style="width: 30px ;height: 30px; vertical-align:middle;"
+							checked="true" onclick="changeType(this);" id="radio-web" />
+						<label for="radio-web"
+							style="font-size: 30px; vertical-align: middle; margin-bottom: 0;">&nbsp;Web
+							게임</label>
+					</div>
+					<div class="col-sm-3 ">
+						<form:radiobutton path="type" value="exe"
+							style="width: 30px ;height: 30px; vertical-align:middle;"
+							onclick="changeType(this);" id="radio-web" />
+						<label for="radio-web"
+							style="font-size: 30px; vertical-align: middle; margin-bottom: 0;">&nbsp;exe
+							게임</label>
 					</div>
 					<div class="col-sm-3">
-						<form:radiobutton path="type" value="exe" label="exe 게임"
-							onclick="changeType(this);" />
-					</div>
-					<div class="col-sm-3">
-						<form:radiobutton path="type" value="etc" label="기타"
-							onclick="changeType(this);" />
+						<form:radiobutton path="type" value="etc"
+							style="width: 30px ;height: 30px; vertical-align:middle;"
+							onclick="changeType(this);" id="radio-web" />
+						<label for="radio-web"
+							style="font-size: 30px; vertical-align: middle; margin-bottom: 0;">&nbsp;기타</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<div id="src-board">
-							<label for="gameFiles" class="control-label">게임 파일 전체폴더</label> <input
-								name="gameFiles" onchange="javascript:uploadFiles(this);"
-								id="gameFiles" type="file" multiple directory webkitdirectory />
+							<label for="gameFiles" class="control-label file-label">게임
+								파일 전체폴더</label> <input name="gameFiles"
+								onchange="javascript:uploadFiles(this);" id="gameFiles"
+								type="file" multiple directory webkitdirectory />
 							<div id="triggerFile-board">
-								<label for="triggerFile" class="control-label">시작 html
-									File</label> <input name="game_file"
+								<label for="triggerFile" class="control-label file-label">시작
+									html File</label> <input name="game_file"
 									onchange="javascript:uploadFile(this);" id="triggerFile"
 									type="file" webkit />
 							</div>
@@ -119,7 +176,7 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<button type="button" onclick="insert(this.form);"
-							class="btn btn-block">등록</button>
+							class="btn btn-block btn-primary">등록</button>
 					</div>
 				</div>
 			</div>
@@ -135,6 +192,23 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="/public/js/fileUpload.js"></script>
 	<script>
+		$(document).ready(
+				function() {
+					var fileTarget = $('.filebox .upload-hidden');
+					fileTarget.on('change', function() { // 값이 변경되면 
+						if (window.FileReader) { // modern browser 
+							var filename = $(this)[0].files[0].name;
+						} else {
+							// old IE 
+							var filename = $(this).val().split('/').pop()
+									.split('\\').pop();
+							// 파일명만 추출 
+						}
+						// 추출한 파일명 삽입 
+						$(this).siblings('.upload-name').val(filename);
+					});
+				});
+
 		$etcInfo = $("#etcInfo");
 		$htmlBoard = $("#triggerFile-board")
 		function changeType(input) {

@@ -33,7 +33,7 @@
 	color: white;
 	font-size: 300px;
 	margin: 0;
-	transform: translate(0,-265px);
+	transform: translate(0, -265px);
 }
 
 .footer {
@@ -138,19 +138,20 @@ to {
 	padding: 0;
 }
 
-.cropping{
-    max-height: 800px;
-    overflow: hidden;
+.cropping {
+	max-height: 800px;
+	overflow: hidden;
 }
-.cropping img{
-    max-height: initial;
-    margin-top: -15%;
+
+.cropping img {
+	max-height: initial;
+	margin-top: -15%;
 }
 </style>
 <body>
 	<div class="text-center header">
 		<jsp:include page="/WEB-INF/views/navbar.jsp" />
-			<img src="/public/image/background1-img.jpg" alt=""/>
+		<img src="/public/image/background1-img.jpg" alt="" />
 		<div style="padding-top: 0;">
 			<h1 style="">Indiemoa</h1>
 		</div>
@@ -516,7 +517,8 @@ to {
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<script>
 		//fail, signout 등 파라미터 한번만 표출
-	
+		history.replaceState({}, null, location.pathname);
+		
 		var gCount = 0;
 		$signinBtn = $("#signin-btn");
 		
@@ -552,24 +554,20 @@ to {
 			$(".abcRioButton").width($signinBtn.outerWidth()+"px");
 		});
 		
-		$(window).load(function(){
-			console.log('dd');
-			<c:if test="${param.googleFail != null}">
-			$("#googleJoinModal").modal("show");
-			</c:if>
-			<c:if test="${param.signin != null }">
-				alert('로그인 후 이용가능합니다');
-				$("#id").focus();
-			</c:if>
-			<c:if test="${param.signout != null }">
-				alert('로그아웃되었습니다');
-			</c:if>
-			<c:if test="${param.fail != null }">
-				alert('아이디 또는 비밀번호가 불일치합니다');
-				$("#id").focus();
-			</c:if>
-			history.replaceState({}, null, location.pathname);
-		})
+		<c:if test="${param.googleFail != null}">
+		$("#googleJoinModal").modal("show");
+		</c:if>
+		<c:if test="${param.signin != null }">
+			alert('로그인 후 이용가능합니다');
+			$("#id").focus();
+		</c:if>
+		<c:if test="${param.signout != null }">
+			alert('로그아웃되었습니다');
+		</c:if>
+		<c:if test="${param.fail != null }">
+			alert('아이디 또는 비밀번호가 불일치합니다');
+			$("#id").focus();
+		</c:if>
 
 		//game carousel
 		$("#gameCarousel").carousel({

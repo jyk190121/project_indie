@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/public/css/style.css">
 <style>
 .header {
-	height: 300px;
+	height: 400px;
 }
 </style>
 </head>
@@ -23,29 +23,31 @@
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<h1 class="text-center">
-			<i class="glyphicon glyphicon-th-list" style="font-size: 85%"></i> 랭킹
-		</h1>
-		<div class="text-center">
-			<form action="" method="get" class="form-inline">
-				<div class="input-group">
-					<input placeholder="" type="text" name="search"
-						class="form-control input"
-						style="width: 300px; height: 50px; font-size: 32px;">
-					<div class="input-group-btn">
-						<button class="btn btn-primary" style="width: 50px; height: 50px;">
-							<span class="glyphicon glyphicon-search" style="font-size: 20px;"></span>
-						</button>
+		<div class="text-center"
+			style="height: 300px; background-image: url('/public/image/background6-1.png'); background-position: center;">
+			<div class="text-center" style="padding-top: 110px;">
+				<form action="" method="get" class="form-inline">
+					<div class="input-group">
+						<input placeholder="" type="text" name="search"
+							class="form-control input"
+							style="width: 300px; height: 50px; font-size: 24px;">
+						<div class="input-group-btn">
+							<button class="btn btn-primary"
+								style="width: 50px; height: 50px;">
+								<span class="glyphicon glyphicon-search"
+									style="font-size: 20px;"></span>
+							</button>
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 	<div class="content">
 		<div class="container">
 			<div class="row">
-				<table class="table table-hover">
-					<thead>
+				<table class="table table-hover text-center">
+					<thead style="text-align: center !important;">
 						<tr>
 							<th width="10%">순위</th>
 							<th width="10%">닉네임</th>

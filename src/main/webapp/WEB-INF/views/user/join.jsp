@@ -43,6 +43,50 @@
 .header {
 	height: 100px;
 }
+
+/* input file 디자인 변경 */
+.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.filebox .file-label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: gray;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	width: 100%;
+	max-width: 340px;
+	text-align: center;
+} /* named upload */
+.filebox .upload-name {
+	display: inline-block;
+	padding: .5em .75em; /* label의 패딩값과 일치 */
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
 </style>
 </head>
 <body>
@@ -55,7 +99,7 @@
 		<div class="container-fluid">
 			<form:form action="/user/join?${_csrf.parameterName}=${_csrf.token }"
 				method="post" enctype="multipart/form-data" modelAttribute="user"
-				class="form-horizontal">
+				class="form-horizontal filebox">
 				<div class="row">
 					<div class="col-sm-5 col-sm-offset-2">
 						<div class="form-group">
@@ -162,7 +206,8 @@
 									</div>
 								</div>
 							</div>
-							<input type="file" name="image_file" onchange="uploadImage(this)" />
+							<input type="file" name="image_file" onchange="uploadImage(this)" id="image_input"/>
+							<label for="image_input" class="file-label">이미지 선택</label>
 						</div>
 						<div>
 							<a href="/user/cropimage" target="_blank">이미지 조정하러가기</a>
