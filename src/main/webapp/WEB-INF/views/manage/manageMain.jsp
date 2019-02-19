@@ -19,20 +19,30 @@ tfoot {
 .line {
 	margin-bottom: 0;
 }
+.background{
+	background-color: black;
+	font-size: 20px;
+	min-height: 800px;
+}
 </style>
 </head>
 <body>
+<div class="background">
 	<div class="header">
 		<div style="height: 50px;">
 			<jsp:include page="/WEB-INF/views/navbar.jsp" />
 		</div>
-		<div class="jumbotron line">
-			<h1 class="text-center">
-				<i class="glyphicon glyphicon glyphicon-pencil"
-					style="font-size: 85%"></i> 유저 관리 시스템
-			</h1>
+		<div class="container">
+			<div class="row" style="margin-top: 30px;">
+				<div
+					style="background-image: url('/public/image/background5-1.jpg'); width: 100%; height: 200px;">
+					<h1 class="text-center"
+						style="padding-top: 0; color: white; font-weight: 600; font-size: 100px; padding-top: 40px;">
+						<i class="glyphicon glyphicon glyphicon-pencil
+				   style="font-size:85%"></i>유저 관리 시스템</h1>
+				</div>
+			</div>
 		</div>
-		<a class="btn btn-primary btn-block" href="/main">main</a>
 	</div>
 	<div class="content">
 		<div class="container">
@@ -57,21 +67,21 @@ tfoot {
 			<div class="row">
 				<table class="table table-hover">
 					<thead>
-						<tr>
-							<th width="10%">유저 아이디</th>
-							<th width="10%">닉네임</th>
-							<th width="10%">레벨</th>
-							<th width="10%">경험치</th>
+						<tr style="color: skyblue;">
+							<th width="30%" style="text-align: center;">유저 아이디</th>
+							<th width="30%" style="text-align: center;">닉네임</th>
+							<th width="20%" style="text-align: center;">레벨</th>
+							<th width="20%" style="text-align: center;">경험치</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="user" items="${userList}">
 							<tr onclick="javascript:userList('${user.id}');"
-								style="cursor: pointer;">
-								<td>${user.id }</td>
-								<td>${user.nickname }</td>
-								<td>${user.lev}</td>
-								<td>${user.exp }</td>
+								style="cursor: pointer; color: orange;">
+								<td style="text-align: center;">${user.id }</td>
+								<td style="text-align: center;">${user.nickname }</td>
+								<td style="text-align: center;">${user.lev}</td>
+								<td style="text-align: center;">${user.exp }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -79,7 +89,8 @@ tfoot {
 			</div>
 		</div>
 	</div>
-	<div class="footer">
+</div>
+	<div class="footer" style="background-color: black">
 		Game Made By <a href="">me</a>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
